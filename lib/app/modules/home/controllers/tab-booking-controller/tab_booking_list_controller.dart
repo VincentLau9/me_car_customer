@@ -1,0 +1,24 @@
+import 'package:get/get.dart';
+import 'package:me_car_customer/app/base/base_controller.dart';
+
+class TabBookingListController extends BaseController {
+  //TODO: Implement TabBookingListController
+
+  final count = 0.obs;
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
+  void increment() => count.value++;
+}
