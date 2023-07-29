@@ -10,8 +10,8 @@ class ColorsManager {
   static Color welcome3_3 = HexColor.fromHex("#007775");
   static Color fillColor =HexColor.fromHex('#F3F3F3');
   static Color colorIconHome =HexColor.fromHex('#F1F9F1');
-  static Color colorFillMulti =HexColor.fromHex('##D9EED9');
-  
+  static Color colorFillMulti =HexColor.fromHex('#D9EED9');
+  static Color colorCommingSoon = HexColor.fromHex('#FEF8E3');
 }
 
 extension HexColor on Color {

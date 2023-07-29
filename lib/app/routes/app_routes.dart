@@ -22,6 +22,8 @@ abstract class Routes {
   static const SEARCH_GARAGE = _Paths.SEARCH_GARAGE;
   static const TAB_BOOKING_LIST = _Paths.TAB_BOOKING_LIST;
   static const BOOKING_INPROGRESS = _Paths.BOOKING_INPROGRESS;
+  static const BOOKING_DETAIL = _Paths.BOOKING_DETAIL;
+  static const PRE_BOOKING = _Paths.PRE_BOOKING;
 }
 
 abstract class _Paths {
@@ -44,4 +46,6 @@ abstract class _Paths {
   static const SEARCH_GARAGE = '/search-garage';
   static const TAB_BOOKING_LIST = '/tab-booking-list';
   static const BOOKING_INPROGRESS = '/booking-inprogress';
+  static const BOOKING_DETAIL = '/booking-detail';
+  static const PRE_BOOKING = '/pre-booking';
 }

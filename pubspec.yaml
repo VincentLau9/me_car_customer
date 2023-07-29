@@ -6,36 +6,41 @@ environment:
   sdk: '>=3.0.1 <4.0.0'
 
 dependencies:
-  cupertino_icons: ^1.0.2
-  smooth_page_indicator: ^1.1.0
-  flutter_otp_text_field: ^1.1.1
-  google_nav_bar: ^5.0.6
-  line_icons: ^2.0.1
-  get: 4.6.5
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
-  hive_generator: ^2.0.0
   build_runner: ^2.4.5
-  google_maps_flutter: ^2.3.1
-  latlong2: ^0.9.0
-  http:
-  flutter_svg: ^2.0.7
-  calendar_date_picker2:
-  flutter_map:
-  geolocator: ^9.0.2
-  multiselect_dropdown_flutter: ^0.0.7
-  intl:
+  calendar_date_picker2: null
+  cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_map: null
+  flutter_otp_text_field: ^1.1.1
+  flutter_svg: ^2.0.7
+  geolocator: ^9.0.2
+  get: 4.6.5
+  google_maps_flutter: ^2.3.1
+  google_nav_bar: ^5.0.6
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  hive_generator: ^2.0.0
+  http: null
+  intl: null
+  latlong2: ^0.9.0
+  line_icons: ^2.0.1
+  multiselect_dropdown_flutter: ^0.0.7
+  shared_preferences: ^2.2.0
+  smooth_page_indicator: ^1.1.0
+  dotted_line: ^3.2.2
+  cached_network_image: ^3.2.3
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter 
 
 flutter:
   uses-material-design: true
   assets:
     - assets/images/
-
+    - assets/icons/

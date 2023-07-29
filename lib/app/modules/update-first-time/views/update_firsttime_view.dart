@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:me_car_customer/app/base/base_view.dart';
 import 'package:me_car_customer/app/model/car.dart';
 import 'package:me_car_customer/app/modules/common/components/form_field_widget.dart';
+import 'package:me_car_customer/app/modules/start_app/controllers/start_app_controller.dart';
 import 'package:me_car_customer/app/resources/assets_manager.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
 import 'package:me_car_customer/app/resources/reponsive_utils.dart';
@@ -228,6 +229,7 @@ class UpdateFirsttimeView extends BaseView<UpdateFirstTimeController> {
             ? ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
+                // ignore: invalid_use_of_protected_member
                 itemCount: controller.listCar.value.length,
                 itemBuilder: (context, index) =>
                     itemCar(context, controller.listCar[index]),
@@ -389,18 +391,18 @@ class UpdateFirsttimeView extends BaseView<UpdateFirstTimeController> {
           SizedBox(
             height: 16,
           ),
-          RichText(
-            text: new TextSpan(
-              style: new TextStyle(
-                fontSize: 14.0,
-                color: Colors.black,
-              ),
-              children: <TextSpan>[
-                new TextSpan(text: 'Email'),
-                new TextSpan(text: '*', style: TextStyle(color: Colors.red)),
-              ],
-            ),
-          ),
+          // RichText(
+          //   text: new TextSpan(
+          //     style: new TextStyle(
+          //       fontSize: 14.0,
+          //       color: Colors.black,
+          //     ),
+          //     children: <TextSpan>[
+          //       new TextSpan(text: 'Email'),
+          //       new TextSpan(text: '*', style: TextStyle(color: Colors.red)),
+          //     ],
+          //   ),
+          // ),
           SizedBox(
             height: 10,
           ),
@@ -430,7 +432,8 @@ class UpdateFirsttimeView extends BaseView<UpdateFirstTimeController> {
           ),
           Obx(
             () => FormFieldWidget(
-                initValue: controller.phoneNumber.value,
+              isEnabled: false,
+                initValue: Get.find<StartAppController>().numberPhone.value,
                 padding: 10,
                 textInputType: TextInputType.number,
                 labelText: "Nhập số điện thoại",

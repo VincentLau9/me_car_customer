@@ -10,7 +10,7 @@ String dataSearchModelToJson(List<DataSearchModel> data) => json.encode(List<dyn
 
 class DataSearchModel {
     DataSearchModel({
-         this.description,
+         this.description="",
          this.placeId,
          this.reference,
          this.structuredFormatting,

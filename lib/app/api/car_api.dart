@@ -15,7 +15,7 @@ class CarApi {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json; charset=UTF-8',
-        'Authorization': 'bearer ${Get.find<StartAppController>().userModelT.value.userToken}'
+        'Authorization': 'bearer ${Get.find<StartAppController>().accessToken}'
       },
       body: jsonEncode(<String, dynamic>{
         "carBrand": carModel.carBrand,
@@ -41,7 +41,7 @@ static Future<List<Car>> loadAllCar() async {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json; charset=UTF-8',
-        'Authorization': 'bearer ${Get.find<StartAppController>().userModelT.value.userToken}'
+        'Authorization': 'bearer ${Get.find<StartAppController>().accessToken}'
       },
     );
     log('loadAllCar: ${response.statusCode} ${response.body}');

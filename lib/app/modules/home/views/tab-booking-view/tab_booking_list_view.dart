@@ -6,6 +6,7 @@ import 'package:me_car_customer/app/base/base_view.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
 import 'package:me_car_customer/app/resources/reponsive_utils.dart';
 import 'package:me_car_customer/app/resources/text_style.dart';
+import 'package:me_car_customer/app/routes/app_pages.dart';
 
 import '../../controllers/tab-booking-controller/tab_booking_list_controller.dart';
 
@@ -169,7 +170,11 @@ class TabBookingListView extends BaseView<TabBookingListController> {
                               height: 10,
                             ),
                             itemBuilder: (context, index) {
-                              return _itemBooking(context);
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(Routes.BOOKING_DETAIL);
+                                },
+                                child: _itemBooking(context));
                             },
                           )
                         ],

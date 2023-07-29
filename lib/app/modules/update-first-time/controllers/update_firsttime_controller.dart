@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:me_car_customer/app/api/car_api.dart';
 import 'package:me_car_customer/app/api/user_api.dart';
 import 'package:me_car_customer/app/base/base_controller.dart';
@@ -26,7 +25,7 @@ class UpdateFirstTimeController extends BaseController {
   @override
   void onInit() async {
     super.onInit();
-    await getEmail();
+    // await getEmail();
     await loadAllCar();
   }
 
@@ -43,25 +42,24 @@ class UpdateFirstTimeController extends BaseController {
   void jumpToPage() {
     checkValidation();
     if (indexPage.value + 1 < 3 &&
-        errNameInput.isEmpty &&
-        errPhoneInput.isEmpty) {
+        errNameInput.isEmpty) {
       indexPage++;
       pageController.animateToPage(indexPage.value,
           duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
     }
   }
 
-  getEmail() async {
-    Box boxLogin = await Hive.openBox("userModel");
-    if (boxLogin.values.isNotEmpty) {
-      log('logign');
-      UserModel userModel = await boxLogin.getAt(0) as UserModel;
-      email.value = userModel.userEmail!;
-      log('logign ${email}');
-    } else {
-      Get.offAllNamed(Routes.SIGN_IN);
-    }
-  }
+  // getEmail() async {
+  //   Box boxLogin = await Hive.openBox("userModel");
+  //   if (boxLogin.values.isNotEmpty) {
+  //     log('logign');
+  //     UserModel userModel = await boxLogin.getAt(0) as UserModel;
+  //     email.value = userModel.userEmail!;
+  //     log('logign ${email}');
+  //   } else {
+  //     Get.offAllNamed(Routes.SIGN_IN);
+  //   }
+  // }
 
   void changePage(int value) {
     checkValidation();
@@ -92,13 +90,6 @@ class UpdateFirstTimeController extends BaseController {
     } else {
       errNameInput('');
     }
-    if (phoneNumber.trim().isEmpty) {
-      errPhoneInput('Số điện thoại bắt buộc');
-    } else if (phoneNumber.trim().length < 10) {
-      errPhoneInput('Số điện thoại không hợp lệ');
-    } else {
-      errPhoneInput('');
-    }
   }
 
   loadAllCar() async {
@@ -121,7 +112,7 @@ class UpdateFirstTimeController extends BaseController {
             )),
       ),barrierDismissible: true);
       if (await UserApi.updateInfomation(name.value, phoneNumber.value)) {
-        Get.find<StartAppController>().userModelT.value.userFullName=name.value;
+        Get.find<StartAppController>().name.value=name.value;
         Get.toNamed(Routes.HOME);
       } else {
         Get.toNamed(Routes.SIGN_IN);

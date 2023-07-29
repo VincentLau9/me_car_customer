@@ -8,7 +8,7 @@ import 'package:me_car_customer/app/modules/start_app/controllers/start_app_cont
 import 'package:me_car_customer/app/resources/base_link.dart';
 
 class UserApi {
-  static Future<UserModel> login(String email, String passowrd) async {
+  static Future<UserModel> login(String phone, String passowrd) async {
     var url = Uri.parse(BaseLink.login);
     final response = await http.post(
       url,
@@ -17,7 +17,7 @@ class UserApi {
         'Accept': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(
-        <String, dynamic>{"email": email, "password": passowrd},
+        <String, dynamic>{"phone": phone, "password": passowrd},
       ),
     );
     log('loginÏ: ${response.statusCode} ${response.body}');
@@ -104,12 +104,12 @@ class UserApi {
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json; charset=UTF-8',
           'Authorization':
-              'bearer ${Get.find<StartAppController>().userModelT.value.userToken}'
+              'bearer ${Get.find<StartAppController>().accessToken}'
         },
         body: jsonEncode(<String, dynamic>{
           "userFirstName": fullName.split(' ').first,
           "userLastName": fullName.substring(fullName.split(' ').first.length),
-          "userPhone": phone
+          "userPhone": 1
         }));
     log('updateInfomation: ${response.statusCode} ${response.body}');
     log(jsonEncode(<String, dynamic>{
@@ -123,5 +123,18 @@ class UserApi {
     } else {
       return Future<bool>.value(false);
     }
+  }
+   static Future<dynamic> refeshToken(String refeshToken) async {
+    log(refeshToken);
+    var response = await http.get(
+      Uri.parse(BaseLink.REFESH_TOKEN),
+      headers:<String,String> {
+        "Accept": "text/plain",
+        'Authorization': 'Bearer ' +refeshToken
+      },
+    );
+    log('refeshToken - status: ${response.statusCode}');
+    log('refeshToken - body: ${response.body}');
+    return response;
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:me_car_customer/app/modules/start_app/controllers/start_app_controller.dart';
 import 'package:me_car_customer/app/resources/assets_manager.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
@@ -55,11 +54,7 @@ class TabProfileView extends GetView<TabProfileController> {
                     Expanded(
                         flex: 3,
                         child: Text(
-                          Get.find<StartAppController>()
-                                  .userModelT
-                                  .value
-                                  .userFullName ??
-                              "",
+                          Get.find<StartAppController>().name.value ?? "",
                           style: TextStyleConstant.black22RobotoBold,
                         ))
                   ],
@@ -168,10 +163,8 @@ class TabProfileView extends GetView<TabProfileController> {
                   height: 15,
                 ),
                 GestureDetector(
-                  onTap: () async{
-                    Box abc = await Hive.openBox('userModel');
-                                  await abc.clear();
-                                  Get.toNamed(Routes.WELCOME_BOARD);
+                  onTap: () async {
+                 await   Get.find<StartAppController>().logout();
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 12),
@@ -180,7 +173,8 @@ class TabProfileView extends GetView<TabProfileController> {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.grey.withOpacity(0.3))),
+                        border:
+                            Border.all(color: Colors.grey.withOpacity(0.3))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

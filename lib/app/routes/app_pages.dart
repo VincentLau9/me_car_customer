@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/booking-detail/bindings/booking_detail_binding.dart';
+import '../modules/booking-detail/views/booking_detail_view.dart';
 import '../modules/booking-inprogress/bindings/booking_inprogress_binding.dart';
 import '../modules/booking-inprogress/views/booking_inprogress_view.dart';
 import '../modules/booking-step/bindings/booking_step_binding.dart';
@@ -9,11 +11,12 @@ import '../modules/create-new-car/views/create_new_car_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/home/views/tab-booking-view/tab_booking_list_view.dart';
-import '../modules/home/views/tab-profile-view/tab_profile_view.dart';
 import '../modules/list-mycar/bindings/list_mycar_binding.dart';
 import '../modules/list-mycar/views/list_mycar_view.dart';
 import '../modules/map-explore/bindings/map_explore_binding.dart';
 import '../modules/map-explore/views/map_explore_view.dart';
+import '../modules/pre-booking/bindings/pre_booking_binding.dart';
+import '../modules/pre-booking/views/pre_booking_view.dart';
 import '../modules/search-garage/bindings/search_garage_binding.dart';
 import '../modules/search-garage/views/search_garage_view.dart';
 import '../modules/sign_in/bindings/sign_in_binding.dart';
@@ -100,6 +103,16 @@ class AppPages {
       name: _Paths.BOOKING_INPROGRESS,
       page: () => const BookingInprogressView(),
       binding: BookingInprogressBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOOKING_DETAIL,
+      page: () => const BookingDetailView(),
+      binding: BookingDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRE_BOOKING,
+      page: () => const PreBookingView(),
+      binding: PreBookingBinding(),
     ),
   ];
 }

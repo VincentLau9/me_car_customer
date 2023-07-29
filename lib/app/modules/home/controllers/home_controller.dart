@@ -10,11 +10,11 @@ import 'package:me_car_customer/app/modules/home/views/tab-service-view/tab_serv
 import '../views/tab-home-view/tab_home_view.dart';
 
 class HomeController extends BaseController {
- RxList<Widget> body = RxList([
+  RxList<Widget> body = RxList([
     TabHomeView(),
     TabServiceView(),
     SizedBox(),
-  TabBookingListView(),
+    TabBookingListView(),
     TabProfileView()
   ]);
 
@@ -41,7 +41,7 @@ class HomeController extends BaseController {
         selectedIndex(0);
         break;
       case 1:
-    Get.find<TabServiceController>();
+        Get.find<TabServiceController>();
         selectedIndex(1);
         break;
       case 2:
@@ -51,8 +51,8 @@ class HomeController extends BaseController {
       case 3:
         // Get.find<TabProfileController>();
         selectedIndex(3);
-         break;
-           case 4:
+        break;
+      case 4:
         // Get.find<TabProfileController>();
         selectedIndex(4);
         break;

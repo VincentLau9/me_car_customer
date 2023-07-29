@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:line_icons/line_icons.dart';
 
 import 'package:me_car_customer/app/base/base_view.dart';
 import 'package:me_car_customer/app/model/garage.dart';
@@ -57,37 +55,30 @@ class TabHomeView extends BaseView<TabHomeController> {
                                   'Xin chào,',
                                   style: TextStyleConstant.black16RobotoBold,
                                 ),
-                                Text(
-                                    Get.find<StartAppController>()
-                                            .userModelT
-                                            .value
-                                            .userFullName ??
-                                        "Bạn",
+                                Text(Get.find<StartAppController>().name.value,
                                     style: TextStyleConstant.black16RobotoBold)
                               ],
                             ),
                           ),
                           Expanded(
                             child: IconButton(
-                                onPressed: () async {
-                                  
-                                },
+                                onPressed: () async {},
                                 icon: Icon(Icons.notifications)),
                           )
                         ],
                       ),
                     )),
-                Expanded(
-                    child: Container(
-                  child: FormFieldWidget(
-                      isEnabled: false,
-                      padding: 10,
-                      icon: Icon(Icons.search),
-                      textInputType: TextInputType.text,
-                      labelText: "Tìm kiếm",
-                      suffixIcon: Icon(Icons.filter_alt),
-                      setValueFunc: () {}),
-                )),
+                // Expanded(
+                //     child: Container(
+                //   child: FormFieldWidget(
+                //       isEnabled: false,
+                //       padding: 10,
+                //       icon: Icon(Icons.search),
+                //       textInputType: TextInputType.text,
+                //       labelText: "Tìm kiếm",
+                //       suffixIcon: Icon(Icons.filter_alt),
+                //       setValueFunc: () {}),
+                // )),
                 Expanded(flex: 2, child: _listItemIconHome()),
                 Expanded(
                     flex: 2,
@@ -208,21 +199,21 @@ class TabHomeView extends BaseView<TabHomeController> {
                                               horizontal: 8.0),
                                           child: ElevatedButton(
                                             onPressed: () {
-                                               Get.toNamed(Routes.BOOKING_STEP,
-                                                arguments: GarageModel(
-                                                  garageId: 1,
-                                                  garageAddress:
-                                                      'Quận 9 Hồ Chí Minh',
-                                                  garageName: 'Garage mơ ước',
-                                                ));
+                                              Get.toNamed(Routes.BOOKING_STEP,
+                                                  arguments: GarageModel(
+                                                    garageId: 1,
+                                                    garageAddress:
+                                                        'Quận 9 Hồ Chí Minh',
+                                                    garageName: 'Garage mơ ước',
+                                                  ));
                                             },
                                             style: ElevatedButton.styleFrom(
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(30),
                                                 side: BorderSide(
-                                                    color: ColorsManager
-                                                        .primary),
+                                                    color:
+                                                        ColorsManager.primary),
                                               ),
                                               backgroundColor:
                                                   ColorsManager.primary,
@@ -274,10 +265,10 @@ class TabHomeView extends BaseView<TabHomeController> {
                           permission = await Geolocator.requestPermission();
                           if (permission == LocationPermission.denied) {
                           } else {
-                            Get.toNamed(Routes.SEARCH_GARAGE, arguments: true);
+                            Get.toNamed(Routes.MAP_EXPLORE);
                           }
                         } else {
-                          Get.toNamed(Routes.SEARCH_GARAGE, arguments: true);
+                          Get.toNamed(Routes.MAP_EXPLORE);
                         }
                       },
                       child: Column(

@@ -70,7 +70,7 @@ class SignInView extends BaseView<SignInController> {
                       () => FormFieldWidget(
                           padding: 10,
                           // initValue: controller.nameInput.value,
-                          textInputType: TextInputType.emailAddress,
+                          textInputType: TextInputType.number,
                           labelText: "Nhập email",
                           errorText: "${controller.errorEmailInput}",
                           setValueFunc: controller.setValueEmail),

@@ -31,10 +31,10 @@ class HomeView extends BaseView<HomeController> {
                   permission = await Geolocator.requestPermission();
                   if (permission == LocationPermission.denied) {
                   } else {
-                    Get.toNamed(Routes.MAP_EXPLORE);
+                    Get.toNamed(Routes.PRE_BOOKING);
                   }
                 } else {
-                  Get.toNamed(Routes.MAP_EXPLORE);
+                  Get.toNamed(Routes.PRE_BOOKING);
                 }
               },
               child: Icon(Icons.add)),

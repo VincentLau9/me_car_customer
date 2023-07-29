@@ -55,7 +55,7 @@ class MapExploreController extends BaseController {
 
   void updateMapCamera(double lat, double long) async {
     mapController.animateCamera(CameraUpdate.newLatLng(LatLng(lat, long)));
-    await GarageApi.searchGarage(lat, long);
+    // await GarageApi.searchGarage(lat, long);
   }
 
   updateListMarker() async {
@@ -66,8 +66,8 @@ class MapExploreController extends BaseController {
         double km = (Geolocator.distanceBetween(
                     element.garageLatitude!,
                     element.garageLongitude!,
-                    10.841823064481721,
-                    106.80984008465619) /
+                    lat.value,
+                    lng.value) /
                 1000)
             .toPrecision(1);
 

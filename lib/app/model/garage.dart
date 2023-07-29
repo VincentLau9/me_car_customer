@@ -4,9 +4,9 @@
 
 import 'dart:convert';
 
-List<GarageModel> garageModelFromJson(String str) => List<GarageModel>.from(json.decode(str).map((x) => GarageModel.fromJson(x)));
+GarageModel garageModelFromJson(String str) => GarageModel.fromJson(json.decode(str));
 
-String garageModelToJson(List<GarageModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String garageModelToJson(GarageModel data) => json.encode(data.toJson());
 
 class GarageModel {
     int? garageId;
@@ -20,7 +20,7 @@ class GarageModel {
     double? garageLatitude;
     double? garageLongitude;
     String? garageStatus;
-    int? rating;
+    double? rating;
 
     GarageModel({
         this.garageId,
@@ -49,7 +49,7 @@ class GarageModel {
         garageLatitude: json["garageLatitude"]?.toDouble(),
         garageLongitude: json["garageLongitude"]?.toDouble(),
         garageStatus: json["garageStatus"],
-        rating: json["rating"],
+        rating: json["rating"]?.toDouble(),
     );
 
     Map<String, dynamic> toJson() => {

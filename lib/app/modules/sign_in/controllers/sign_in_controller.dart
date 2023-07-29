@@ -1,10 +1,9 @@
-
 import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:me_car_customer/app/api/user_api.dart';
 import 'package:me_car_customer/app/base/base_controller.dart';
+import 'package:me_car_customer/app/data/database_local.dart';
 import 'package:me_car_customer/app/model/user.dart';
 import 'package:me_car_customer/app/modules/start_app/controllers/start_app_controller.dart';
 import 'package:me_car_customer/app/routes/app_pages.dart';
@@ -37,18 +36,18 @@ class SignInController extends BaseController {
 
   setValueEmail(String value) {
     email(value);
-    if (!GetUtils.isEmail(value)) {
-      errorEmailInput('Email không hợp lệ');
-    } else {
-      errorEmailInput("");
-    }
+    // if (!GetUtils.isPhoneNumber(value) && value.length!=10) {
+    //   errorEmailInput('Số điện thoại không hợp lệ');
+    // } else {
+    errorEmailInput("");
+    // }
     checkEnableButton();
   }
 
   checkEnableButton() {
     if (errorEmailInput.isEmpty &&
         errorPasswordInput.isEmpty &&
-        email.isNotEmpty &&
+        email.trim().isNotEmpty &&
         passowrd.isNotEmpty) {
       enableButton(true);
     } else {
@@ -70,21 +69,22 @@ class SignInController extends BaseController {
     try {
       lockButton(true);
       UserModel userLogin = await UserApi.login(email.value, passowrd.value);
-      userLogin.password = passowrd.value;
-      Box boxLogin = await Hive.openBox("userModel");
-      await boxLogin.clear();
-      await boxLogin.put('loginModel', userLogin);
-      Get.find<StartAppController>().userModelT(userLogin);
+      Get.find<StartAppController>().accessToken = userLogin.userToken!;
+      Get.find<StartAppController>().name.value = userLogin.userFullName!;
+      Get.find<StartAppController>().numberPhone.value = userLogin.userPhone!;
+      String refeshToken = userLogin.refreshToken ?? "";
+      log("Login: $refeshToken");
+      await DatabaseLocal.instance.saveRefeshToken(refeshToken);
       Get.snackbar('Thông báo', 'Đăng nhập thành công');
       if (userLogin.userFullName!.isEmpty) {
-        Get.toNamed(Routes.UPDATE_FIRSTTIME);
+        Get.offAllNamed(Routes.UPDATE_FIRSTTIME);
       } else {
         Get.offAllNamed(Routes.HOME);
       }
       lockButton(false);
     } catch (e) {
       log(e.toString());
-      //  Get.snackbar('Thông báo', 'Đăng nhập thất bại');
+      Get.snackbar('Thông báo', 'Đăng nhập thất bại');
       lockButton(false);
     }
   }
