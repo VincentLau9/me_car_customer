@@ -12,6 +12,12 @@ class ColorsManager {
   static Color colorIconHome =HexColor.fromHex('#F1F9F1');
   static Color colorFillMulti =HexColor.fromHex('#D9EED9');
   static Color colorCommingSoon = HexColor.fromHex('#FEF8E3');
+  static Color colorCancel = HexColor.fromHex('#F75555');
+  static Color colorDone = Colors.green;
+  static Color colorCheckIn = Colors.blue;
+
+
+
 }
 
 extension HexColor on Color {

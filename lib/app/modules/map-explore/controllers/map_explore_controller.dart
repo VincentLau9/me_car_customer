@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/Material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -25,18 +26,16 @@ class MapExploreController extends BaseController {
   Rx<String> textSearch = ''.obs;
   late GoogleMapController mapController;
   RxList<Marker> listMarker = <Marker>[].obs;
-  Rx<bool> isLoading =true.obs;
+  Rx<bool> isLoading = true.obs;
   @override
   Future<void> onInit() async {
-    
-  Position curentPosition =await Geolocator.getCurrentPosition();
-  lat(curentPosition.latitude);
-  lng(curentPosition.longitude);
+    Position curentPosition = await Geolocator.getCurrentPosition();
+    lat(curentPosition.latitude);
+    lng(curentPosition.longitude);
     await updateListMarker();
 
-   isLoading.value=false;
+    isLoading.value = false;
     super.onInit();
-
   }
 
   @override
@@ -60,14 +59,12 @@ class MapExploreController extends BaseController {
 
   updateListMarker() async {
     try {
-      List<GarageModel> listGarage = await GarageApi.searchGarage(lat.value, lng.value);
+      List<GarageModel> listGarage =
+          await GarageApi.searchGarage(lat.value, lng.value);
 
       listGarage.forEach((element) {
-        double km = (Geolocator.distanceBetween(
-                    element.garageLatitude!,
-                    element.garageLongitude!,
-                    lat.value,
-                    lng.value) /
+        double km = (Geolocator.distanceBetween(element.garageLatitude!,
+                    element.garageLongitude!, lat.value, lng.value) /
                 1000)
             .toPrecision(1);
 
@@ -101,13 +98,25 @@ class MapExploreController extends BaseController {
                           Expanded(
                               flex: 8,
                               child: ListTile(
-                                leading: Image.asset(
-                                  ImageAssets.logo,
+                                leading: CachedNetworkImage(
                                   fit: BoxFit.fill,
                                   height:
                                       UtilsReponsive.height(Get.context!, 80),
                                   width:
                                       UtilsReponsive.height(Get.context!, 80),
+                                  imageUrl: element.garageImage!,
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(
+                                    ImageAssets.logo,
+                                    fit: BoxFit.fill,
+                                    height:
+                                        UtilsReponsive.height(Get.context!, 80),
+                                    width:
+                                        UtilsReponsive.height(Get.context!, 80),
+                                  ),
+                                  placeholder: (context, url) => Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
                                 ),
                                 title: Text('${element.garageName}',
                                     style: TextStyleConstant.black16RobotoBold),
@@ -149,7 +158,8 @@ class MapExploreController extends BaseController {
                         child: ElevatedButton(
                           onPressed: () {
                             log('message');
-                            Get.toNamed(Routes.BOOKING_STEP,arguments: element);
+                            Get.toNamed(Routes.BOOKING_STEP,
+                                arguments: element);
                           },
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(

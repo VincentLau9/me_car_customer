@@ -9,6 +9,7 @@ Car carFromJson(String str) => Car.fromJson(json.decode(str));
 String carToJson(Car data) => json.encode(data.toJson());
 
 class Car {
+  int? carId;
     String? carModel;
     String? carBrand;
     String? carLicensePlate;
@@ -17,6 +18,7 @@ class Car {
     int? numberOfCarLot;
 
     Car({
+      this.carId,
         this.carModel,
         this.carBrand,
         this.carLicensePlate,
@@ -26,6 +28,7 @@ class Car {
     });
 
     factory Car.fromJson(Map<String, dynamic> json) => Car(
+        carId: json["carId"],
         carModel: json["carModel"],
         carBrand: json["carBrand"],
         carLicensePlate: json["carLicensePlate"],

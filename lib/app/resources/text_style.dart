@@ -25,10 +25,17 @@ class TextStyleConstant {
       color: ColorsManager.primary,
       fontFamily: "Roboto",
       fontWeight: _fontWeightBold);
+        static const black12Roboto =
+      TextStyle(fontSize: 12, color: Colors.black, fontFamily: "Roboto");
   static const black16Roboto =
       TextStyle(fontSize: 16, color: Colors.black, fontFamily: "Roboto");
         static const red14Roboto =
       TextStyle(fontSize: 14, color: Colors.red, fontFamily: "Roboto");
+        static const black14RobotoBold = TextStyle(
+      fontSize: 14,
+      color: Colors.black,
+      fontFamily: "Roboto",
+      fontWeight: _fontWeightBold);
   static const black16RobotoBold = TextStyle(
       fontSize: 16,
       color: Colors.black,

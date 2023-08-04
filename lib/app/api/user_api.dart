@@ -109,7 +109,7 @@ class UserApi {
         body: jsonEncode(<String, dynamic>{
           "userFirstName": fullName.split(' ').first,
           "userLastName": fullName.substring(fullName.split(' ').first.length),
-          "userPhone": 1
+          "userPhone": phone
         }));
     log('updateInfomation: ${response.statusCode} ${response.body}');
     log(jsonEncode(<String, dynamic>{
@@ -124,13 +124,14 @@ class UserApi {
       return Future<bool>.value(false);
     }
   }
-   static Future<dynamic> refeshToken(String refeshToken) async {
+
+  static Future<dynamic> refeshToken(String refeshToken) async {
     log(refeshToken);
     var response = await http.get(
       Uri.parse(BaseLink.REFESH_TOKEN),
-      headers:<String,String> {
+      headers: {
         "Accept": "text/plain",
-        'Authorization': 'Bearer ' +refeshToken
+        'Authorization': 'bearer ' + refeshToken
       },
     );
     log('refeshToken - status: ${response.statusCode}');

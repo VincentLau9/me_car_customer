@@ -60,7 +60,7 @@ class SignInView extends BaseView<SignInController> {
                       height: 20,
                     ),
                     Text(
-                      'Tài khoản Email',
+                      'Số điện thoại',
                       style: TextStyleConstant.primary16RobotoBold,
                     ),
                     SizedBox(
@@ -71,9 +71,9 @@ class SignInView extends BaseView<SignInController> {
                           padding: 10,
                           // initValue: controller.nameInput.value,
                           textInputType: TextInputType.number,
-                          labelText: "Nhập email",
+                          labelText: "Nhập số điện thoại",
                           errorText: "${controller.errorEmailInput}",
-                          setValueFunc: controller.setValueEmail),
+                          setValueFunc: controller.setValuePhone),
                     ),
                     SizedBox(
                       height: 16,
@@ -144,7 +144,7 @@ class SignInView extends BaseView<SignInController> {
                           ),
                           onPressed: () async {
                             if (controller.enableButton.isTrue&&controller.lockButton.isFalse) {
-                              controller.login();
+                            await  controller.login();
                             }
                           },
                         ),

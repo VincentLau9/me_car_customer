@@ -18,37 +18,38 @@ class BookingSuccess extends StatelessWidget {
               horizontal: 20,
             ),
             width: double.infinity,
-            height: UtilsReponsive.height(context, 100),
+            height: UtilsReponsive.height(context, 70),
             child: Column(
               mainAxisSize:MainAxisSize.max,
               children: [
-                Expanded(
-                  child: SizedBox(
-                    width:double.infinity,
-                    child: ElevatedButton(
-                        onPressed: () {
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: ColorsManager.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          textStyle: TextStyle(),
-                        ),
-                        child:
-                            Text("Đơn hàng", style: TextStyleConstant.white16Roboto)),
-                  ),
-                ),
+                // Expanded(
+                //   child: SizedBox(
+                //     width:double.infinity,
+                //     child: ElevatedButton(
+                //         onPressed: () {
+                //         },
+                //         style: ElevatedButton.styleFrom(
+                //           backgroundColor: ColorsManager.primary,
+                //           shape: RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(25),
+                //           ),
+                //           textStyle: TextStyle(),
+                //         ),
+                //         child:
+                //             Text("Đơn hàng", style: TextStyleConstant.white16Roboto)),
+                //   ),
+                // ),
                SizedBox(height: 10,),
                   Expanded(
                   child: Container(
+                    margin:EdgeInsets.only(bottom: 10),
                     width:double.infinity,
                     child: ElevatedButton(
                         onPressed: () {
                           Get.offAllNamed(Routes.HOME);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
+                          backgroundColor: ColorsManager.primary,
                          shape: RoundedRectangleBorder(
                           
                             borderRadius: BorderRadius.circular(25),
@@ -56,7 +57,7 @@ class BookingSuccess extends StatelessWidget {
                           textStyle: TextStyle(),
                         ),
                         child:
-                            Text("Về trang chủ", style: TextStyleConstant.primary16Roboto)),
+                            Text("Về trang chủ", style: TextStyleConstant.white16RobotoBold)),
                   ),
                 ),
               ],
@@ -76,9 +77,6 @@ class BookingSuccess extends StatelessWidget {
                 SizedBox(
             height: UtilsReponsive.height(context, 20),
           ),
-          Text('Ghi cái gì đó mà tui chưa biết ghi cái gì hêt á :)))))',
-              style: TextStyleConstant.black16Roboto),
-
         ],
       ),
     );

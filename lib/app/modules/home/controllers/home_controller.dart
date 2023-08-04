@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:me_car_customer/app/base/base_controller.dart';
+import 'package:me_car_customer/app/modules/home/controllers/tab-booking-controller/tab_booking_list_controller.dart';
 import 'package:me_car_customer/app/modules/home/controllers/tab-home-controller/tab_home_controller.dart';
 import 'package:me_car_customer/app/modules/home/controllers/tab-service-controller/tab_service_controller.dart';
 import 'package:me_car_customer/app/modules/home/views/tab-booking-view/tab_booking_list_view.dart';
@@ -49,7 +50,8 @@ class HomeController extends BaseController {
         // selectedIndex(2);
         break;
       case 3:
-        // Get.find<TabProfileController>();
+        Get.find<TabBookingListController>();
+        Get.find<TabBookingListController>().loadBooking(0);
         selectedIndex(3);
         break;
       case 4:

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:me_car_customer/app/api/user_api.dart';
 import 'package:me_car_customer/app/base/base_controller.dart';
@@ -16,7 +17,7 @@ class SignInController extends BaseController {
   RxBool enableButton = false.obs;
   RxString errorEmailInput = "".obs;
   RxString errorPasswordInput = "".obs;
-  RxString email = "".obs;
+  RxString phone = "".obs;
   RxString passowrd = "".obs;
   RxBool lockButton = false.obs;
   @override
@@ -34,8 +35,8 @@ class SignInController extends BaseController {
     super.onClose();
   }
 
-  setValueEmail(String value) {
-    email(value);
+  setValuePhone(String value) {
+    phone(value);
     // if (!GetUtils.isPhoneNumber(value) && value.length!=10) {
     //   errorEmailInput('Số điện thoại không hợp lệ');
     // } else {
@@ -47,7 +48,7 @@ class SignInController extends BaseController {
   checkEnableButton() {
     if (errorEmailInput.isEmpty &&
         errorPasswordInput.isEmpty &&
-        email.trim().isNotEmpty &&
+        phone.trim().isNotEmpty &&
         passowrd.isNotEmpty) {
       enableButton(true);
     } else {
@@ -68,14 +69,16 @@ class SignInController extends BaseController {
   login() async {
     try {
       lockButton(true);
-      UserModel userLogin = await UserApi.login(email.value, passowrd.value);
+      UserModel userLogin = await UserApi.login(phone.value, passowrd.value);
       Get.find<StartAppController>().accessToken = userLogin.userToken!;
       Get.find<StartAppController>().name.value = userLogin.userFullName!;
       Get.find<StartAppController>().numberPhone.value = userLogin.userPhone!;
       String refeshToken = userLogin.refreshToken ?? "";
       log("Login: $refeshToken");
       await DatabaseLocal.instance.saveRefeshToken(refeshToken);
-      Get.snackbar('Thông báo', 'Đăng nhập thành công');
+      Get.snackbar('Thông báo', 'Đăng nhập thành công',
+          backgroundColor: Colors.green.withOpacity(0.7),
+          colorText: Colors.white);
       if (userLogin.userFullName!.isEmpty) {
         Get.offAllNamed(Routes.UPDATE_FIRSTTIME);
       } else {
@@ -84,7 +87,8 @@ class SignInController extends BaseController {
       lockButton(false);
     } catch (e) {
       log(e.toString());
-      Get.snackbar('Thông báo', 'Đăng nhập thất bại');
+      Get.snackbar('Thông báo', 'Đăng nhập thất bại', backgroundColor: Colors.red.withOpacity(0.7),
+          colorText: Colors.white);
       lockButton(false);
     }
   }

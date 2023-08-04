@@ -7,6 +7,7 @@ import 'package:me_car_customer/app/model/garage.dart';
 import 'package:me_car_customer/app/model/search_filter.dart';
 import 'package:me_car_customer/app/model/service_filter.dart';
 import 'package:me_car_customer/app/model/service_garage.dart';
+import 'package:me_car_customer/app/model/staff.dart';
 import 'package:me_car_customer/app/model/time_working.dart';
 import 'package:me_car_customer/app/model/user.dart';
 import 'package:me_car_customer/app/modules/start_app/controllers/start_app_controller.dart';
@@ -109,6 +110,7 @@ class GarageApi {
   //getServiceOfGarage
   static Future<List<ServiceGarage>> getServiceOfGarage(int idGarage,int numberOfCarLot) async {
     var url = Uri.parse(BaseLink.GET_SERVICES_GARAGE+idGarage.toString()+'&'+numberOfCarLot.toString());
+    log(url.toString());
     final response = await http.get(
       url,
       headers: <String, String>{
@@ -178,4 +180,29 @@ class GarageApi {
       return Future<List<GarageModel>>.value([]);
   }
  }
+  static Future<List<Staff>> getAllSatffByGarage(String idGarage) async {
+    var url = Uri.parse(BaseLink.GET_STAFF_GARAGE+'${idGarage}');
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json; charset=UTF-8',
+        'Authorization': 'bearer ${Get.find<StartAppController>().accessToken}'
+      },
+    );
+    log('getAllSatffByGarage: ${response.statusCode} ${response.body}');
+
+    if (response.statusCode.toString() == '200') {
+      // return Future<List<Staff>>.value([]);
+      List<Staff> listStaff = [];
+      final mapData = jsonDecode(response.body).cast<Map<String, dynamic>>();
+        listStaff = mapData.map<Staff>((json) {
+          return Staff.fromJson(json);
+        }).toList();
+        return listStaff;
+    } else {
+      return Future<List<Staff>>.value([]);
+  }
+ }
+
 }

@@ -15,7 +15,7 @@ class StartAppController extends BaseController {
   Rx<String> token = ''.obs;
   String accessToken = '';
   Rx<String> name = ''.obs;
-    Rx<String> numberPhone = ''.obs;
+  Rx<String> numberPhone = ''.obs;
   // Rx<UserModel> userModelT = UserModel().obs;
   @override
   void onInit() async {
@@ -23,7 +23,7 @@ class StartAppController extends BaseController {
     // await Future.delayed(
     //   Duration(seconds: 3),
     // );
-   await refeshToken();
+    await refeshToken();
     // userModelT.value = await getLoginModel();
   }
 
@@ -37,8 +37,7 @@ class StartAppController extends BaseController {
     super.onClose();
   }
 
- 
-refeshToken() async {
+  refeshToken() async {
     // Obtain shared preferences.
     String? refeshToken = await DatabaseLocal.instance.getRefeshToken();
     log(refeshToken.toString());
@@ -49,29 +48,28 @@ refeshToken() async {
       dynamic response = await UserApi.refeshToken(refeshToken);
       log(response.body);
       if (response.statusCode == 200) {
-      Map data = jsonDecode(response.body);
+        Map data = jsonDecode(response.body);
         accessToken = data["userToken"];
         String refeshToken = data["refreshToken"];
-        name(data["userFullName"]??"");
-        numberPhone(data["userPhone"]??"");
+        name(data["userFullName"] ?? "");
+        numberPhone(data["userPhone"] ?? "");
         log(data["userFullName"]);
         await DatabaseLocal.instance.saveRefeshToken(refeshToken);
-        if(name.value.trim().isEmpty){
+        if (name.value.trim().isEmpty) {
           Get.offAllNamed(Routes.UPDATE_FIRSTTIME);
-        }else{
-        Get.offAllNamed(Routes.HOME);
+        } else {
+          Get.offAllNamed(Routes.HOME);
         }
       } else {
         Get.offAllNamed(Routes.SIGN_IN);
       }
     }
-}
-logout()async{
-   await DatabaseLocal.instance.removeJwtToken();
-   Get.offAllNamed(Routes.WELCOME_BOARD);
-}
+  }
 
-
+  logout() async {
+    await DatabaseLocal.instance.removeJwtToken();
+    Get.offAllNamed(Routes.WELCOME_BOARD);
+  }
 
   // login(UserModel userModel) async {
   //   try {
@@ -97,4 +95,3 @@ logout()async{
   //   }
   // }
 }
-

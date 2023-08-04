@@ -48,12 +48,12 @@ class CreateNewCarController extends BaseController {
     numCar(value);
     checkEnableButton();
   }
+
   setBrandValue(String value) {
     brand(value);
     print(brand);
     textEdittingBrand.text = value;
     checkEnableButton();
-
   }
 
   setNumSitValue(int value) {
@@ -65,7 +65,6 @@ class CreateNewCarController extends BaseController {
     fuelChoice(value);
     textEdittingFuel.text = value;
     checkEnableButton();
-
   }
 
   setDescriptionValue(String value) {
@@ -78,10 +77,10 @@ class CreateNewCarController extends BaseController {
         listNumber.contains(numSit.value) &&
         fuelOptions.contains(textEdittingFuel.text) &&
         numCar.value.trim().isNotEmpty) {
-          enableButton(true);
-        }else{
-          enableButton(false);
-        }
+      enableButton(true);
+    } else {
+      enableButton(false);
+    }
   }
 
   createNewCar(bool isFistTime) async {
@@ -93,18 +92,18 @@ class CreateNewCarController extends BaseController {
     carModel.carFuelType = textEdittingFuel.text;
     carModel.carLicensePlate = numCar.value;
     log(carModel.toJson().toString());
-    bool check =await CarApi.createCar(carModel);
-    if (check){
-     if (isFistTime) {
-   await     Get.find<UpdateFirstTimeController>().loadAllCar();
-      Get.back();
-     }else{
-      await  Get.find<BookingStepController>().getNewCarLastest();
-       Get.back();
-     }
-    }else{
+    bool check = await CarApi.createCar(carModel);
+    if (check) {
+      if (isFistTime) {
+        await Get.find<UpdateFirstTimeController>().loadAllCar();
+        Get.back();
+      } else {
+        await Get.find<BookingStepController>().getNewCarLastest();
+        Get.back();
+      }
+    } else {
       Get.snackbar('Thông báo', 'Có gì đó không đúng');
-    } 
+    }
     lockButton(false);
   }
 }
