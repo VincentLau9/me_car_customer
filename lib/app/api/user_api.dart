@@ -41,7 +41,7 @@ class UserApi {
       },
       body: jsonEncode(
         <String, dynamic>{
-          "userEmail": email,
+          "userPhone": email,
           "userPassword": passowrd,
           "passwordConfirm": passowrd
         },

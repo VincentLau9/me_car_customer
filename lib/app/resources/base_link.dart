@@ -26,8 +26,16 @@ class BaseLink {
   static const CREATE_BOOKING = domain + 'api/booking/create-booking';
   static const LOADING_BOOKING = domain + 'api/booking/filter-booking-by-overall-status/';
   static const LOADING_BOOKING_DETAIL = domain + 'api/booking/detail-booking-for-customer/';
+  static const GET_COUPONS = domain + 'api/coupon/get-garage-coupon-for-customer/';
+  static const GET_BOOKING_SERVICE_STATUS = domain + 'api/booking/get-booking-detail-status-by-booking-customer/';
+
+  static const RATTING = domain + '/api/review/create-review';
+  static const GET_MACHANIC = domain + 'api/mechanic/get-mechanic-by-booking/';
 
 
+  //api/coupon/get-garage-coupon-for-customer/1
+///api/mechanic/get-mechanic-by-booking/{bookingId}
+//api/booking/get-booking-detail-status-by-booking-customer/
   //api/booking/detail-booking-for-customer/
 
 

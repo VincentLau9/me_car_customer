@@ -24,6 +24,9 @@ abstract class Routes {
   static const BOOKING_INPROGRESS = _Paths.BOOKING_INPROGRESS;
   static const BOOKING_DETAIL = _Paths.BOOKING_DETAIL;
   static const PRE_BOOKING = _Paths.PRE_BOOKING;
+  static const COUPON_VIEW = _Paths.COUPON_VIEW;
+  static const BOOKING_SERVICE_STATUS = _Paths.BOOKING_SERVICE_STATUS;
+  static const PERSONAL_VIEW = _Paths.PERSONAL_VIEW;
 }
 
 abstract class _Paths {
@@ -48,4 +51,7 @@ abstract class _Paths {
   static const BOOKING_INPROGRESS = '/booking-inprogress';
   static const BOOKING_DETAIL = '/booking-detail';
   static const PRE_BOOKING = '/pre-booking';
+  static const COUPON_VIEW = '/coupon-view';
+  static const BOOKING_SERVICE_STATUS = '/booking-service-status';
+    static const PERSONAL_VIEW = '/personal-view';
 }

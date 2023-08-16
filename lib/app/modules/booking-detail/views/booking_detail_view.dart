@@ -1,5 +1,6 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import 'package:me_car_customer/app/resources/assets_manager.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
 import 'package:me_car_customer/app/resources/reponsive_utils.dart';
 import 'package:me_car_customer/app/resources/text_style.dart';
+import 'package:me_car_customer/app/routes/app_pages.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../controllers/booking_detail_controller.dart';
@@ -382,7 +384,7 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                                 height: 15,
                               ),
                               controller.bookingDetail.value.discountPrice ==
-                                      '0.0000 VND'
+                                      '0.000 VND'
                                   ? SizedBox()
                                   : Row(
                                       mainAxisAlignment:
@@ -425,75 +427,277 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                               SizedBox(
                                 height: 15,
                               ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: ConstrainedBox(
-                                      constraints: BoxConstraints.tightFor(
-                                          width: context.width),
-                                      child: ElevatedButton(
-                                        style: ButtonStyle(
-                                          shape: MaterialStateProperty.all(
-                                            RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                            ),
-                                          ),
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  ColorsManager.primary),
-                                          padding: MaterialStateProperty.all(
-                                              EdgeInsets.all(14)),
-                                        ),
-                                        child: Text(
-                                          "Tiến trình",
-                                          style:
-                                              TextStyleConstant.white16Roboto,
-                                        ),
-                                        onPressed: () async {},
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: ConstrainedBox(
-                                      constraints: BoxConstraints.tightFor(
-                                          width: context.width),
-                                      child: ElevatedButton(
-                                        style: ButtonStyle(
-                                          shape: MaterialStateProperty.all(
-                                            RoundedRectangleBorder(
-                                              side:
-                                                  BorderSide(color: Colors.red),
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                            ),
-                                          ),
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.white),
-                                          padding: MaterialStateProperty.all(
-                                              EdgeInsets.all(14)),
-                                        ),
-                                        child: Text(
-                                          "Báo cáo",
-                                          style: TextStyle(
-                                              color: Colors.red, fontSize: 16),
-                                        ),
-                                        onPressed: () async {},
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
+                              controller.bookingDetail.value.bookingStatus ==
+                                      "CheckIn"
+                                  ? _bottomButton(context)
+                                  : controller.bookingDetail.value
+                                              .bookingStatus ==
+                                          "Completed"
+                                      ? _bottomButtonCompleted(context)
+                                      : _bottomButtonPendding(context)
                             ],
                           ),
                         ),
                       ),
               )),
         ])));
+  }
+
+  Row _bottomButtonCompleted(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: ConstrainedBox(
+            constraints: BoxConstraints.tightFor(width: context.width),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                backgroundColor:
+                    MaterialStateProperty.all(ColorsManager.primary),
+                padding: MaterialStateProperty.all(EdgeInsets.all(14)),
+              ),
+              child: Text(
+                "Đánh giá",
+                style: TextStyleConstant.white16Roboto,
+              ),
+              onPressed: () async {
+                Get.bottomSheet(
+                  Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15)),
+                      color: Colors.white),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text("Trải nghiệm của bạn về dịch vụ như thế nào?"),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        RatingBar.builder(
+                          initialRating: 4,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                          itemBuilder: (context, _) => Icon(
+                            Icons.star,
+                            color: ColorsManager.primary,
+                          ),
+                          onRatingUpdate: (rating) {
+                           controller.setRatting(rating);
+                          },
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text("Tốt"),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          controller: controller.textEditingController,
+                            maxLines: 8,
+                            textInputAction: TextInputAction.done,
+                            decoration: InputDecoration(
+                              hintText: "Viết đánh giá",
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 15),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                    color: ColorsManager.primary, width: 1),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: ColorsManager.primary),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            )),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        ConstrainedBox(
+                          constraints:
+                              BoxConstraints.tightFor(width: context.width),
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              backgroundColor: MaterialStateProperty.all(
+                                  ColorsManager.primary),
+                              padding:
+                                  MaterialStateProperty.all(EdgeInsets.all(14)),
+                            ),
+                            child: Text(
+                              "Gửi đánh giá",
+                              style: TextStyleConstant.white16Roboto,
+                            ),
+                            onPressed: () async {
+                            await  controller.createRatting();
+                              // Get.toNamed(Routes.BOOKING_SERVICE_STATUS,
+                              //     arguments: controller.idBooking);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ));
+              },
+            ),
+          ),
+        ),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Expanded(
+        //   child: ConstrainedBox(
+        //     constraints: BoxConstraints.tightFor(width: context.width),
+        //     child: ElevatedButton(
+        //       style: ButtonStyle(
+        //         shape: MaterialStateProperty.all(
+        //           RoundedRectangleBorder(
+        //             side: BorderSide(color: Colors.red),
+        //             borderRadius: BorderRadius.circular(20),
+        //           ),
+        //         ),
+        //         backgroundColor: MaterialStateProperty.all(Colors.white),
+        //         padding: MaterialStateProperty.all(EdgeInsets.all(14)),
+        //       ),
+        //       child: Text(
+        //         "Báo cáo",
+        //         style: TextStyle(color: Colors.red, fontSize: 16),
+        //       ),
+        //       onPressed: () async {},
+        //     ),
+        //   ),
+        // )
+      ],
+    );
+  }
+   Row _bottomButtonPendding(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: ConstrainedBox(
+            constraints: BoxConstraints.tightFor(width: context.width),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                backgroundColor:
+                    MaterialStateProperty.all(ColorsManager.primary),
+                padding: MaterialStateProperty.all(EdgeInsets.all(14)),
+              ),
+              child: Text(
+                "Ngày tới garage: ${controller.bookingDetail.value.bookingDay}",
+                style: TextStyleConstant.white16Roboto,
+              ),
+              onPressed: () async {
+              
+              },
+            ),
+          ),
+        ),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Expanded(
+        //   child: ConstrainedBox(
+        //     constraints: BoxConstraints.tightFor(width: context.width),
+        //     child: ElevatedButton(
+        //       style: ButtonStyle(
+        //         shape: MaterialStateProperty.all(
+        //           RoundedRectangleBorder(
+        //             side: BorderSide(color: Colors.red),
+        //             borderRadius: BorderRadius.circular(20),
+        //           ),
+        //         ),
+        //         backgroundColor: MaterialStateProperty.all(Colors.white),
+        //         padding: MaterialStateProperty.all(EdgeInsets.all(14)),
+        //       ),
+        //       child: Text(
+        //         "Báo cáo",
+        //         style: TextStyle(color: Colors.red, fontSize: 16),
+        //       ),
+        //       onPressed: () async {},
+        //     ),
+        //   ),
+        // )
+      ],
+    );
+  }
+
+  Row _bottomButton(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: ConstrainedBox(
+            constraints: BoxConstraints.tightFor(width: context.width),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                backgroundColor:
+                    MaterialStateProperty.all(ColorsManager.primary),
+                padding: MaterialStateProperty.all(EdgeInsets.all(14)),
+              ),
+              child: Text(
+                "Tiến trình",
+                style: TextStyleConstant.white16Roboto,
+              ),
+              onPressed: () async {
+                Get.toNamed(Routes.BOOKING_SERVICE_STATUS,
+                    arguments: controller.idBooking);
+              },
+            ),
+          ),
+        ),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Expanded(
+        //   child: ConstrainedBox(
+        //     constraints: BoxConstraints.tightFor(width: context.width),
+        //     child: ElevatedButton(
+        //       style: ButtonStyle(
+        //         shape: MaterialStateProperty.all(
+        //           RoundedRectangleBorder(
+        //             side: BorderSide(color: Colors.red),
+        //             borderRadius: BorderRadius.circular(20),
+        //           ),
+        //         ),
+        //         backgroundColor: MaterialStateProperty.all(Colors.white),
+        //         padding: MaterialStateProperty.all(EdgeInsets.all(14)),
+        //       ),
+        //       child: Text(
+        //         "Báo cáo",
+        //         style: TextStyle(color: Colors.red, fontSize: 16),
+        //       ),
+        //       onPressed: () async {},
+        //     ),
+        //   ),
+        // )
+      ],
+    );
   }
 
   Wrap buildService(String title, int lenght) {

@@ -26,5 +26,14 @@ class IconAssets{
   static const String calendar_icon = "$ICON_PATH/carlenda.svg";
   static const String status_icon = "$ICON_PATH/status.svg";
   static const String location_icon = "$ICON_PATH/location.svg";
+    static const String notyet_icon = "$ICON_PATH/notyet.svg";
+  static const String done_icon = "$ICON_PATH/done.svg";
+  static const String fail_icon = "$ICON_PATH/fail.svg";
+  static const String user = "$ICON_PATH/user.svg";
+static const String icProfileActive = "$ICON_PATH/ic_profile_active.png";
+  static const String icCalendarDeActive = "$ICON_PATH/ic_calendar_deactive.svg";
+  static const String icProfile = "$ICON_PATH/ic_profile.png";
+  static const String icMessage = "$ICON_PATH/ic_message.png";
+  static const String icPhone = "$ICON_PATH/ic_phone.png";
   
 }

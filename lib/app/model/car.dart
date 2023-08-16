@@ -9,40 +9,45 @@ Car carFromJson(String str) => Car.fromJson(json.decode(str));
 String carToJson(Car data) => json.encode(data.toJson());
 
 class Car {
-  int? carId;
+    int? carId;
     String? carModel;
     String? carBrand;
     String? carLicensePlate;
     String? carFuelType;
-    String? carDescription;
     int? numberOfCarLot;
+    String? carDescription;
+    String? carStatus;
 
     Car({
-      this.carId,
+        this.carId,
         this.carModel,
         this.carBrand,
         this.carLicensePlate,
         this.carFuelType,
-        this.carDescription,
         this.numberOfCarLot,
+        this.carDescription,
+        this.carStatus,
     });
 
     factory Car.fromJson(Map<String, dynamic> json) => Car(
         carId: json["carId"],
-        carModel: json["carModel"],
+        carModel: json["carModel"]??"",
         carBrand: json["carBrand"],
         carLicensePlate: json["carLicensePlate"],
         carFuelType: json["carFuelType"],
-        carDescription: json["carDescription"],
         numberOfCarLot: json["numberOfCarLot"],
+        carDescription:json["carDescription"]??"",
+        carStatus: json["carStatus"],
     );
 
     Map<String, dynamic> toJson() => {
+        "carId": carId,
         "carModel": carModel,
         "carBrand": carBrand,
         "carLicensePlate": carLicensePlate,
         "carFuelType": carFuelType,
-        "carDescription": carDescription,
         "numberOfCarLot": numberOfCarLot,
+        "carStatus": carStatus,
+        "carDescription":carDescription
     };
 }

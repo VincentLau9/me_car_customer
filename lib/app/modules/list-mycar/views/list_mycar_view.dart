@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:me_car_customer/app/base/base_view.dart';
 import 'package:me_car_customer/app/model/car.dart';
+import 'package:me_car_customer/app/modules/booking-step/controllers/booking_step_controller.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
 import 'package:me_car_customer/app/resources/reponsive_utils.dart';
 import 'package:me_car_customer/app/resources/text_style.dart';
+import 'package:me_car_customer/app/routes/app_pages.dart';
 
 import '../controllers/list_mycar_controller.dart';
 
@@ -36,8 +38,13 @@ class ListMycarView extends BaseView<ListMycarController> {
             )),
           ),
           Expanded(
-            child: SizedBox(),
-          )
+              child: Get.isRegistered<BookingStepController>()
+                  ? SizedBox()
+                  : IconButton(
+                      onPressed: () {
+                        Get.toNamed(Routes.CREATE_NEW_CAR);
+                      },
+                      icon: Icon(Icons.add)))
         ],
       )),
       Expanded(
@@ -59,8 +66,11 @@ class ListMycarView extends BaseView<ListMycarController> {
                         child: Column(
                           children: [
                             ListView.separated(
-                              separatorBuilder: (context, index) => SizedBox(height: 10,),
-                              physics: NeverScrollableScrollPhysics(),
+                              primary: false,
+                              separatorBuilder: (context, index) => SizedBox(
+                                height: 10,
+                              ),
+                              // physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: controller.listCar.value.length,
                               itemBuilder: (context, index) => GestureDetector(
@@ -102,13 +112,25 @@ class ListMycarView extends BaseView<ListMycarController> {
                       Icons.car_crash,
                       color: ColorsManager.primary,
                     ),
+                    SizedBox(
+                      width: 10,
+                    ),
                     Text(
                       carModel.carBrand ?? "Khác",
                       style: TextStyleConstant.primary16RobotoBold,
                     ),
                   ],
                 ),
-                SizedBox()
+                carModel.carStatus == "NotAvailable"
+                    ? Container(
+                        padding: EdgeInsets.all(10),
+                        child: Text("Đang lên đơn",
+                            style: TextStyleConstant.white14Roboto),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.amber.shade900),
+                      )
+                    : SizedBox()
               ],
             ),
             Container(

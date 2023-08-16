@@ -46,10 +46,10 @@ class SignUpOTPView extends BaseView<SignUpController> {
                       child: Row(
                         children: [
                           Text(
-                            'Kiểm tra email của bạn   ',
+                            'Mã xác nhận đã được gửi  ',
                             style: TextStyleConstant.primary22RobotoBold,
                           ),
-                          Image.asset(ImageAssets.gmailIcon)
+                          //Image.asset(ImageAssets.gmailIcon)
                         ],
                       ),
                     ),
@@ -65,7 +65,7 @@ class SignUpOTPView extends BaseView<SignUpController> {
                               children: <TextSpan>[
                                 new TextSpan(
                                     text:
-                                        'Chúng tôi đã gửi cho bạn số OTP gồm 4 chữ số vào email của bạn '),
+                                        'Chúng tôi đã gửi cho bạn số OTP gồm 6 chữ số vào số điện thoại của bạn '),
                                 new TextSpan(
                                     text: controller.email.value,
                                     style:

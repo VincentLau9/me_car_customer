@@ -61,10 +61,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                             ),
                           ),
                           Expanded(
-                            child: IconButton(
-                                onPressed: () async {},
-                                icon: Icon(Icons.notifications)),
-                          )
+                            child: SizedBox())
                         ],
                       ),
                     )),

@@ -15,6 +15,8 @@ class BookingDetailController extends BaseController {
   int idBooking;
   Rx<BookingDetail> bookingDetail = BookingDetail().obs;
   Rx<bool> isLoading = true.obs;
+  TextEditingController textEditingController = TextEditingController(text: "");
+  final ratting = 4.obs;
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -39,6 +41,23 @@ class BookingDetailController extends BaseController {
     super.onClose();
   }
 
+  createRatting() async {
+    var response = await BookingApi.createRatting(
+        ratting.value, bookingDetail.value.garageId!, textEditingController.text);
+    if (response.statusCode == 200) {
+      Get.back();
+      Get.snackbar('Thông báo', 'Gửi đánh giá thành công',
+          backgroundColor: Colors.green.withOpacity(0.7),
+          colorText: Colors.white);
+    } else {
+      Get.back();
+      Get.snackbar('Thông báo', 'Có gì đó không đúng',
+          backgroundColor: Colors.red.withOpacity(0.7),
+          colorText: Colors.white);
+    }
+  }
+
+
   loadBookingDetail(int id) async {
     var response = await BookingApi.loadBookingDetail(id);
     if (response.statusCode == 200) {
@@ -47,6 +66,10 @@ class BookingDetailController extends BaseController {
     } else {
       throw Error();
     }
+  }
+
+  setRatting(double star) {
+    ratting(star.floor());
   }
 
   Widget statusBooking(String status, BuildContext context) {

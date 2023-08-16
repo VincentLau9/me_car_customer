@@ -1,11 +1,17 @@
 import 'package:get/get.dart';
+import 'package:me_car_customer/app/modules/personal-information/bindings/personal_information_binding.dart';
+import 'package:me_car_customer/app/modules/personal-information/views/personal_information_view.dart';
 
 import '../modules/booking-detail/bindings/booking_detail_binding.dart';
 import '../modules/booking-detail/views/booking_detail_view.dart';
 import '../modules/booking-inprogress/bindings/booking_inprogress_binding.dart';
 import '../modules/booking-inprogress/views/booking_inprogress_view.dart';
+import '../modules/booking-service-status/bindings/booking_service_status_binding.dart';
+import '../modules/booking-service-status/views/booking_service_status_view.dart';
 import '../modules/booking-step/bindings/booking_step_binding.dart';
 import '../modules/booking-step/views/booking_step_view.dart';
+import '../modules/coupon-view/bindings/coupon_view_binding.dart';
+import '../modules/coupon-view/views/coupon_view_view.dart';
 import '../modules/create-new-car/bindings/create_new_car_binding.dart';
 import '../modules/create-new-car/views/create_new_car_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -58,6 +64,7 @@ class AppPages {
       name: _Paths.SIGN_UP,
       page: () => const SignUpView(),
       binding: SignUpBinding(),
+      transition:  Transition.rightToLeft
     ),
     GetPage(
       name: _Paths.SIGN_IN,
@@ -113,6 +120,21 @@ class AppPages {
       name: _Paths.PRE_BOOKING,
       page: () => const PreBookingView(),
       binding: PreBookingBinding(),
+    ),
+    GetPage(
+      name: _Paths.COUPON_VIEW,
+      page: () => const CouponViewView(),
+      binding: CouponViewBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOOKING_SERVICE_STATUS,
+      page: () => const BookingServiceStatusView(),
+      binding: BookingServiceStatusBinding(),
+    ),
+      GetPage(
+      name: _Paths.PERSONAL_VIEW,
+      page: () => const PersonalInformationView(),
+      binding: PersonalInformationBinding(),
     ),
   ];
 }

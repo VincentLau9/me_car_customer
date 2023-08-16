@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:me_car_customer/app/model/coupon.dart';
 import 'package:me_car_customer/app/model/garage.dart';
 import 'package:me_car_customer/app/model/search_filter.dart';
 import 'package:me_car_customer/app/model/service_filter.dart';
@@ -204,5 +205,32 @@ class GarageApi {
       return Future<List<Staff>>.value([]);
   }
  }
+
+
+ static Future<List<Coupon>> getCoupon(int idGarage) async {
+    var url = Uri.parse(BaseLink.GET_COUPONS+idGarage.toString());
+    log(url.toString());
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json; charset=UTF-8',
+        'Authorization': 'bearer ${Get.find<StartAppController>().accessToken}'
+      },
+    );
+    log('getCoupon: ${response.statusCode} ${response.body}');
+
+    if (response.statusCode.toString() == '200') {
+      List<Coupon> listCoupon = [];
+      final mapData = jsonDecode(response.body).cast<Map<String, dynamic>>();
+        listCoupon = mapData.map<Coupon>((json) {
+          return Coupon.fromJson(json);
+        }).toList();
+        return listCoupon;
+    } else {
+      return Future<List<Coupon>>.value([]);
+  }
+
+}
 
 }

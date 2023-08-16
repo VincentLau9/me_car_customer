@@ -27,6 +27,11 @@ dependencies:
   qr_flutter: ^4.1.0
   intl:
   flutter_launcher_icons: ^0.13.1
+  timeline_tile: ^2.0.0
+  firebase_dynamic_links:
+  firebase_core: ^2.15.0
+  flutter_rating_bar: ^4.0.1
+  url_launcher: ^6.1.10
   flutter: 
     sdk: flutter
   flutter_localizations:
@@ -35,7 +40,6 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test: 
     sdk: flutter
-  
 
 flutter_launcher_icons:
   android: "launcher_icon"

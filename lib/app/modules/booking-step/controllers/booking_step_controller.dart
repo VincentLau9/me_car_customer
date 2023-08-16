@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -9,6 +10,7 @@ import 'package:me_car_customer/app/api/car_api.dart';
 import 'package:me_car_customer/app/api/garage_api.dart';
 import 'package:me_car_customer/app/base/base_controller.dart';
 import 'package:me_car_customer/app/model/car.dart';
+import 'package:me_car_customer/app/model/coupon.dart';
 import 'package:me_car_customer/app/model/form-booking.dart';
 import 'package:me_car_customer/app/model/garage.dart';
 import 'package:me_car_customer/app/model/service_garage.dart';
@@ -20,6 +22,7 @@ import 'package:me_car_customer/app/modules/start_app/controllers/start_app_cont
 import 'package:me_car_customer/app/resources/color_manager.dart';
 import 'package:me_car_customer/app/resources/reponsive_utils.dart';
 import 'package:me_car_customer/app/resources/text_style.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BookingStepController extends BaseController {
   //TODO: Implement BookingStepController
@@ -53,6 +56,8 @@ class BookingStepController extends BaseController {
   Rx<String> originalPrice = '0 VNĐ'.obs;
   Rx<String> discountedPrice = '0 VNĐ'.obs;
   Rx<String> totalPrice = '0 VNĐ'.obs;
+  Rx<Coupon> coupon = Coupon(couponCode: "", couponId: 0).obs;
+  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
   @override
   Future<void> onInit() async {
@@ -65,13 +70,15 @@ class BookingStepController extends BaseController {
           dateFormat.parse(Get.find<PreBookingController>().txtDate.text);
     }
     getTimeWorking(dateChoose.value);
+
     // await getServiceOfGarage();
     super.onInit();
   }
 
   @override
-  void onReady() {
+  Future<void> onReady() async {
     super.onReady();
+    await initDynamicLinks();
   }
 
   @override
@@ -85,6 +92,7 @@ class BookingStepController extends BaseController {
   }
 
   void jumpToPage() {
+    log("jumpToPage $indexPage");
     checkValidation();
     if (isEnableButton.value) {
       if (indexPage.value + 1 < 4) {
@@ -96,6 +104,7 @@ class BookingStepController extends BaseController {
   }
 
   changePage(int value) async {
+    log("changePage $value");
     if (indexPage == 1) {
       await refeshService();
     } else if (indexPage == 3) {
@@ -109,7 +118,8 @@ class BookingStepController extends BaseController {
 
   checkout() async {
     isRefeshService(true);
-    var response = await BookingApi.checkout(listSerChoose, 0);
+    var response =
+        await BookingApi.checkout(listSerChoose, coupon.value.couponId ?? 0);
     if (response.statusCode == 200) {
       Map data = jsonDecode(response.body);
       originalPrice(data["originalPrice"]);
@@ -144,6 +154,25 @@ class BookingStepController extends BaseController {
     checkValidation();
   }
 
+  Future<void> initDynamicLinks() async {
+    dynamicLinks.onLink.listen((dynamicLinkData) {
+      String result = dynamicLinkData.link.path;
+      if (result.isNotEmpty) {
+        if (result == "/payment-success") {
+          Get.offAll(BookingSuccess());
+        } else {
+          Get.snackbar(
+              "Thông báo", "Thanh toán không thành công. Vui lòng thử lại sao",
+              backgroundColor: Colors.red.withOpacity(0.7),
+              colorText: Colors.white);
+        }
+      } else {}
+    }).onError((error) {
+      print('onLink error');
+      print(error.message);
+    });
+  }
+
   checkValidation() {
     // log((carChoose.value==null).toString());
     if (name.trim().isEmpty) {
@@ -163,6 +192,7 @@ class BookingStepController extends BaseController {
     } else {
       errCarChoose('');
     }
+  
     if (errNameInput.isEmpty &&
         errPhoneInput.isEmpty &&
         errCarChoose.isEmpty &&
@@ -214,9 +244,9 @@ class BookingStepController extends BaseController {
   }
 
   addService(ServicListDto service) {
-    if (listSerChoose.value.contains(service.serviceDetailId)) {
+    if (listSerChoose.contains(service.serviceDetailId)) {
       listSerChoose.remove(service.serviceDetailId);
-    } else if (listSerChoose.value.length == 3) {
+    } else if (listSerChoose.length >= 3) {
       Get.snackbar("Thông báo", "Chỉ đặt được tối đa là 3 dịch vụ",
           backgroundColor: Colors.red.withOpacity(0.7),
           colorText: Colors.white);
@@ -242,8 +272,13 @@ class BookingStepController extends BaseController {
   }
 
   createBooking() async {
-    log(listSerChoose.length.toString());
+if(timeChoose.isEmpty){
+  Get.snackbar("Thông báo", "Bạn chưa chọn thời gian",
+          backgroundColor: Colors.red.withOpacity(0.7),
+          colorText: Colors.white);
+}else{
     FormBooking form = FormBooking(
+        couponId: coupon.value.couponId,
         customerName: name.value,
         customerPhone: phoneNumber.value,
         customerEmail: "",
@@ -256,7 +291,11 @@ class BookingStepController extends BaseController {
     var response = await BookingApi.createBooking(form);
     log(response.statusCode.toString());
     if (response.statusCode == 200) {
-      Get.offAll(BookingSuccess());
+      String url = jsonDecode(response.body)["paymentUrl"];
+      if (await canLaunchUrl(Uri.parse(url))) {
+        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+      }
+      // Get.offAll(BookingSuccess());
     } else if (response.statusCode == 404) {
       Get.snackbar("Thông báo", jsonDecode(response.body)["title"].toString(),
           backgroundColor: Colors.red.withOpacity(0.7),
@@ -266,5 +305,11 @@ class BookingStepController extends BaseController {
           backgroundColor: Colors.red.withOpacity(0.7),
           colorText: Colors.white);
     }
+}
+  }
+
+  chooseCoupon(Coupon couponChoose) async {
+    coupon.value = couponChoose;
+    await checkout();
   }
 }

@@ -55,8 +55,8 @@ class SignUpController extends BaseController {
 
   setValueEmail(String value) {
     email(value);
-    if (!GetUtils.isEmail(value)) {
-      errorEmailInput('Email không hợp lệ');
+    if (!GetUtils.isPhoneNumber(value)) {
+      errorEmailInput('Số điện thoại không hợp lệ');
     } else {
       errorEmailInput("");
     }

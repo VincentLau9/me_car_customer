@@ -9,6 +9,7 @@ BookingDetail bookingDetailFromJson(String str) => BookingDetail.fromJson(json.d
 String bookingDetailToJson(BookingDetail data) => json.encode(data.toJson());
 
 class BookingDetail {
+  int? garageId; 
     String? carName;
     String? customerName;
     String? customerPhone;
@@ -23,6 +24,7 @@ class BookingDetail {
     List<GroupServiceBookingDetailDto>? groupServiceBookingDetailDtos;
 
     BookingDetail({
+      this.garageId,
         this.carName,
         this.customerName,
         this.customerPhone,
@@ -38,6 +40,7 @@ class BookingDetail {
     });
 
     factory BookingDetail.fromJson(Map<String, dynamic> json) => BookingDetail(
+      garageId:json["garageId"],
         carName: json["carName"],
         customerName: json["customerName"],
         customerPhone: json["customerPhone"],

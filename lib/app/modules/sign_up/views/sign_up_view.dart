@@ -60,7 +60,7 @@ class SignUpView extends BaseView<SignUpController> {
                       height: 20,
                     ),
                     Text(
-                      'Tài khoản Email',
+                      'Số điện thoại',
                       style: TextStyleConstant.primary16RobotoBold,
                     ),
                     SizedBox(
@@ -70,8 +70,8 @@ class SignUpView extends BaseView<SignUpController> {
                       () => FormFieldWidget(
                           padding: 10,
                           // initValue: controller.nameInput.value,
-                          textInputType: TextInputType.emailAddress,
-                          labelText: "Nhập email",
+                          textInputType: TextInputType.number,
+                          labelText: "Nhập số điện thoại",
                           errorText: "${controller.errorEmailInput}",
                           setValueFunc: controller.setValueEmail),
                     ),

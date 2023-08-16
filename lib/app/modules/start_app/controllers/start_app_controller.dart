@@ -55,7 +55,7 @@ class StartAppController extends BaseController {
         numberPhone(data["userPhone"] ?? "");
         log(data["userFullName"]);
         await DatabaseLocal.instance.saveRefeshToken(refeshToken);
-        if (name.value.trim().isEmpty) {
+        if (name.value.isEmpty) {
           Get.offAllNamed(Routes.UPDATE_FIRSTTIME);
         } else {
           Get.offAllNamed(Routes.HOME);

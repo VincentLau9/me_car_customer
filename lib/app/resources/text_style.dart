@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
 
 class TextStyleConstant {
+     static const grey14Roboto =
+      TextStyle(fontSize: 14, color: Colors.grey, fontFamily: "Roboto-Bold");
   static const _fontWeightBold = FontWeight.w500;
   static const _fontWeightNormal = FontWeight.normal;
   static final primary14Roboto = TextStyle(
@@ -33,6 +35,16 @@ class TextStyleConstant {
       TextStyle(fontSize: 14, color: Colors.red, fontFamily: "Roboto");
         static const black14RobotoBold = TextStyle(
       fontSize: 14,
+      color: Colors.black,
+      fontFamily: "Roboto",
+      fontWeight: _fontWeightBold);
+              static const black14Roboto = TextStyle(
+      fontSize: 14,
+      color: Colors.black,
+      fontFamily: "Roboto",
+      );
+        static const black18RobotoBold = TextStyle(
+      fontSize: 18,
       color: Colors.black,
       fontFamily: "Roboto",
       fontWeight: _fontWeightBold);

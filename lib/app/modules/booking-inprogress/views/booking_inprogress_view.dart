@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:me_car_customer/app/model/booking.dart';
 import 'package:me_car_customer/app/resources/reponsive_utils.dart';
 import 'package:me_car_customer/app/resources/text_style.dart';
+import 'package:me_car_customer/app/routes/app_pages.dart';
 
 import '../controllers/booking_inprogress_controller.dart';
 
@@ -41,16 +43,57 @@ class BookingInprogressView extends GetView<BookingInprogressController> {
             )),
             Expanded(
               flex: 9,
-              child: ListView.separated(
-                padding: EdgeInsets.only(top: 0),
-                shrinkWrap: true,
-                itemCount: 10,
-                separatorBuilder: (context, index) => SizedBox(
-                  height: 10,
-                ),
-                itemBuilder: (context, index) {
-                  return _itemBooking(context);
-                },
+              child: Obx(
+                () => controller.isLoading.value
+                    ? Center(
+                        child: SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: CircularProgressIndicator()))
+                    : Material(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: UtilsReponsive.width(context, 15)),
+                          color: Colors.white,
+                          width: double.infinity,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.03,
+                                ),
+                                controller.listBooking.value.isEmpty
+                                    ? Center(child: Text('Danh sách trống'))
+                                    : ListView.separated(
+                                        primary: false,
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            controller.listBooking.value.length,
+                                        separatorBuilder: (context, index) =>
+                                            SizedBox(
+                                          height: 10,
+                                        ),
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              Get.toNamed(Routes.BOOKING_DETAIL,
+                                                  arguments: controller
+                                                      .listBooking[index]
+                                                      .bookingId);
+                                            },
+                                            child: _itemBooking(context,
+                                                controller.listBooking[index]),
+                                          );
+                                        },
+                                      )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
               ),
             ),
           ],
@@ -59,7 +102,7 @@ class BookingInprogressView extends GetView<BookingInprogressController> {
     );
   }
 
-  Container _itemBooking(BuildContext context) {
+  Container _itemBooking(BuildContext context, Booking booking) {
     return Container(
         padding: EdgeInsets.symmetric(
             horizontal: UtilsReponsive.width(context, 15),
@@ -75,64 +118,77 @@ class BookingInprogressView extends GetView<BookingInprogressController> {
               children: [
                 Row(
                   children: [
-                    SizedBox(
+                    Expanded(
+                      child: SizedBox(
                         width: UtilsReponsive.width(context, 70),
                         height: UtilsReponsive.width(context, 63),
-                        child: Image.asset('assets/images/Icon.png')),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: UtilsReponsive.width(context, 10)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: UtilsReponsive.width(context, 20)),
-                            child: Text('AUDI A5 2015'),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 14,
-                                height: 14,
-                                child: SvgPicture.asset(
-                                  'assets/images/location.svg',
-                                  fit: BoxFit.fill,
+                        child: Image.asset('assets/images/Icon.png'),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: UtilsReponsive.width(context, 10)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: UtilsReponsive.width(context, 20)),
+                              child: Text(booking.carName!),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 14,
+                                  height: 14,
+                                  child: SvgPicture.asset(
+                                    'assets/images/location.svg',
+                                    fit: BoxFit.fill,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                '23/01/2023 - 8:00 AM',
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 14,
-                                height: 14,
-                                child: SvgPicture.asset(
-                                  'assets/images/clock.svg',
-                                  fit: BoxFit.fill,
+                                SizedBox(
+                                  width: 10,
                                 ),
+                                Text(
+                                  booking.bookingTime!,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 14,
+                                    height: 14,
+                                    child: SvgPicture.asset(
+                                      'assets/images/clock.svg',
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    flex: 5,
+                                    child: Text(
+                                      booking.garageAddress!,
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'Quận 6, Hồ Chí Minh',
-                              ),
-                            ],
-                          ),
-                        ],
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ],
@@ -144,7 +200,7 @@ class BookingInprogressView extends GetView<BookingInprogressController> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      '18,760,000 VNĐ',
+                      booking.price!,
                       style: TextStyleConstant.primary16RobotoBold,
                     )
                   ],

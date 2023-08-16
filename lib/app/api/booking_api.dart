@@ -27,6 +27,27 @@ class BookingApi {
     return response;
   }
 
+  static Future<dynamic> createRatting(
+      int star, int garageId, String content) async {
+    var url = Uri.parse(BaseLink.RATTING);
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json; charset=UTF-8',
+        'Authorization': 'bearer ${Get.find<StartAppController>().accessToken}'
+      },
+      body: jsonEncode(<String, dynamic>{
+        "rating": star,
+        "content": content,
+        "garageId": garageId
+      }),
+    );
+    log('createRatting: ${response.statusCode} ${response.body}');
+
+    return response;
+  }
+
   static Future<dynamic> createBooking(FormBooking formBooking) async {
     var url = Uri.parse(BaseLink.CREATE_BOOKING);
     final response = await http.post(
@@ -69,6 +90,35 @@ class BookingApi {
       },
     );
     log('loadBookingDetail: ${response.statusCode} ${response.body}');
+
+    return response;
+  }
+
+  static Future<dynamic> getBooingServiceStatus(int idBooking) async {
+    var url = Uri.parse(BaseLink.GET_BOOKING_SERVICE_STATUS + '${idBooking}');
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json; charset=UTF-8',
+        'Authorization': 'bearer ${Get.find<StartAppController>().accessToken}'
+      },
+    );
+    log('getBooingServiceStatus: ${response.statusCode} ${response.body}');
+
+    return response;
+  }
+    static Future<dynamic> getMechanic(int idBooking) async {
+    var url = Uri.parse(BaseLink.GET_MACHANIC + '${idBooking}');
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json; charset=UTF-8',
+        'Authorization': 'bearer ${Get.find<StartAppController>().accessToken}'
+      },
+    );
+    log('getMechanic: ${response.statusCode} ${response.body}');
 
     return response;
   }

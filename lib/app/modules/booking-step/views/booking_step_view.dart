@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:me_car_customer/app/api/garage_api.dart';
@@ -12,9 +11,7 @@ import 'package:me_car_customer/app/base/base_view.dart';
 import 'package:me_car_customer/app/model/car.dart';
 import 'package:me_car_customer/app/model/service_garage.dart';
 import 'package:me_car_customer/app/model/staff.dart';
-import 'package:me_car_customer/app/modules/booking-step/views/booking_success.dart';
 import 'package:me_car_customer/app/modules/common/components/form_field_widget.dart';
-import 'package:me_car_customer/app/modules/start_app/controllers/start_app_controller.dart';
 import 'package:me_car_customer/app/resources/assets_manager.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
 import 'package:me_car_customer/app/resources/reponsive_utils.dart';
@@ -63,7 +60,7 @@ class BookingStepView extends BaseView<BookingStepController> {
                             ),
                             Expanded(
                                 child: IconButton(
-                                    onPressed: () {
+                                    onPressed: ()async {
                                       Get.offAllNamed(Routes.HOME);
                                     },
                                     icon: Icon(Icons.home)))
@@ -326,9 +323,9 @@ class BookingStepView extends BaseView<BookingStepController> {
             decoration: BoxDecoration(
                 color: ColorsManager.primary.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(20)),
-            child: CalendarDatePicker2(
+            child:Obx(() =>  CalendarDatePicker2(
               config: CalendarDatePicker2Config(
-                currentDate: DateTime.now(),
+                currentDate: controller.dateChoose.value,
                 firstDate: DateTime.now(),
                 lastDate: DateTime.now().add(Duration(days: 5)),
                 calendarType: CalendarDatePicker2Type.single,
@@ -341,7 +338,7 @@ class BookingStepView extends BaseView<BookingStepController> {
                 controller.getTimeWorking(dates[0]!);
               },
               value: [controller.dateChoose.value],
-            ),
+            ),)
           ),
           SizedBox(
             height: 10,
@@ -606,8 +603,9 @@ class BookingStepView extends BaseView<BookingStepController> {
                                       height:
                                           UtilsReponsive.height(context, 10)),
                                   Obx(() {
-                                    controller.listSerChoose.value;
-
+                                    log(controller.listSerChoose.value
+                                            .toString() +
+                                        ": CBD");
                                     return ListView.separated(
                                       shrinkWrap: true,
                                       physics: NeverScrollableScrollPhysics(),
@@ -622,6 +620,8 @@ class BookingStepView extends BaseView<BookingStepController> {
                                         controller.listServices.value[index]
                                             .servicListDtos!
                                             .forEach((element) {
+                                          log("listServices : ${controller.listSerChoose.value.contains(element.serviceDetailId)}");
+
                                           if (controller.listSerChoose.value
                                               .contains(
                                                   element.serviceDetailId)) {
@@ -667,6 +667,7 @@ class BookingStepView extends BaseView<BookingStepController> {
                                                                 .servicListDtos![
                                                                     index1]
                                                                 .serviceDetailId)) {
+                                                          log("Check");
                                                           return Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
@@ -704,7 +705,7 @@ class BookingStepView extends BaseView<BookingStepController> {
                                                             ],
                                                           );
                                                         } else {
-                                                          return null;
+                                                          return SizedBox();
                                                         }
                                                       }),
                                                 ],
@@ -737,8 +738,8 @@ class BookingStepView extends BaseView<BookingStepController> {
                                           UtilsReponsive.height(context, 10)),
                                   Container(
                                     padding: EdgeInsets.all(8),
-                                    height: UtilsReponsive.height(context, 58),
-                                    width: UtilsReponsive.width(context, 328),
+                                    // height: UtilsReponsive.height(context, 58),
+                                    // width: UtilsReponsive.width(context, 328),
                                     decoration: BoxDecoration(
                                         border: Border.all(
                                             color:
@@ -751,29 +752,38 @@ class BookingStepView extends BaseView<BookingStepController> {
                                       children: [
                                         Expanded(
                                           flex: 2,
-                                          child: Text('Chọn mã giảm giá',
+                                          child: Text(
+                                              controller.coupon.value
+                                                      .couponCode!.isNotEmpty
+                                                  ? controller
+                                                      .coupon.value.couponCode!
+                                                  : 'Chọn mã giảm giá',
                                               style: TextStyle(
                                                   color: Colors.black54,
                                                   fontSize: 18)),
                                         ),
                                         Expanded(
-                                            child: Container(
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: ColorsManager.primary),
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      Colors.white),
-                                              onPressed: () {},
-                                              child: Text(
-                                                'Thêm',
-                                                style: TextStyleConstant
-                                                    .primary16RobotoBold,
-                                              )),
-                                        ))
+                                            child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.white),
+                                                onPressed: () {
+                                                  Get.toNamed(
+                                                      Routes.COUPON_VIEW,
+                                                      arguments: controller
+                                                          .garage.garageId);
+                                                },
+                                                child: Text(
+                                                  controller
+                                                          .coupon
+                                                          .value
+                                                          .couponCode!
+                                                          .isNotEmpty
+                                                      ? "Đổi"
+                                                      : 'Thêm',
+                                                  style: TextStyleConstant
+                                                      .primary16RobotoBold,
+                                                )))
                                       ],
                                     ),
                                   ),
@@ -899,10 +909,10 @@ class BookingStepView extends BaseView<BookingStepController> {
               : ListView.separated(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => SizedBox(
+                  separatorBuilder: (context, index) => SizedBox(
                         height: 15,
                       ),
-                  separatorBuilder: (context, index) =>
+                  itemBuilder: (context, index) =>
                       controller.listServices[index].servicListDtos!.isEmpty
                           ? SizedBox()
                           : _expansionTitleService(
@@ -915,6 +925,7 @@ class BookingStepView extends BaseView<BookingStepController> {
 
   Column _expansionTitleService(
       BuildContext context, ServiceGarage serviceGarage) {
+    log("_expansionTitleService + " + serviceGarage.toJson().toString());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1042,6 +1053,7 @@ class BookingStepView extends BaseView<BookingStepController> {
             ),
             Obx(
               () => FormFieldWidget(
+                  isEnabled: false,
                   suffixIcon: SvgPicture.asset(ImageAssets.edit_icon,
                       fit: BoxFit.scaleDown,
                       height: UtilsReponsive.height(context, 16),
@@ -1073,6 +1085,7 @@ class BookingStepView extends BaseView<BookingStepController> {
             ),
             Obx(
               () => FormFieldWidget(
+                  isEnabled: false,
                   suffixIcon: SvgPicture.asset(ImageAssets.edit_icon,
                       fit: BoxFit.scaleDown,
                       height: UtilsReponsive.height(context, 16),

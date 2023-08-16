@@ -148,10 +148,10 @@ class Chooservice extends BaseView<PreBookingController> {
                 SizedBox(
                   height: 5,
                 ),
-                Text(
-                  "Description",
-                  style: TextStyleConstant.black16Roboto,
-                ),
+                // Text(
+                //   "Description",
+                //   style: TextStyleConstant.black16Roboto,
+                // ),
               ],
             ),
           ),

@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "83683978714",
+    "project_id": "carservices-868c3",
+    "storage_bucket": "carservices-868c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83683978714:android:58b7c4966a6eb2d22564e3",
+        "android_client_info": {
+          "package_name": "com.company.carservices"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83683978714-obgjguihlpj0jah32u6ocgdgrdrmmu72.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKGPvBXjVI4y3V-3Vdr5dp7dUo9_s7ng8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83683978714-i93nt65j6agsssveqp7p5gv6b244v278.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83683978714:android:611d520106134e0d2564e3",
+        "android_client_info": {
+          "package_name": "com.mecarcustomer.me_car_customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83683978714-obgjguihlpj0jah32u6ocgdgrdrmmu72.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKGPvBXjVI4y3V-3Vdr5dp7dUo9_s7ng8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83683978714-i93nt65j6agsssveqp7p5gv6b244v278.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
