@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:me_car_customer/app/base/base_view.dart';
 import 'package:me_car_customer/app/model/garage.dart';
 import 'package:me_car_customer/app/modules/common/components/form_field_widget.dart';
+import 'package:me_car_customer/app/modules/map-explore/views/detail_garage.dart';
 import 'package:me_car_customer/app/modules/start_app/controllers/start_app_controller.dart';
 import 'package:me_car_customer/app/resources/assets_manager.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
@@ -61,7 +63,8 @@ class TabHomeView extends BaseView<TabHomeController> {
                             ),
                           ),
                           Expanded(
-                            child: SizedBox())
+                            child: SizedBox()
+                          )
                         ],
                       ),
                     )),
@@ -77,37 +80,37 @@ class TabHomeView extends BaseView<TabHomeController> {
                 //       setValueFunc: () {}),
                 // )),
                 Expanded(flex: 2, child: _listItemIconHome()),
+                // Expanded(
+                //     flex: 2,
+                //     child: Container(
+                //         child: Column(
+                //       children: [
+                //         Container(
+                //           margin: EdgeInsets.symmetric(
+                //               vertical: UtilsReponsive.height(context, 10)),
+                //           color: Colors.grey,
+                //           height: 0.5,
+                //           width: double.infinity,
+                //         ),
+                //         Container(
+                //           height: UtilsReponsive.height(context, 75),
+                //           width: double.infinity,
+                //           child: ListView.separated(
+                //               scrollDirection: Axis.horizontal,
+                //               shrinkWrap: true,
+                //               itemBuilder: (context, index) => Container(
+                //                   height: UtilsReponsive.height(context, 75),
+                //                   child: Card(
+                //                       child: Image.asset(ImageAssets.card))),
+                //               separatorBuilder: (context, index) => SizedBox(
+                //                     width: 5,
+                //                   ),
+                //               itemCount: 5),
+                //         )
+                //       ],
+                //     ))),
                 Expanded(
-                    flex: 2,
-                    child: Container(
-                        child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                              vertical: UtilsReponsive.height(context, 10)),
-                          color: Colors.grey,
-                          height: 0.5,
-                          width: double.infinity,
-                        ),
-                        Container(
-                          height: UtilsReponsive.height(context, 75),
-                          width: double.infinity,
-                          child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) => Container(
-                                  height: UtilsReponsive.height(context, 75),
-                                  child: Card(
-                                      child: Image.asset(ImageAssets.card))),
-                              separatorBuilder: (context, index) => SizedBox(
-                                    width: 5,
-                                  ),
-                              itemCount: 5),
-                        )
-                      ],
-                    ))),
-                Expanded(
-                    flex: 4,
+                    flex: 6,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,22 +120,22 @@ class TabHomeView extends BaseView<TabHomeController> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Các dịch vụ nổi bật',
+                                'Các garage nổi bật',
                                 style: TextStyleConstant.black22RobotoBold,
                               ),
-                              Text(
-                                'Tất cả',
-                                style: TextStyleConstant.primary14RobotoBold,
-                              )
+                            SizedBox()
                             ],
                           ),
                         ),
                         Expanded(
-                          flex: 3,
-                          child: ListView.separated(
+                          flex: 4,
+                          child:
+                          Obx(() =>
+                          controller.isLoading.value?Center(child: SizedBox(height: 40,width: 40,child: CircularProgressIndicator(),),):
+                            ListView.separated(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
-                            itemCount: 5,
+                            itemCount: controller.listGarage.length>4?4:controller.listGarage.length,
                             separatorBuilder: (context, index) => SizedBox(
                               height: 8,
                             ),
@@ -154,12 +157,23 @@ class TabHomeView extends BaseView<TabHomeController> {
                                       child: Row(
                                         children: [
                                           Expanded(
-                                              child: Image.asset(
-                                                  ImageAssets.card)),
+                                              child:  CachedNetworkImage(
+                              fit: BoxFit.fill,
+                              height: UtilsReponsive.height(Get.context!, 80),
+                              width: UtilsReponsive.height(Get.context!, 80),
+                              imageUrl: controller.listGarage[index].garageImage.toString(),
+                              errorWidget: (context, url, error) => Image.asset(
+                                ImageAssets.card,
+                                fit: BoxFit.fill,
+                              ),
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),),
                                           Expanded(
                                               child: ListTile(
-                                            title: Text('Thay thế phụ tùng'),
-                                            subtitle: Text('4.8 ⭐️'),
+                                            title: Text(controller.listGarage[index].garageName.toString()),
+                                            subtitle: Text('${controller.listGarage[index].rating} ⭐️'),
                                           ))
                                         ],
                                       ),
@@ -173,7 +187,9 @@ class TabHomeView extends BaseView<TabHomeController> {
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 8.0),
                                           child: ElevatedButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              Get.to(DetailGarage(garageModel: controller.listGarage[index]));
+                                            },
                                             style: ElevatedButton.styleFrom(
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -196,13 +212,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                                               horizontal: 8.0),
                                           child: ElevatedButton(
                                             onPressed: () {
-                                              Get.toNamed(Routes.BOOKING_STEP,
-                                                  arguments: GarageModel(
-                                                    garageId: 1,
-                                                    garageAddress:
-                                                        'Quận 9 Hồ Chí Minh',
-                                                    garageName: 'Garage mơ ước',
-                                                  ));
+                                               Get.toNamed(Routes.BOOKING_STEP,arguments: controller.listGarage[index]);
                                             },
                                             style: ElevatedButton.styleFrom(
                                               shape: RoundedRectangleBorder(
@@ -224,7 +234,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                                 ],
                               ),
                             ),
-                          ),
+                          ),)
                         )
                       ],
                     ))
@@ -282,23 +292,23 @@ class TabHomeView extends BaseView<TabHomeController> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                            backgroundColor: ColorsManager.colorIconHome,
-                            child: Icon(
-                              Icons.calendar_month,
-                              color: ColorsManager.primary,
-                            )),
-                        Text(
-                          'Đặt lịch\ndịch vụ',
-                          textAlign: TextAlign.center,
-                          style: TextStyleConstant.black16RobotoBold,
-                        )
-                      ],
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: Column(
+                  //     children: [
+                  //       CircleAvatar(
+                  //           backgroundColor: ColorsManager.colorIconHome,
+                  //           child: Icon(
+                  //             Icons.calendar_month,
+                  //             color: ColorsManager.primary,
+                  //           )),
+                  //       Text(
+                  //         'Đặt lịch\ndịch vụ',
+                  //         textAlign: TextAlign.center,
+                  //         style: TextStyleConstant.black16RobotoBold,
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
                   Expanded(
                     child: GestureDetector(
                       onTap: () {

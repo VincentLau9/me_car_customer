@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -52,7 +54,7 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                             )),
                           ),
                           Expanded(
-                            child: SvgPicture.asset(IconAssets.more_icon),
+                            child: SizedBox(),
                           )
                         ],
                       ),
@@ -345,7 +347,7 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                                                           .serviceListBookingDetailDtos![
                                                               index1]
                                                           .servicePrice!
-                                                          .toString(),
+                                                          .toString(),textAlign: TextAlign.right,
                                                       style: TextStyle(
                                                           color:
                                                               Colors.black54)),
@@ -465,8 +467,7 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                 style: TextStyleConstant.white16Roboto,
               ),
               onPressed: () async {
-                Get.bottomSheet(
-                  Container(
+                Get.bottomSheet(Container(
                   padding: EdgeInsets.all(20),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
@@ -493,19 +494,60 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                             color: ColorsManager.primary,
                           ),
                           onRatingUpdate: (rating) {
-                           controller.setRatting(rating);
+                            controller.setRatting(rating);
                           },
                         ),
                         SizedBox(
                           height: 10,
                         ),
-                        Text("Tốt"),
+                        Obx(() => Text(
+                              controller.listStatusString[
+                                      controller.ratting.value - 1]
+                                  .toString(),
+                              textAlign: TextAlign.center,
+                            )),
                         SizedBox(
                           height: 10,
                         ),
+                        Obx(() => Wrap(
+                            children: controller
+                                .listTemplate[controller.ratting.value]!
+                                .map((e) => GestureDetector(
+                                      onTap: () {
+                                        controller.commentChoice.value = e;
+                                      },
+                                      child: Container(
+                                          margin: EdgeInsets.all(2),
+                                          child: Chip(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15.0),
+                                                side: BorderSide(
+                                                    color:
+                                                        ColorsManager.primary,
+                                                    width: 1.0),
+                                              ),
+                                              backgroundColor: controller
+                                                          .commentChoice
+                                                          .value ==
+                                                      e
+                                                  ? ColorsManager.primary
+                                                  : Colors.white,
+                                              label: Text(
+                                                e,
+                                                style: controller.commentChoice
+                                                            .value ==
+                                                        e
+                                                    ? TextStyleConstant
+                                                        .white14Roboto
+                                                    : TextStyleConstant
+                                                        .black14Roboto,
+                                              ))),
+                                    ))
+                                .toList())),
                         TextFormField(
-                          controller: controller.textEditingController,
-                            maxLines: 8,
+                            controller: controller.textEditingController,
+                            maxLines: 4,
                             textInputAction: TextInputAction.done,
                             decoration: InputDecoration(
                               hintText: "Viết đánh giá",
@@ -545,7 +587,7 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                               style: TextStyleConstant.white16Roboto,
                             ),
                             onPressed: () async {
-                            await  controller.createRatting();
+                              await controller.createRatting();
                               // Get.toNamed(Routes.BOOKING_SERVICE_STATUS,
                               //     arguments: controller.idBooking);
                             },
@@ -587,7 +629,8 @@ class BookingDetailView extends BaseView<BookingDetailController> {
       ],
     );
   }
-   Row _bottomButtonPendding(BuildContext context) {
+
+  Row _bottomButtonPendding(BuildContext context) {
     return Row(
       children: [
         Expanded(
@@ -608,9 +651,7 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                 "Ngày tới garage: ${controller.bookingDetail.value.bookingDay}",
                 style: TextStyleConstant.white16Roboto,
               ),
-              onPressed: () async {
-              
-              },
+              onPressed: () async {},
             ),
           ),
         ),

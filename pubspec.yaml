@@ -32,6 +32,8 @@ dependencies:
   firebase_core: ^2.15.0
   flutter_rating_bar: ^4.0.1
   url_launcher: ^6.1.10
+  firebase_messaging:
+  flutter_local_notifications: ^13.0.0
   flutter: 
     sdk: flutter
   flutter_localizations:
@@ -51,5 +53,4 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-
 

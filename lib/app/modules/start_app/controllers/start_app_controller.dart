@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:me_car_customer/app/api/user_api.dart';
@@ -16,20 +17,22 @@ class StartAppController extends BaseController {
   String accessToken = '';
   Rx<String> name = ''.obs;
   Rx<String> numberPhone = ''.obs;
+  Rx<String> email = ''.obs;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   // Rx<UserModel> userModelT = UserModel().obs;
   @override
   void onInit() async {
     super.onInit();
-    // await Future.delayed(
-    //   Duration(seconds: 3),
-    // );
     await refeshToken();
     // userModelT.value = await getLoginModel();
   }
 
   @override
-  void onReady() {
+  Future<void> onReady() async {
     super.onReady();
+    _firebaseMessaging.requestPermission();
+    String? deviceToken = await _firebaseMessaging.getToken();
+    log('Device Token: $deviceToken');
   }
 
   @override
@@ -50,12 +53,12 @@ class StartAppController extends BaseController {
       if (response.statusCode == 200) {
         Map data = jsonDecode(response.body);
         accessToken = data["userToken"];
-        String refeshToken = data["refreshToken"];
+        String refeshToken = data["refreshToken"]; 
         name(data["userFullName"] ?? "");
         numberPhone(data["userPhone"] ?? "");
-        log(data["userFullName"]);
+        email(data["userEmail"]??"");
         await DatabaseLocal.instance.saveRefeshToken(refeshToken);
-        if (name.value.isEmpty) {
+        if (name.value.trim().isEmpty) {
           Get.offAllNamed(Routes.UPDATE_FIRSTTIME);
         } else {
           Get.offAllNamed(Routes.HOME);

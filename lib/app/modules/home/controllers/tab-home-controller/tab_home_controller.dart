@@ -1,13 +1,19 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
+import 'package:me_car_customer/app/api/garage_api.dart';
 import 'package:me_car_customer/app/base/base_controller.dart';
+import 'package:me_car_customer/app/model/garage.dart';
 
 class TabHomeController extends BaseController {
   //TODO: Implement TabHomeController
 
-  final count = 0.obs;
+  final isLoading = true.obs;
+  RxList<GarageModel> listGarage = <GarageModel>[].obs;
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
+    await getSomeGarage();
   }
 
   @override
@@ -20,5 +26,16 @@ class TabHomeController extends BaseController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  getSomeGarage() async {
+    try {
+      isLoading(true);
+      listGarage.value = await GarageApi.searchGarage(0, 0);
+      listGarage.shuffle();
+      isLoading(false);
+    } catch (e) {
+      log(e.toString());
+      listGarage.value = [];
+      isLoading(false);
+    }
+  }
 }

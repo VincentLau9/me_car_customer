@@ -17,6 +17,22 @@ class BookingDetailController extends BaseController {
   Rx<bool> isLoading = true.obs;
   TextEditingController textEditingController = TextEditingController(text: "");
   final ratting = 4.obs;
+  final commentChoice = ''.obs;
+  final isTypeComment = false.obs;
+  List<String> listStatusString = [
+    "Có vấn đề gì sao",
+    "Có vấn đề gì sao",
+    "Tạm được",
+    "Tốt",
+    "Tuyệt vời"
+  ];
+  Map<int, List<String>> listTemplate = {
+    1: ["Dịch vụ kém", "Chờ đợi lâu"],
+    2: ["Dịch vụ kém", "Chờ đợi lâu"],
+    3: ["Dịch vụ ổn", "Cần cải tiến thêm", "Sẽ quay lại"],
+    4: ["Garage sạch sẽ", "Làm việc chuyên nghiệp", "Không gian rộng"],
+    5: ["Tuyệt vời", "Dịch vụ chu đáo", "Thợ nhiệt tình","Đặt lịch nhanh chóng"]
+  };
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -43,8 +59,13 @@ class BookingDetailController extends BaseController {
 
   createRatting() async {
     var response = await BookingApi.createRatting(
-        ratting.value, bookingDetail.value.garageId!, textEditingController.text);
+        ratting.value,
+        bookingDetail.value.garageId!,
+        commentChoice.trim().isNotEmpty
+            ? commentChoice + '. ' + textEditingController.text
+            : textEditingController.text);
     if (response.statusCode == 200) {
+      textEditingController.text = '';
       Get.back();
       Get.snackbar('Thông báo', 'Gửi đánh giá thành công',
           backgroundColor: Colors.green.withOpacity(0.7),
@@ -56,7 +77,6 @@ class BookingDetailController extends BaseController {
           colorText: Colors.white);
     }
   }
-
 
   loadBookingDetail(int id) async {
     var response = await BookingApi.loadBookingDetail(id);
@@ -70,6 +90,7 @@ class BookingDetailController extends BaseController {
 
   setRatting(double star) {
     ratting(star.floor());
+    commentChoice.value = '';
   }
 
   Widget statusBooking(String status, BuildContext context) {

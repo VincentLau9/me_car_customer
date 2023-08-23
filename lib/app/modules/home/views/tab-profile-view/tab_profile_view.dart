@@ -38,16 +38,17 @@ class TabProfileView extends GetView<TabProfileController> {
                         ),
                       ],
                     ),
-                    SvgPicture.asset('assets/images/icon_setting.svg')
+                    SizedBox()
+                    // SvgPicture.asset('assets/images/icon_setting.svg')
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                        child:
-                        ClipOval(child: Image.asset("assets/images/user1.png"),)
-                        ),
+                        child: ClipOval(
+                      child: Image.asset("assets/images/user1.png"),
+                    )),
                     SizedBox(
                       width: 10,
                     ),
@@ -80,7 +81,8 @@ class TabProfileView extends GetView<TabProfileController> {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.grey.withOpacity(0.3))),
+                        border:
+                            Border.all(color: Colors.grey.withOpacity(0.3))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -105,71 +107,77 @@ class TabProfileView extends GetView<TabProfileController> {
                 SizedBox(
                   height: 15,
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
-                  height: UtilsReponsive.height(context, 60),
-                  width: UtilsReponsive.width(context, 320),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.grey.withOpacity(0.3))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset('assets/images/car.svg'),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text('Thông tin xe của tôi',
-                              style: TextStyleConstant.black16RobotoBold),
-                        ],
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: ColorsManager.primary,
-                      )
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.LIST_MYCAR, arguments: true);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    height: UtilsReponsive.height(context, 60),
+                    width: UtilsReponsive.width(context, 320),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border:
+                            Border.all(color: Colors.grey.withOpacity(0.3))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset('assets/images/car.svg'),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text('Thông tin xe của tôi',
+                                style: TextStyleConstant.black16RobotoBold),
+                          ],
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: ColorsManager.primary,
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: 15,
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
-                  height: UtilsReponsive.height(context, 60),
-                  width: UtilsReponsive.width(context, 320),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.grey.withOpacity(0.3))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset('assets/images/clock.svg'),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text('Lịch sử đặt lịch',
-                              style: TextStyleConstant.black16RobotoBold),
-                        ],
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: ColorsManager.primary,
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
+                // Container(
+                //   padding: EdgeInsets.symmetric(horizontal: 12),
+                //   height: UtilsReponsive.height(context, 60),
+                //   width: UtilsReponsive.width(context, 320),
+                //   decoration: BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: BorderRadius.circular(20),
+                //       border: Border.all(color: Colors.grey.withOpacity(0.3))),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Row(
+                //         children: [
+                //           SvgPicture.asset('assets/images/clock.svg'),
+                //           SizedBox(
+                //             width: 10,
+                //           ),
+                //           Text('Lịch sử đặt lịch',
+                //               style: TextStyleConstant.black16RobotoBold),
+                //         ],
+                //       ),
+                //       Icon(
+                //         Icons.arrow_forward,
+                //         color: ColorsManager.primary,
+                //       )
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 15,
+                // ),
                 GestureDetector(
                   onTap: () async {
-                 await   Get.find<StartAppController>().logout();
+                    await Get.find<StartAppController>().logout();
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 12),

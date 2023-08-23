@@ -79,7 +79,9 @@ class HomeView extends BaseView<HomeController> {
           unselectedLabelStyle: TextStyleConstant.primary14Roboto,
           showUnselectedLabels: true,
           elevation: 0,
-          onTap: controller.onTapped,
+          onTap: (value) async{
+           await controller.onTapped(value);
+          },
         ));
   }
 }

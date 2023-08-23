@@ -60,7 +60,7 @@ class BookingStepView extends BaseView<BookingStepController> {
                             ),
                             Expanded(
                                 child: IconButton(
-                                    onPressed: ()async {
+                                    onPressed: () async {
                                       Get.offAllNamed(Routes.HOME);
                                     },
                                     icon: Icon(Icons.home)))
@@ -317,29 +317,30 @@ class BookingStepView extends BaseView<BookingStepController> {
                 style: TextStyleConstant.black16RobotoBold,
               )),
           Container(
-            height: UtilsReponsive.height(context, 250),
-            margin: EdgeInsets.symmetric(
-                vertical: UtilsReponsive.height(context, 20)),
-            decoration: BoxDecoration(
-                color: ColorsManager.primary.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(20)),
-            child:Obx(() =>  CalendarDatePicker2(
-              config: CalendarDatePicker2Config(
-                currentDate: controller.dateChoose.value,
-                firstDate: DateTime.now(),
-                lastDate: DateTime.now().add(Duration(days: 5)),
-                calendarType: CalendarDatePicker2Type.single,
-                centerAlignModePicker: true,
-                selectedDayTextStyle:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-                selectedDayHighlightColor: ColorsManager.primary,
-              ),
-              onValueChanged: (dates) {
-                controller.getTimeWorking(dates[0]!);
-              },
-              value: [controller.dateChoose.value],
-            ),)
-          ),
+              height: UtilsReponsive.height(context, 250),
+              margin: EdgeInsets.symmetric(
+                  vertical: UtilsReponsive.height(context, 20)),
+              decoration: BoxDecoration(
+                  color: ColorsManager.primary.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(20)),
+              child: Obx(
+                () => CalendarDatePicker2(
+                  config: CalendarDatePicker2Config(
+                    currentDate: controller.dateChoose.value,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(Duration(days: 5)),
+                    calendarType: CalendarDatePicker2Type.single,
+                    centerAlignModePicker: true,
+                    selectedDayTextStyle: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w700),
+                    selectedDayHighlightColor: ColorsManager.primary,
+                  ),
+                  onValueChanged: (dates) {
+                    controller.getTimeWorking(dates[0]!);
+                  },
+                  value: [controller.dateChoose.value],
+                ),
+              )),
           SizedBox(
             height: 10,
           ),

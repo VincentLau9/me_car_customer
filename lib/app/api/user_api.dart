@@ -124,6 +124,33 @@ class UserApi {
       return Future<bool>.value(false);
     }
   }
+  static Future<bool> updateInfomationV2(String fullName, String phone,String email) async {
+    var url = Uri.parse(BaseLink.updateInfo);
+    final response = await http.put(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json; charset=UTF-8',
+          'Authorization':
+              'bearer ${Get.find<StartAppController>().accessToken}'
+        },
+        body: jsonEncode(<String, dynamic>{
+          "userFirstName": fullName.split(' ').first,
+          "userLastName": fullName.substring(fullName.split(' ').first.length),
+        "userEmail": email
+        }));
+    log('updateInfomation: ${response.statusCode} ${response.body}');
+    log(jsonEncode(<String, dynamic>{
+      "userFirstName": fullName.split(' ').first,
+      "userLastName": fullName.substring(fullName.split(' ').first.length),
+      "userEmail": email
+    }));
+    if (response.statusCode.toString() == '200') {
+      log(response.body);
+      return Future<bool>.value(true);
+    } else {
+      return Future<bool>.value(false);
+    }
+  }
 
   static Future<dynamic> refeshToken(String refeshToken) async {
     log(refeshToken);

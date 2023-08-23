@@ -73,13 +73,15 @@ class SignInController extends BaseController {
       Get.find<StartAppController>().accessToken = userLogin.userToken!;
       Get.find<StartAppController>().name.value = userLogin.userFullName!;
       Get.find<StartAppController>().numberPhone.value = userLogin.userPhone!;
+      Get.find<StartAppController>().email(userLogin.userEmail??"");
+
       String refeshToken = userLogin.refreshToken ?? "";
       log("Login: $refeshToken");
       await DatabaseLocal.instance.saveRefeshToken(refeshToken);
       Get.snackbar('Thông báo', 'Đăng nhập thành công',
           backgroundColor: Colors.green.withOpacity(0.7),
           colorText: Colors.white);
-      if (userLogin.userFullName!.isEmpty) {
+      if (userLogin.userFullName!.trim().isEmpty) {
         Get.offAllNamed(Routes.UPDATE_FIRSTTIME);
       } else {
         Get.offAllNamed(Routes.HOME);

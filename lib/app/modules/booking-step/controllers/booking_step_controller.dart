@@ -132,15 +132,15 @@ class BookingStepController extends BaseController {
   onTapChangePage(int value) async {
     checkValidation();
     if (isEnableButton.value) {
-      if (errNameInput.isEmpty && errPhoneInput.isEmpty) {
-        if (value == 1) {
-          await refeshService();
-        } else if (value == 3) {
-          await checkout();
-        }
-        pageController.animateToPage(value,
-            duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+      // if (errNameInput.isEmpty && errPhoneInput.isEmpty) {
+      if (value == 1) {
+        await refeshService();
+      } else if (value == 3) {
+        await checkout();
       }
+      pageController.animateToPage(value,
+          duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+      // }
     }
   }
 
@@ -175,24 +175,24 @@ class BookingStepController extends BaseController {
 
   checkValidation() {
     // log((carChoose.value==null).toString());
-    if (name.trim().isEmpty) {
-      errNameInput('Tên không được bỏ trống');
-    } else {
-      errNameInput('');
-    }
-    if (phoneNumber.trim().isEmpty) {
-      errPhoneInput('Số điện thoại bắt buộc');
-      // } else if (phoneNumber.trim().length < 10) {
-      //   errPhoneInput('Số điện thoại không hợp lệ');
-    } else {
-      errPhoneInput('');
-    }
+    // if (name.trim().isEmpty) {
+    //   errNameInput('Tên không được bỏ trống');
+    // } else {
+    //   errNameInput('');
+    // }
+    // if (phoneNumber.trim().isEmpty) {
+    //   errPhoneInput('Số điện thoại bắt buộc');
+    //   // } else if (phoneNumber.trim().length < 10) {
+    //   //   errPhoneInput('Số điện thoại không hợp lệ');
+    // } else {
+    //   errPhoneInput('');
+    // }
     if (!haveCar.value) {
       errCarChoose('( Vui lòng chọn xe )');
     } else {
       errCarChoose('');
     }
-  
+
     if (errNameInput.isEmpty &&
         errPhoneInput.isEmpty &&
         errCarChoose.isEmpty &&
@@ -265,47 +265,48 @@ class BookingStepController extends BaseController {
   }
 
   removeStaff() {
-    staffChoose.value.mechanicId = -1;
+    log("message");
+    staffChoose.value.mechanicId = 0;
     staffChoose.update((staff) {
-      staff = Staff(mechanicId: -1);
+      staff = Staff(mechanicId: 0);
     });
   }
 
   createBooking() async {
-if(timeChoose.isEmpty){
-  Get.snackbar("Thông báo", "Bạn chưa chọn thời gian",
-          backgroundColor: Colors.red.withOpacity(0.7),
-          colorText: Colors.white);
-}else{
-    FormBooking form = FormBooking(
-        couponId: coupon.value.couponId,
-        customerName: name.value,
-        customerPhone: phoneNumber.value,
-        customerEmail: "",
-        dateSelected: dateFormat.format(dateChoose.value),
-        timeSelected: timeChoose.value,
-        serviceList: listSerChoose,
-        carId: carChoose.value!.carId ?? 0,
-        mechanicId: staffChoose.value.mechanicId,
-        garageId: garage.garageId!);
-    var response = await BookingApi.createBooking(form);
-    log(response.statusCode.toString());
-    if (response.statusCode == 200) {
-      String url = jsonDecode(response.body)["paymentUrl"];
-      if (await canLaunchUrl(Uri.parse(url))) {
-        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-      }
-      // Get.offAll(BookingSuccess());
-    } else if (response.statusCode == 404) {
-      Get.snackbar("Thông báo", jsonDecode(response.body)["title"].toString(),
+    if (timeChoose.isEmpty) {
+      Get.snackbar("Thông báo", "Bạn chưa chọn thời gian",
           backgroundColor: Colors.red.withOpacity(0.7),
           colorText: Colors.white);
     } else {
-      Get.snackbar("Thông báo", "Có gì đó không đúng",
-          backgroundColor: Colors.red.withOpacity(0.7),
-          colorText: Colors.white);
+      FormBooking form = FormBooking(
+          couponId: coupon.value.couponId,
+          customerName: name.value,
+          customerPhone: phoneNumber.value,
+          customerEmail: "",
+          dateSelected: dateFormat.format(dateChoose.value),
+          timeSelected: timeChoose.value,
+          serviceList: listSerChoose,
+          carId: carChoose.value!.carId ?? 0,
+          mechanicId: staffChoose.value.mechanicId,
+          garageId: garage.garageId!);
+      var response = await BookingApi.createBooking(form);
+      log(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        String url = jsonDecode(response.body)["paymentUrl"];
+        if (await canLaunchUrl(Uri.parse(url))) {
+          await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+        }
+        // Get.offAll(BookingSuccess());
+      } else if (response.statusCode == 404) {
+        Get.snackbar("Thông báo", jsonDecode(response.body)["title"].toString(),
+            backgroundColor: Colors.red.withOpacity(0.7),
+            colorText: Colors.white);
+      } else {
+        Get.snackbar("Thông báo", "Có gì đó không đúng",
+            backgroundColor: Colors.red.withOpacity(0.7),
+            colorText: Colors.white);
+      }
     }
-}
   }
 
   chooseCoupon(Coupon couponChoose) async {

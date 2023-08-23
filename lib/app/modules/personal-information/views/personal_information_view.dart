@@ -66,14 +66,17 @@ class PersonalInformationView extends BaseView<PersonalInformationController> {
                   padding: UtilsReponsive.paddingOnly(context,
                       top: 20, right: 20, left: 20),
                   child: TextFormField(
+                    onChanged: (value) {
+                      controller.setNameData(value);
+                    },
                     textInputAction: TextInputAction.done,
                     style: TextStyleConstant.black16Roboto,
                     cursorColor: ColorsManager.primary,
                     controller: null,
                     keyboardType: TextInputType.text,
-                    validator: (value) {},
+                    initialValue:
+                        Get.find<StartAppController>().name.toString(),
                     decoration: InputDecoration(
-                      hintText: Get.find<StartAppController>().name.toString(),
                       hintStyle: TextStyleConstant.grey14Roboto,
                       border: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -109,43 +112,50 @@ class PersonalInformationView extends BaseView<PersonalInformationController> {
                   ),
                 ),
                 Padding(
-                  padding: UtilsReponsive.paddingOnly(context,
-                      top: 20, right: 20, left: 20),
-                  child: TextFormField(
-                    textInputAction: TextInputAction.done,
-                    style: TextStyleConstant.black16Roboto,
-                    cursorColor: ColorsManager.primary,
-                    controller: null,
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {},
-                    decoration: InputDecoration(
-                      hintText: "nbac@gmail.com",
-                      hintStyle: TextStyleConstant.grey14Roboto,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors.grey.withOpacity(0.2), width: 1),
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors.grey.withOpacity(0.2), width: 1),
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: ColorsManager.primary,
+                    padding: UtilsReponsive.paddingOnly(context,
+                        top: 20, right: 20, left: 20),
+                    child: Obx(
+                      () => TextFormField(
+                        initialValue:   Get.find<StartAppController>().email.value.isEmpty?"":  Get.find<StartAppController>().email.value,
+                        textInputAction: TextInputAction.done,
+                        style: TextStyleConstant.black16Roboto,
+                        cursorColor: ColorsManager.primary,
+                        controller: null,
+                        keyboardType: TextInputType.emailAddress,
+                        onChanged: (value) {
+                          controller.setEmailData(value);
+                        },
+                        decoration: InputDecoration(
+                          errorText: controller.error.value.isNotEmpty
+                              ? controller.error.value
+                              : null,
+                          hintText: "abc@gmail.com",
+                          hintStyle: TextStyleConstant.grey14Roboto,
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.grey.withOpacity(0.2), width: 1),
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.grey.withOpacity(0.2), width: 1),
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: ColorsManager.primary,
+                            ),
+                          ),
+                          prefixIcon: ImageIcon(
+                            AssetImage(IconAssets.icMessage),
+                            size: UtilsReponsive.height(context, 30),
+                            color: Colors.black,
+                          ),
                         ),
                       ),
-                      prefixIcon: ImageIcon(
-                        AssetImage(IconAssets.icMessage),
-                        size: UtilsReponsive.height(context, 30),
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
+                    )),
                 Padding(
                   padding:
                       UtilsReponsive.paddingOnly(context, top: 30, left: 20),
@@ -158,16 +168,19 @@ class PersonalInformationView extends BaseView<PersonalInformationController> {
                   padding: UtilsReponsive.paddingOnly(context,
                       top: 20, right: 20, left: 20),
                   child: TextFormField(
+                    initialValue:
+                        Get.find<StartAppController>().numberPhone.toString(),
+                    enabled: false,
                     textInputAction: TextInputAction.done,
                     style: TextStyleConstant.black16Roboto,
                     cursorColor: ColorsManager.primary,
                     controller: null,
                     keyboardType: TextInputType.phone,
-                    validator: (value) {},
+                    // validator: (value) {},
                     decoration: InputDecoration(
-                      hintText:
-                          Get.find<StartAppController>().numberPhone.toString(),
-                      hintStyle: TextStyleConstant.grey14Roboto,
+                      // hintText:
+
+                      // hintStyle: TextStyleConstant.grey14Roboto,
                       border: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Colors.grey.withOpacity(0.2), width: 1),
@@ -230,7 +243,9 @@ class PersonalInformationView extends BaseView<PersonalInformationController> {
                         style: TextStyleConstant.white16Roboto,
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () async{
+                   await   controller.updateInfomation();
+                    },
                   ),
                 ),
               ],

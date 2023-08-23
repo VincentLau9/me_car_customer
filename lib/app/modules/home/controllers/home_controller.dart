@@ -41,10 +41,10 @@ class HomeController extends BaseController {
     super.onClose();
   }
 
-  onTapped(int index) {
+  onTapped(int index) async {
     switch (index) {
       case 0:
-        Get.find<TabHomeController>();
+      await  Get.find<TabHomeController>().getSomeGarage();
         selectedIndex(0);
         break;
       case 1:

@@ -68,16 +68,7 @@ class MapExploreView extends BaseView<MapExploreController> {
                             )),
                           ),
                           Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                SvgPicture.asset(ImageAssets.filter_icon),
-                                Text(
-                                  'Lọc',
-                                  style: TextStyleConstant.primary14Roboto,
-                                )
-                              ],
-                            ),
+                            child:SizedBox()
                           )
                         ],
                       ),

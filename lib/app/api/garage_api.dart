@@ -15,7 +15,7 @@ import 'package:me_car_customer/app/modules/start_app/controllers/start_app_cont
 import 'package:me_car_customer/app/resources/base_link.dart';
 
 class GarageApi {
-  static Future<List<GarageModel>> searchGarage(double lat, double lng) async {
+  static Future<List<GarageModel>> searchGarage(double lat, double lng,) async {
     var url = Uri.parse(BaseLink.searchGarage);
     final response = await http.post(
       url,

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -22,12 +23,7 @@ class TabServiceView extends BaseView<TabServiceController> {
                 child: Row(
               children: [
                 Expanded(
-                  child: IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: Icon(Icons.arrow_back),
-                  ),
+                  child: SizedBox()
                 ),
                 Expanded(
                   flex: 3,
@@ -46,26 +42,37 @@ class TabServiceView extends BaseView<TabServiceController> {
               flex: 9,
               child: ListView.separated(
                 scrollDirection: Axis.vertical,
-                itemCount: 20,
+                itemCount: controller.data.length,
                 separatorBuilder: (context, index) => Container(
                   height: 1,
                   color: Colors.grey,
-                  margin: EdgeInsets.only(bottom: 8),
+                  margin: EdgeInsets.only(top:8,bottom: 8),
                 ),
                 itemBuilder: (context, index) => Container(
-                  height: UtilsReponsive.height(context, 80),
+                  // height: UtilsReponsive.height(context, 80),
                   child: Row(
                     crossAxisAlignment:CrossAxisAlignment.start,
                     children: [
                       Expanded(child: Container(
-                        height: UtilsReponsive.height(context, 67),
                          width: UtilsReponsive.height(context, 62),
                          decoration:BoxDecoration(
-                          color:Colors.white,
+                           color:Colors.white,
                           borderRadius:BorderRadius.circular(8),
                           border: Border.all(color:Colors.black)
                          ),
-                         child: Image.asset(ImageAssets.card_jack),
+                         child: CachedNetworkImage(
+                          fit: BoxFit.fill,
+                          height: UtilsReponsive.height(Get.context!, 80),
+                          width: UtilsReponsive.height(Get.context!, 80),
+                          imageUrl: '${controller.data[index]['image']}',
+                          errorWidget: (context, url, error) => Image.asset(
+                            ImageAssets.card,
+                            fit: BoxFit.fill,
+                          ),
+                          placeholder: (context, url) => Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
                       )),
                        Expanded(
                         flex:4,
@@ -73,15 +80,16 @@ class TabServiceView extends BaseView<TabServiceController> {
                           title:Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Dịch vụ số ${index}',style:TextStyleConstant.black16RobotoBold,),
-                              Text('Xin chào, mấy giờ bạn có thể có mặt,Xin chào, mấy giờ bạn có thể có mặt..',style: TextStyle(color: Colors.grey,fontSize: 12),)
+                              Text('${controller.data[index]['title']}',style:TextStyleConstant.black16RobotoBold,),
+                              Text('${controller.data[index]['content']}',style: TextStyle(color: Colors.grey,fontSize: 12),)
                             ],
                           ),
                         ))
                     ],
                   ),
                 ),
-              ))
+              )),
+              SizedBox(height: 30,)
         ],
       ),
     ));

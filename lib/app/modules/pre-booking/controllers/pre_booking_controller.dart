@@ -126,7 +126,7 @@ class PreBookingController extends BaseController {
                         ? DateTime.now()
                         : dateFormat.parse(txtDate.text),
                     firstDate: DateTime.now(),
-                    lastDate: DateTime.now().add(Duration(days: 30)),
+                    lastDate: DateTime.now().add(Duration(days: 5)),
                     calendarType: CalendarDatePicker2Type.single,
                     centerAlignModePicker: true,
                     selectedDayTextStyle: TextStyle(

@@ -137,14 +137,11 @@ class MapExploreController extends BaseController {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            SizedBox(width: 10,),
                             Text(
-                              'Khuyến mãi (0)',
-                              style: TextStyleConstant.primary14Roboto,
-                            ),
-                            Text(
-                              '${km} km',
+                              'Khoảng cách ${km} km',
                               style: TextStyleConstant.primary14Roboto,
                             )
                           ],
