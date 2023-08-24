@@ -27,6 +27,7 @@ abstract class Routes {
   static const COUPON_VIEW = _Paths.COUPON_VIEW;
   static const BOOKING_SERVICE_STATUS = _Paths.BOOKING_SERVICE_STATUS;
   static const PERSONAL_VIEW = _Paths.PERSONAL_VIEW;
+  static const GARAGE_DETAIL = _Paths.GARAGE_DETAIL;
 }
 
 abstract class _Paths {
@@ -53,5 +54,6 @@ abstract class _Paths {
   static const PRE_BOOKING = '/pre-booking';
   static const COUPON_VIEW = '/coupon-view';
   static const BOOKING_SERVICE_STATUS = '/booking-service-status';
-    static const PERSONAL_VIEW = '/personal-view';
+  static const PERSONAL_VIEW = '/personal-view';
+  static const GARAGE_DETAIL = '/garage-detail';
 }

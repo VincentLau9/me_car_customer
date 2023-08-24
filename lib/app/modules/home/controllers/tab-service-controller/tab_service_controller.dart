@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 import 'package:me_car_customer/app/base/base_controller.dart';
 
 class TabServiceController extends BaseController {

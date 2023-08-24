@@ -5,7 +5,6 @@ class TextStyleConstant {
      static const grey14Roboto =
       TextStyle(fontSize: 14, color: Colors.grey, fontFamily: "Roboto-Bold");
   static const _fontWeightBold = FontWeight.w500;
-  static const _fontWeightNormal = FontWeight.normal;
   static final primary14Roboto = TextStyle(
       fontSize: 14, color: ColorsManager.primary, fontFamily: "Roboto");
   static final primary14RobotoBold = TextStyle(
@@ -96,6 +95,8 @@ class TextStyleConstant {
       TextStyle(fontSize: 16, color: Colors.white, fontFamily: "Roboto-Thin");
   static const white22RobotoBold =
       TextStyle(fontSize: 22, color: Colors.white, fontFamily: "Roboto-Bold");
+       static const white28RobotoBold =
+      TextStyle(fontSize: 28, color: Colors.white, fontFamily: "Roboto-Bold");
   static const white50RobotoBold =
       TextStyle(fontSize: 50, color: Colors.white, fontFamily: "Roboto-Bold");
   static const purple16RobotoBold =

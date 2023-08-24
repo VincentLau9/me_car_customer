@@ -1,4 +1,5 @@
-import 'dart:developer' as dev;
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +13,7 @@ class DatabaseLocal {
   Future<void> saveRefeshToken(String refeshToken) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString("refeshToken", refeshToken);
+    log("SUCCESS");
   }
 
 

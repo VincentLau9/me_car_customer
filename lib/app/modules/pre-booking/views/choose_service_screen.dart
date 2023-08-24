@@ -1,16 +1,10 @@
-import 'dart:developer';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:me_car_customer/app/base/base_controller.dart';
 import 'package:me_car_customer/app/base/base_view.dart';
 import 'package:me_car_customer/app/model/service_filter.dart';
-import 'package:me_car_customer/app/modules/common/components/form_field_widget.dart';
 import 'package:me_car_customer/app/modules/pre-booking/controllers/pre_booking_controller.dart';
 import 'package:me_car_customer/app/resources/assets_manager.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
-import 'package:me_car_customer/app/resources/reponsive_utils.dart';
 import 'package:me_car_customer/app/resources/text_style.dart';
 
 class Chooservice extends BaseView<PreBookingController> {

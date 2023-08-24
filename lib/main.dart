@@ -3,13 +3,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:me_car_customer/app/model/user.dart';
 
 import 'app/routes/app_pages.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'firebase_options.dart';
 
 @pragma('vm:entry-point')

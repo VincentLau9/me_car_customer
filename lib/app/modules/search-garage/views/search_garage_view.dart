@@ -4,12 +4,14 @@ import 'package:geolocator/geolocator.dart';
 
 import 'package:get/get.dart';
 import 'package:me_car_customer/app/base/base_view.dart';
+import 'package:me_car_customer/app/model/garageDetail.dart';
 import 'package:me_car_customer/app/modules/common/components/form_field_widget.dart';
 import 'package:me_car_customer/app/modules/map-explore/views/detail_garage.dart';
 import 'package:me_car_customer/app/resources/assets_manager.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
 import 'package:me_car_customer/app/resources/reponsive_utils.dart';
 import 'package:me_car_customer/app/resources/text_style.dart';
+import 'package:me_car_customer/app/routes/app_pages.dart';
 
 import '../controllers/search_garage_controller.dart';
 
@@ -141,15 +143,16 @@ class SearchGarageView extends BaseView<SearchGarageController> {
                                                     style: TextStyleConstant
                                                         .black16RobotoBold),
                                                 subtitle: Text(
-                                                    '⭐️⭐️⭐️⭐️⭐️4.7  | 8.289 ratting'),
+                                                    '${ controller
+                                                            .listGarage
+                                                            .value[index].rating}⭐️'),
                                               )),
                                           Expanded(
                                               child: IconButton(
                                                   onPressed: () {
-                                                    Get.to(DetailGarage(
-                                                        garageModel: controller
-                                                            .listGarage
-                                                            .value[index]));
+                                                   Get.toNamed(Routes.GARAGE_DETAIL,arguments: GarageDetail(garageId:  controller
+                                                          .listGarage
+                                                          .value[index].garageId,km: km));
                                                   },
                                                   icon: Icon(
                                                       Icons.arrow_forward)))

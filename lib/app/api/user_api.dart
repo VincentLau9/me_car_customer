@@ -8,7 +8,7 @@ import 'package:me_car_customer/app/modules/start_app/controllers/start_app_cont
 import 'package:me_car_customer/app/resources/base_link.dart';
 
 class UserApi {
-  static Future<UserModel> login(String phone, String passowrd) async {
+  static Future<UserModel> login(String phone, String passowrd,String deviceToken) async {
     var url = Uri.parse(BaseLink.login);
     final response = await http.post(
       url,
@@ -17,7 +17,7 @@ class UserApi {
         'Accept': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(
-        <String, dynamic>{"phone": phone, "password": passowrd},
+        <String, dynamic>{"phone": phone, "password": passowrd,"deviceToken":deviceToken},
       ),
     );
     log('loginÏ: ${response.statusCode} ${response.body}');

@@ -6,7 +6,6 @@ import 'package:me_car_customer/app/api/car_api.dart';
 import 'package:me_car_customer/app/api/user_api.dart';
 import 'package:me_car_customer/app/base/base_controller.dart';
 import 'package:me_car_customer/app/model/car.dart';
-import 'package:me_car_customer/app/model/user.dart';
 import 'package:me_car_customer/app/modules/start_app/controllers/start_app_controller.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
 import 'package:me_car_customer/app/routes/app_pages.dart';

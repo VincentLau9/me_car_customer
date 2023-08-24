@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:me_car_customer/app/base/base_controller.dart';
@@ -10,7 +7,6 @@ import 'package:me_car_customer/app/modules/home/controllers/tab-service-control
 import 'package:me_car_customer/app/modules/home/views/tab-booking-view/tab_booking_list_view.dart';
 import 'package:me_car_customer/app/modules/home/views/tab-profile-view/tab_profile_view.dart';
 import 'package:me_car_customer/app/modules/home/views/tab-service-view/tab_service_view.dart';
-import 'package:me_car_customer/app/modules/sign_in/views/sign_in_view.dart';
 
 import '../views/tab-home-view/tab_home_view.dart';
 

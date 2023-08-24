@@ -122,4 +122,20 @@ class BookingApi {
 
     return response;
   }
+
+  static Future<dynamic> changeStatus(int idBooking, int status) async {
+    log(idBooking.toString());
+    var url = Uri.parse(BaseLink.UPDATE_STATUS + '${idBooking}&${status}');
+    final response = await http.put(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json; charset=UTF-8',
+        'Authorization': 'bearer ${Get.find<StartAppController>().accessToken}'
+      },
+    );
+    log('changeStatus: ${response.statusCode} ${response.body}');
+
+    return response;
+  }
 }

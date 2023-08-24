@@ -5,12 +5,12 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:me_car_customer/app/model/coupon.dart';
 import 'package:me_car_customer/app/model/garage.dart';
+import 'package:me_car_customer/app/model/garageDetail.dart';
 import 'package:me_car_customer/app/model/search_filter.dart';
 import 'package:me_car_customer/app/model/service_filter.dart';
 import 'package:me_car_customer/app/model/service_garage.dart';
 import 'package:me_car_customer/app/model/staff.dart';
 import 'package:me_car_customer/app/model/time_working.dart';
-import 'package:me_car_customer/app/model/user.dart';
 import 'package:me_car_customer/app/modules/start_app/controllers/start_app_controller.dart';
 import 'package:me_car_customer/app/resources/base_link.dart';
 
@@ -229,6 +229,27 @@ class GarageApi {
         return listCoupon;
     } else {
       return Future<List<Coupon>>.value([]);
+  }
+
+}
+
+ static Future<GarageDetail> getGarageDetail(int idGarage) async {
+    var url = Uri.parse(BaseLink.DETAIL_GARAGE+idGarage.toString());
+    log(url.toString());
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json; charset=UTF-8',
+        'Authorization': 'bearer ${Get.find<StartAppController>().accessToken}'
+      },
+    );
+    log('getGarageDetail: ${response.statusCode} ${response.body}');
+
+    if (response.statusCode.toString() == '200') {
+      return GarageDetail.fromJson(jsonDecode(response.body));
+    } else {
+     throw Exception();
   }
 
 }

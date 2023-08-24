@@ -4,11 +4,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:me_car_customer/app/base/base_view.dart';
+import 'package:me_car_customer/app/model/garageDetail.dart';
 import 'package:me_car_customer/app/modules/map-explore/views/detail_garage.dart';
 import 'package:me_car_customer/app/modules/pre-booking/controllers/pre_booking_controller.dart';
 import 'package:me_car_customer/app/resources/assets_manager.dart';
 import 'package:me_car_customer/app/resources/reponsive_utils.dart';
 import 'package:me_car_customer/app/resources/text_style.dart';
+import 'package:me_car_customer/app/routes/app_pages.dart';
 
 class ViewResultSearch extends BaseView<PreBookingController> {
   const ViewResultSearch({super.key});
@@ -145,10 +147,13 @@ class ViewResultSearch extends BaseView<PreBookingController> {
                                         Expanded(
                                             child: IconButton(
                                                 onPressed: () {
-                                                  Get.to(DetailGarage(
-                                                      garageModel: controller
+                                                  // Get.to(DetailGarage(
+                                                  //     garageModel: controller
+                                                  //         .listGarage
+                                                  //         .value[index]));
+                                                       Get.toNamed(Routes.GARAGE_DETAIL,arguments: GarageDetail(garageId:  controller
                                                           .listGarage
-                                                          .value[index]));
+                                                          .value[index].garageId,km: km));
                                                 },
                                                 icon:
                                                     Icon(Icons.info)))

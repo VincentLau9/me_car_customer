@@ -7,7 +7,6 @@ import 'package:me_car_customer/app/api/booking_api.dart';
 import 'package:me_car_customer/app/base/base_controller.dart';
 import 'package:me_car_customer/app/model/booking-detail.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
-import 'package:me_car_customer/app/resources/reponsive_utils.dart';
 
 class BookingDetailController extends BaseController {
   //TODO: Implement BookingDetailController
@@ -31,20 +30,18 @@ class BookingDetailController extends BaseController {
     2: ["Dịch vụ kém", "Chờ đợi lâu"],
     3: ["Dịch vụ ổn", "Cần cải tiến thêm", "Sẽ quay lại"],
     4: ["Garage sạch sẽ", "Làm việc chuyên nghiệp", "Không gian rộng"],
-    5: ["Tuyệt vời", "Dịch vụ chu đáo", "Thợ nhiệt tình","Đặt lịch nhanh chóng"]
+    5: [
+      "Tuyệt vời",
+      "Dịch vụ chu đáo",
+      "Thợ nhiệt tình",
+      "Đặt lịch nhanh chóng"
+    ]
   };
   @override
   Future<void> onInit() async {
     super.onInit();
-    try {
-      log(idBooking.toString());
-      isLoading(true);
-      await loadBookingDetail(idBooking);
-      isLoading(false);
-    } catch (e) {
-      Get.back();
-      Get.snackbar("Thông báo", 'Có gì đó không đúng');
-    }
+
+    await loadBookingDetail(idBooking);
   }
 
   @override
@@ -79,12 +76,20 @@ class BookingDetailController extends BaseController {
   }
 
   loadBookingDetail(int id) async {
-    var response = await BookingApi.loadBookingDetail(id);
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = jsonDecode(response.body);
-      bookingDetail.value = BookingDetail.fromJson(data);
-    } else {
-      throw Error();
+    try {
+      log(idBooking.toString());
+      isLoading(true);
+      var response = await BookingApi.loadBookingDetail(id);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        bookingDetail.value = BookingDetail.fromJson(data);
+      } else {
+        throw Error();
+      }
+      isLoading(false);
+    } catch (e) {
+      Get.back();
+      Get.snackbar("Thông báo", 'Có gì đó không đúng');
     }
   }
 
@@ -126,5 +131,23 @@ class BookingDetailController extends BaseController {
         style: TextStyle(color: color, fontWeight: FontWeight.bold),
       )),
     );
+  }
+  changeStatus() async {
+    var response;
+        response = await BookingApi.changeStatus(idBooking, 1);
+        if (response.statusCode == 200) {
+          Get.snackbar("Thông báo", "Huỷ đơn thành công",
+              backgroundColor: Colors.green.withOpacity(0.7),
+              colorText: Colors.white);
+        } else if (response.statusCode == 404) {
+          Get.snackbar(
+              "Thông báo", jsonDecode(response.body)["title"].toString(),
+              backgroundColor: Colors.red.withOpacity(0.7),
+              colorText: Colors.white);
+        } else {
+          Get.snackbar("Thông báo", "Có gì đó không đúng",
+              backgroundColor: Colors.red.withOpacity(0.7),
+              colorText: Colors.white);
+        }
   }
 }

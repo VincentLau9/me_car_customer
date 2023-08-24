@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-
 import 'package:me_car_customer/app/base/base_view.dart';
-import 'package:me_car_customer/app/model/garage.dart';
-import 'package:me_car_customer/app/modules/common/components/form_field_widget.dart';
+import 'package:me_car_customer/app/model/garageDetail.dart';
 import 'package:me_car_customer/app/modules/map-explore/views/detail_garage.dart';
 import 'package:me_car_customer/app/modules/start_app/controllers/start_app_controller.dart';
 import 'package:me_car_customer/app/resources/assets_manager.dart';
@@ -62,9 +60,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                               ],
                             ),
                           ),
-                          Expanded(
-                            child: SizedBox()
-                          )
+                          Expanded(child: SizedBox())
                         ],
                       ),
                     )),
@@ -115,127 +111,42 @@ class TabHomeView extends BaseView<TabHomeController> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Các garage nổi bật',
-                                style: TextStyleConstant.black22RobotoBold,
-                              ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Các garage nổi bật',
+                              style: TextStyleConstant.black22RobotoBold,
+                            ),
                             SizedBox()
-                            ],
-                          ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
                         ),
                         Expanded(
-                          flex: 4,
-                          child:
-                          Obx(() =>
-                          controller.isLoading.value?Center(child: SizedBox(height: 40,width: 40,child: CircularProgressIndicator(),),):
-                            ListView.separated(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: controller.listGarage.length>4?4:controller.listGarage.length,
-                            separatorBuilder: (context, index) => SizedBox(
-                              height: 8,
-                            ),
-                            itemBuilder: (context, index) => Container(
-                              padding: EdgeInsets.all(5),
-                              margin: EdgeInsets.symmetric(horizontal: 20),
-                              decoration: BoxDecoration(
-                                  color: Colors.white60,
-                                  borderRadius: BorderRadius.circular(15)),
-                              height: UtilsReponsive.height(context, 110),
-                              width: UtilsReponsive.width(context, 150),
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 5.0),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                              child:  CachedNetworkImage(
-                              fit: BoxFit.fill,
-                              height: UtilsReponsive.height(Get.context!, 80),
-                              width: UtilsReponsive.height(Get.context!, 80),
-                              imageUrl: controller.listGarage[index].garageImage.toString(),
-                              errorWidget: (context, url, error) => Image.asset(
-                                ImageAssets.card,
-                                fit: BoxFit.fill,
-                              ),
-                              placeholder: (context, url) => Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            ),),
-                                          Expanded(
-                                              child: ListTile(
-                                            title: Text(controller.listGarage[index].garageName.toString()),
-                                            subtitle: Text('${controller.listGarage[index].rating} ⭐️'),
-                                          ))
-                                        ],
-                                      ),
-                                    ),
+                            child: Obx(
+                          () => controller.isLoading.value
+                              ? Center(
+                                  child: SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child: CircularProgressIndicator(),
                                   ),
-                                  Expanded(
-                                      child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 8.0),
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              Get.to(DetailGarage(garageModel: controller.listGarage[index]));
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                                side: BorderSide(
-                                                    color:
-                                                        ColorsManager.primary),
-                                              ),
-                                              backgroundColor: Colors.white,
-                                            ),
-                                            child: Text("Chi tiết",
-                                                style: TextStyleConstant
-                                                    .primary14Roboto),
-                                          ),
-                                        ),
+                                )
+                              : ListView.separated(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: controller.listGarage.length > 4
+                                      ? 4
+                                      : controller.listGarage.length,
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(
+                                        height: 8,
                                       ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 8.0),
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                               Get.toNamed(Routes.BOOKING_STEP,arguments: controller.listGarage[index]);
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                                side: BorderSide(
-                                                    color:
-                                                        ColorsManager.primary),
-                                              ),
-                                              backgroundColor:
-                                                  ColorsManager.primary,
-                                            ),
-                                            child: const Text("Đặt lịch"),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ))
-                                ],
-                              ),
-                            ),
-                          ),)
-                        )
+                                  itemBuilder: (context, index) =>
+                                      _itemGrage(index, context)),
+                        ))
                       ],
                     ))
               ],
@@ -244,6 +155,209 @@ class TabHomeView extends BaseView<TabHomeController> {
         ],
       ),
     ));
+  }
+
+  Container _item2(int index, BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white, // Màu nền của container
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5), // Màu của đổ bóng
+            spreadRadius: 2, // Độ dài của đổ bóng
+            blurRadius: 7, // Độ mờ của đổ bóng
+            offset: Offset(0, 3), // Độ tịnh tiến của đổ bóng
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                color: Colors.red,
+                child: ClipPath(
+                  child: CachedNetworkImage(
+                    fit: BoxFit.fill,
+                    height: UtilsReponsive.height(Get.context!, 100),
+                    width: UtilsReponsive.height(Get.context!, 100),
+                    imageUrl:
+                        controller.listGarage[index].garageImage.toString(),
+                    errorWidget: (context, url, error) => Image.asset(
+                      ImageAssets.card,
+                      fit: BoxFit.fill,
+                    ),
+                    placeholder: (context, url) => Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(controller.listGarage[index].garageName.toString()),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Get.to(DetailGarage(
+                                garageModel: controller.listGarage[index]));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: UtilsReponsive.width(context, 20)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  UtilsReponsive.height(context, 15)),
+                              side: BorderSide(color: ColorsManager.primary),
+                            ),
+                            backgroundColor: Colors.white,
+                          ),
+                          child: Text("Chi tiết",
+                              style: TextStyleConstant.primary14Roboto),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Get.toNamed(Routes.BOOKING_STEP,
+                                arguments: controller.listGarage[index]);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              side: BorderSide(color: ColorsManager.primary),
+                            ),
+                            backgroundColor: ColorsManager.primary,
+                          ),
+                          child: const Text("Đặt lịch"),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Container _itemGrage(
+    int index,
+    BuildContext context,
+  ) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: UtilsReponsive.width(context, 25)),
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white, // Màu nền của container
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5), // Màu của đổ bóng
+            spreadRadius: 2, // Độ dài của đổ bóng
+            blurRadius: 7, // Độ mờ của đổ bóng
+            offset: Offset(0, 3), // Độ tịnh tiến của đổ bóng
+          ),
+        ],
+      ),
+      height: UtilsReponsive.height(context, 130),
+      width: UtilsReponsive.width(context, 150),
+      child: Column(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 5.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CachedNetworkImage(
+                      fit: BoxFit.fill,
+                      height: UtilsReponsive.height(Get.context!, 80),
+                      width: UtilsReponsive.height(Get.context!, 80),
+                      imageUrl:
+                          controller.listGarage[index].garageImage.toString(),
+                      errorWidget: (context, url, error) => Image.asset(
+                        ImageAssets.card,
+                        fit: BoxFit.fill,
+                      ),
+                      placeholder: (context, url) => Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                      child: ListTile(
+                    title: Text(
+                        controller.listGarage[index].garageName.toString()),
+                    subtitle: Text(
+                      '${controller.listGarage[index].rating} ⭐️',
+                      style: TextStyleConstant.black12Roboto,
+                    ),
+                  ))
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+              child: Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Get.to(DetailGarage(
+                      //     garageModel: controller.listGarage[index]));
+                      Get.toNamed(Routes.GARAGE_DETAIL,arguments: GarageDetail(garageId: controller.listGarage[index].garageId,km: 0));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        side: BorderSide(color: ColorsManager.primary),
+                      ),
+                      backgroundColor: Colors.white,
+                    ),
+                    child: Text("Chi tiết",
+                        style: TextStyleConstant.primary14Roboto),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.toNamed(Routes.BOOKING_STEP,
+                          arguments: controller.listGarage[index]);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        side: BorderSide(color: ColorsManager.primary),
+                      ),
+                      backgroundColor: ColorsManager.primary,
+                    ),
+                    child: const Text("Đặt lịch"),
+                  ),
+                ),
+              ),
+            ],
+          ))
+        ],
+      ),
+    );
   }
 
   Padding _listItemIconHome() {
@@ -292,23 +406,6 @@ class TabHomeView extends BaseView<TabHomeController> {
                       ),
                     ),
                   ),
-                  // Expanded(
-                  //   child: Column(
-                  //     children: [
-                  //       CircleAvatar(
-                  //           backgroundColor: ColorsManager.colorIconHome,
-                  //           child: Icon(
-                  //             Icons.calendar_month,
-                  //             color: ColorsManager.primary,
-                  //           )),
-                  //       Text(
-                  //         'Đặt lịch\ndịch vụ',
-                  //         textAlign: TextAlign.center,
-                  //         style: TextStyleConstant.black16RobotoBold,
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
                   Expanded(
                     child: GestureDetector(
                       onTap: () {

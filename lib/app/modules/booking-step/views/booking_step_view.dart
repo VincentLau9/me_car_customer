@@ -1055,10 +1055,10 @@ class BookingStepView extends BaseView<BookingStepController> {
             Obx(
               () => FormFieldWidget(
                   isEnabled: false,
-                  suffixIcon: SvgPicture.asset(ImageAssets.edit_icon,
-                      fit: BoxFit.scaleDown,
-                      height: UtilsReponsive.height(context, 16),
-                      width: UtilsReponsive.height(context, 16)),
+                  // suffixIcon: SvgPicture.asset(ImageAssets.edit_icon,
+                  //     fit: BoxFit.scaleDown,
+                  //     height: UtilsReponsive.height(context, 16),
+                  //     width: UtilsReponsive.height(context, 16)),
                   padding: 10,
                   initValue: controller.name.value,
                   textInputType: TextInputType.text,
@@ -1087,10 +1087,10 @@ class BookingStepView extends BaseView<BookingStepController> {
             Obx(
               () => FormFieldWidget(
                   isEnabled: false,
-                  suffixIcon: SvgPicture.asset(ImageAssets.edit_icon,
-                      fit: BoxFit.scaleDown,
-                      height: UtilsReponsive.height(context, 16),
-                      width: UtilsReponsive.height(context, 16)),
+                  // // suffixIcon: SvgPicture.asset(ImageAssets.edit_icon,
+                  //     fit: BoxFit.scaleDown,
+                  //     height: UtilsReponsive.height(context, 16),
+                  //     width: UtilsReponsive.height(context, 16)),
                   initValue: controller.phoneNumber.value,
                   padding: 10,
                   textInputType: TextInputType.number,

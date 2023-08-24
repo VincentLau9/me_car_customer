@@ -4,7 +4,6 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:get/get.dart';
 import 'package:me_car_customer/app/base/base_view.dart';
 import 'package:me_car_customer/app/resources/assets_manager.dart';
@@ -13,6 +12,7 @@ import 'package:me_car_customer/app/resources/reponsive_utils.dart';
 import 'package:me_car_customer/app/resources/text_style.dart';
 import 'package:me_car_customer/app/routes/app_pages.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:quickalert/quickalert.dart';
 
 import '../controllers/booking_detail_controller.dart';
 
@@ -75,374 +75,449 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                           child: CircularProgressIndicator(),
                         ),
                       )
-                    : SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Center(
-                                child: Container(
-                                  width: UtilsReponsive.width(context, 320),
-                                  height: UtilsReponsive.height(context, 356),
-                                  decoration: ShapeDecoration(
-                                    color: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                          width: 0.50,
-                                          color: Color(0xFFEEEEEE)),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    shadows: [
-                                      BoxShadow(
-                                        color: Color(0x0F000000),
-                                        blurRadius: 16,
-                                        offset: Offset(0, 4),
-                                        spreadRadius: 0,
-                                      )
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: Column(
-                                      children: [
-                                        ListTile(
-                                          leading: SvgPicture.asset(
-                                              IconAssets.tick_icon),
-                                          title: Text(controller
-                                              .bookingDetail.value.carName!),
-                                          subtitle: Text(
-                                              '${controller.bookingDetail.value.customerName} \n${controller.bookingDetail.value.customerPhone}'),
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                                IconAssets.time_icon),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              controller.bookingDetail.value
-                                                  .duration!,
-                                              style: TextStyleConstant
-                                                  .black16RobotoBold,
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                                IconAssets.calendar_icon),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              controller.bookingDetail.value
-                                                  .bookingDay!,
-                                              style: TextStyleConstant
-                                                  .black16RobotoBold,
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                                IconAssets.location_icon),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Expanded(
-                                              child: SizedBox(
-                                                child: Text(
-                                                  controller.bookingDetail.value
-                                                      .garageAddress!,
-                                                  maxLines: 4,
-                                                  style: TextStyleConstant
-                                                      .black12Roboto,
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Wrap(
-                                              children: [
-                                                SvgPicture.asset(
-                                                    IconAssets.status_icon),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                  'Trạng thái',
-                                                  style: TextStyleConstant
-                                                      .black16RobotoBold,
-                                                )
-                                              ],
-                                            ),
-                                            controller.statusBooking(
-                                                controller.bookingDetail.value
-                                                    .bookingStatus!,
-                                                context)
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 25,
-                                        ),
-                                        DottedLine(),
-                                        SizedBox(
-                                          height: 25,
-                                        ),
-                                        ConstrainedBox(
-                                          constraints: BoxConstraints.tightFor(
-                                              width: context.width),
-                                          child: ElevatedButton(
-                                            style: ButtonStyle(
-                                              shape: MaterialStateProperty.all(
-                                                RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                ),
-                                              ),
-                                              backgroundColor:
-                                                  MaterialStateProperty.all(
-                                                      ColorsManager.primary),
-                                              padding:
-                                                  MaterialStateProperty.all(
-                                                      EdgeInsets.all(14)),
-                                            ),
-                                            child: Text(
-                                              "Nhấp để lấy mã QR",
-                                              style: TextStyleConstant
-                                                  .white16Roboto,
-                                            ),
-                                            onPressed: () async {
-                                              Get.dialog(Center(
-                                                child: Container(
-                                                  color: Colors.black
-                                                      .withOpacity(0.3),
-                                                  padding: EdgeInsets.all(10),
-                                                  child: Container(
-                                                    color: Colors.white,
-                                                    child: QrImageView(
-                                                      embeddedImage: AssetImage(
-                                                        ImageAssets.logo,
-                                                      ),
-                                                      data: controller.idBooking
-                                                          .toString(),
-                                                      version: QrVersions.auto,
-                                                      size:
-                                                          UtilsReponsive.height(
-                                                              context, 260),
-                                                      gapless: false,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ));
-                                            },
-                                          ),
-                                        ),
+                    : RefreshIndicator(
+                        onRefresh: () async {
+                          controller.loadBookingDetail(controller.idBooking);
+                        },
+                        child: SingleChildScrollView(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Center(
+                                  child: Container(
+                                    width: UtilsReponsive.width(context, 320),
+                                    height: UtilsReponsive.height(context, 356),
+                                    decoration: ShapeDecoration(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            width: 0.50,
+                                            color: Color(0xFFEEEEEE)),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      shadows: [
+                                        BoxShadow(
+                                          color: Color(0x0F000000),
+                                          blurRadius: 16,
+                                          offset: Offset(0, 4),
+                                          spreadRadius: 0,
+                                        )
                                       ],
                                     ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: Column(
+                                        children: [
+                                          ListTile(
+                                            leading: SvgPicture.asset(
+                                                IconAssets.tick_icon),
+                                            title: Text(controller
+                                                .bookingDetail.value.carName!),
+                                            subtitle: Text(
+                                                '${controller.bookingDetail.value.customerName} \n${controller.bookingDetail.value.customerPhone}'),
+                                          ),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Row(
+                                            children: [
+                                              SvgPicture.asset(
+                                                  IconAssets.time_icon),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                controller.bookingDetail.value
+                                                    .duration!,
+                                                style: TextStyleConstant
+                                                    .black16RobotoBold,
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Row(
+                                            children: [
+                                              SvgPicture.asset(
+                                                  IconAssets.calendar_icon),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                controller.bookingDetail.value
+                                                    .bookingDay!,
+                                                style: TextStyleConstant
+                                                    .black16RobotoBold,
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Row(
+                                            children: [
+                                              SvgPicture.asset(
+                                                  IconAssets.location_icon),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Expanded(
+                                                child: SizedBox(
+                                                  child: Text(
+                                                    controller.bookingDetail
+                                                        .value.garageAddress!,
+                                                    maxLines: 4,
+                                                    style: TextStyleConstant
+                                                        .black14Roboto,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Wrap(
+                                                children: [
+                                                  SvgPicture.asset(
+                                                      IconAssets.status_icon),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    'Trạng thái',
+                                                    style: TextStyleConstant
+                                                        .black16RobotoBold,
+                                                  )
+                                                ],
+                                              ),
+                                              controller.statusBooking(
+                                                  controller.bookingDetail.value
+                                                      .bookingStatus!,
+                                                  context)
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 25,
+                                          ),
+                                          DottedLine(),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          ConstrainedBox(
+                                            constraints:
+                                                BoxConstraints.tightFor(
+                                                    width: context.width),
+                                            child: ElevatedButton(
+                                              style: ButtonStyle(
+                                                shape:
+                                                    MaterialStateProperty.all(
+                                                  RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  ),
+                                                ),
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        ColorsManager.primary),
+                                                padding:
+                                                    MaterialStateProperty.all(
+                                                        EdgeInsets.all(14)),
+                                              ),
+                                              child: Text(
+                                                "Nhấp để lấy mã QR",
+                                                style: TextStyleConstant
+                                                    .white16Roboto,
+                                              ),
+                                              onPressed: () async {
+                                                Get.dialog(Center(
+                                                  child: Container(
+                                                    color: Colors.black
+                                                        .withOpacity(0.3),
+                                                    padding: EdgeInsets.all(10),
+                                                    child: Container(
+                                                      color: Colors.white,
+                                                      child: QrImageView(
+                                                        embeddedImage:
+                                                            AssetImage(
+                                                          ImageAssets.logo,
+                                                        ),
+                                                        data: controller
+                                                            .idBooking
+                                                            .toString(),
+                                                        version:
+                                                            QrVersions.auto,
+                                                        size: UtilsReponsive
+                                                            .height(
+                                                                context, 260),
+                                                        gapless: false,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ));
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Center(
-                                child: Text(
-                                  'Dịch Vụ Đã Đặt',
-                                  style: TextStyleConstant.black22RobotoBold,
+                                SizedBox(
+                                  height: 15,
                                 ),
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              ListView.separated(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: controller.bookingDetail.value
-                                    .groupServiceBookingDetailDtos!.length,
-                                separatorBuilder: (context, index) => SizedBox(
-                                    height: UtilsReponsive.height(context, 10)),
-                                itemBuilder: (context, index) => Obx(() {
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        controller
-                                            .bookingDetail
-                                            .value
-                                            .groupServiceBookingDetailDtos![
-                                                index]
-                                            .serviceGroup!,
-                                        style:
-                                            TextStyleConstant.black14RobotoBold,
-                                      ),
+                                Center(
+                                  child: Text(
+                                    'Dịch Vụ Đã Đặt',
+                                    style: TextStyleConstant.black22RobotoBold,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: controller.bookingDetail.value
+                                      .groupServiceBookingDetailDtos!.length,
+                                  separatorBuilder: (context, index) =>
                                       SizedBox(
-                                        height: 5,
-                                      ),
-                                      ListView.separated(
-                                          separatorBuilder: (context, index1) =>
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
-                                          shrinkWrap: true,
-                                          itemCount: controller
+                                          height: UtilsReponsive.height(
+                                              context, 10)),
+                                  itemBuilder: (context, index) => Obx(() {
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          controller
                                               .bookingDetail
                                               .value
                                               .groupServiceBookingDetailDtos![
                                                   index]
-                                              .serviceListBookingDetailDtos!
-                                              .length,
-                                          itemBuilder: (context, index1) {
-                                            return Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Expanded(
-                                                  flex: 2,
-                                                  child: Text(
-                                                      controller
-                                                          .bookingDetail
-                                                          .value
-                                                          .groupServiceBookingDetailDtos![
-                                                              index]
-                                                          .serviceListBookingDetailDtos![
-                                                              index1]
-                                                          .serviceName!,
-                                                      style: TextStyle(
-                                                          color:
-                                                              Colors.black54)),
-                                                ),
-                                                Expanded(
-                                                    child: Align(
-                                                  alignment:
-                                                      Alignment.centerRight,
-                                                  child: Text(
-                                                      controller
-                                                          .bookingDetail
-                                                          .value
-                                                          .groupServiceBookingDetailDtos![
-                                                              index]
-                                                          .serviceListBookingDetailDtos![
-                                                              index1]
-                                                          .servicePrice!
-                                                          .toString(),textAlign: TextAlign.right,
-                                                      style: TextStyle(
-                                                          color:
-                                                              Colors.black54)),
-                                                ))
-                                              ],
-                                            );
-                                          }),
-                                    ],
-                                  );
-                                }),
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: Text('Tạm tính',
-                                        style:
-                                            TextStyleConstant.grey16RobotoBold),
-                                  ),
-                                  Expanded(
-                                      child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                        '${controller.bookingDetail.value.totalPrice}',
-                                        style:
-                                            TextStyle(color: Colors.black54)),
-                                  ))
-                                ],
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              controller.bookingDetail.value.discountPrice ==
-                                      '0.000 VND'
-                                  ? SizedBox()
-                                  : Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          flex: 2,
-                                          child: Text('Giảm giá',
-                                              style: TextStyleConstant
-                                                  .grey16RobotoBold),
+                                              .serviceGroup!,
+                                          style: TextStyleConstant
+                                              .black14RobotoBold,
                                         ),
-                                        Expanded(
-                                            child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Text(
-                                              '-${controller.bookingDetail.value.discountPrice}',
-                                              style: TextStyle(
-                                                  color: Colors.black54)),
-                                        ))
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        ListView.separated(
+                                            separatorBuilder:
+                                                (context, index1) => SizedBox(
+                                                      height: 5,
+                                                    ),
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                            itemCount: controller
+                                                .bookingDetail
+                                                .value
+                                                .groupServiceBookingDetailDtos![
+                                                    index]
+                                                .serviceListBookingDetailDtos!
+                                                .length,
+                                            itemBuilder: (context, index1) {
+                                              return Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Expanded(
+                                                    flex: 2,
+                                                    child: Text(
+                                                        controller
+                                                            .bookingDetail
+                                                            .value
+                                                            .groupServiceBookingDetailDtos![
+                                                                index]
+                                                            .serviceListBookingDetailDtos![
+                                                                index1]
+                                                            .serviceName!,
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .black54)),
+                                                  ),
+                                                  Expanded(
+                                                      child: Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: Text(
+                                                        controller
+                                                            .bookingDetail
+                                                            .value
+                                                            .groupServiceBookingDetailDtos![
+                                                                index]
+                                                            .serviceListBookingDetailDtos![
+                                                                index1]
+                                                            .servicePrice!
+                                                            .toString(),
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .black54)),
+                                                  ))
+                                                ],
+                                              );
+                                            }),
                                       ],
+                                    );
+                                  }),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text('Tạm tính',
+                                          style: TextStyleConstant
+                                              .grey16RobotoBold),
                                     ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Tổng số tiền',
-                                    style: TextStyleConstant.black22RobotoBold,
-                                  ),
-                                  Text(
-                                    controller.bookingDetail.value.finalPrice!,
-                                    style:
-                                        TextStyleConstant.primary22RobotoBold,
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              controller.bookingDetail.value.bookingStatus ==
-                                      "CheckIn"
-                                  ? _bottomButton(context)
-                                  : controller.bookingDetail.value
-                                              .bookingStatus ==
-                                          "Completed"
-                                      ? _bottomButtonCompleted(context)
-                                      : _bottomButtonPendding(context)
-                            ],
+                                    Expanded(
+                                        child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                          '${controller.bookingDetail.value.totalPrice}',
+                                          style:
+                                              TextStyle(color: Colors.black54)),
+                                    ))
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                controller.bookingDetail.value.discountPrice ==
+                                        '0.000 VND'
+                                    ? SizedBox()
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            flex: 2,
+                                            child: Text('Giảm giá',
+                                                style: TextStyleConstant
+                                                    .grey16RobotoBold),
+                                          ),
+                                          Expanded(
+                                              child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: Text(
+                                                '-${controller.bookingDetail.value.discountPrice}',
+                                                style: TextStyle(
+                                                    color: Colors.black54)),
+                                          ))
+                                        ],
+                                      ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Tổng số tiền',
+                                      style:
+                                          TextStyleConstant.black22RobotoBold,
+                                    ),
+                                    Text(
+                                      controller
+                                          .bookingDetail.value.finalPrice!,
+                                      style:
+                                          TextStyleConstant.primary22RobotoBold,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                controller.bookingDetail.value.bookingStatus ==
+                                        "CheckIn"
+                                    ? _bottomButton(context)
+                                    : controller.bookingDetail.value
+                                                .bookingStatus ==
+                                            "Completed"
+                                        ? _bottomButtonCompleted(context)
+                                        : controller.bookingDetail.value
+                                                    .bookingStatus ==
+                                                "Canceled"
+                                            ? _bottomButtonCanceled(context)
+                                            : _bottomButtonPendding(context)
+                              ],
+                            ),
                           ),
                         ),
                       ),
               )),
         ])));
+  }
+
+  Row _bottomButtonCanceled(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: ConstrainedBox(
+            constraints: BoxConstraints.tightFor(width: context.width),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+                padding: MaterialStateProperty.all(EdgeInsets.all(14)),
+              ),
+              child: Text(
+                "Đã huỷ đơn",
+                style: TextStyleConstant.white16Roboto,
+              ),
+              onPressed: () async {},
+            ),
+          ),
+        ),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Expanded(
+        //   child: ConstrainedBox(
+        //     constraints: BoxConstraints.tightFor(width: context.width),
+        //     child: ElevatedButton(
+        //       style: ButtonStyle(
+        //         shape: MaterialStateProperty.all(
+        //           RoundedRectangleBorder(
+        //             side: BorderSide(color: Colors.red),
+        //             borderRadius: BorderRadius.circular(20),
+        //           ),
+        //         ),
+        //         backgroundColor: MaterialStateProperty.all(Colors.white),
+        //         padding: MaterialStateProperty.all(EdgeInsets.all(14)),
+        //       ),
+        //       child: Text(
+        //         "Báo cáo",
+        //         style: TextStyle(color: Colors.red, fontSize: 16),
+        //       ),
+        //       onPressed: () async {},
+        //     ),
+        //   ),
+        // )
+      ],
+    );
   }
 
   Row _bottomButtonCompleted(BuildContext context) {
@@ -643,15 +718,29 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                backgroundColor:
-                    MaterialStateProperty.all(ColorsManager.primary),
+                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
                 padding: MaterialStateProperty.all(EdgeInsets.all(14)),
               ),
               child: Text(
-                "Ngày tới garage: ${controller.bookingDetail.value.bookingDay}",
+                "Huỷ đơn",
                 style: TextStyleConstant.white16Roboto,
               ),
-              onPressed: () async {},
+              onPressed: () async {
+                await QuickAlert.show(
+                    showCancelBtn: true,
+                    onCancelBtnTap: () {
+                      // controller.up
+                    },
+                    onConfirmBtnTap: () {
+                      Get.back();
+                    },
+                    context: context,
+                    type: QuickAlertType.warning,
+                    title: "Xác nhận",
+                    text: 'Bạn sẽ mất tiền cọc kể cả khi huỷ đơn',
+                    cancelBtnText: "Xác nhận",
+                    confirmBtnText: "Trở về");
+              },
             ),
           ),
         ),

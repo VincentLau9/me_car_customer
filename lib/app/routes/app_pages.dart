@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:me_car_customer/app/modules/personal-information/bindings/personal_information_binding.dart';
-import 'package:me_car_customer/app/modules/personal-information/views/personal_information_view.dart';
 
 import '../modules/booking-detail/bindings/booking_detail_binding.dart';
 import '../modules/booking-detail/views/booking_detail_view.dart';
@@ -14,6 +12,8 @@ import '../modules/coupon-view/bindings/coupon_view_binding.dart';
 import '../modules/coupon-view/views/coupon_view_view.dart';
 import '../modules/create-new-car/bindings/create_new_car_binding.dart';
 import '../modules/create-new-car/views/create_new_car_view.dart';
+import '../modules/garage-detail/bindings/garage_detail_binding.dart';
+import '../modules/garage-detail/views/garage_detail_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/home/views/tab-booking-view/tab_booking_list_view.dart';
@@ -21,6 +21,8 @@ import '../modules/list-mycar/bindings/list_mycar_binding.dart';
 import '../modules/list-mycar/views/list_mycar_view.dart';
 import '../modules/map-explore/bindings/map_explore_binding.dart';
 import '../modules/map-explore/views/map_explore_view.dart';
+import '../modules/personal-information/bindings/personal_information_binding.dart';
+import '../modules/personal-information/views/personal_information_view.dart';
 import '../modules/pre-booking/bindings/pre_booking_binding.dart';
 import '../modules/pre-booking/views/pre_booking_view.dart';
 import '../modules/search-garage/bindings/search_garage_binding.dart';
@@ -61,11 +63,10 @@ class AppPages {
       binding: WelcomeBoardBinding(),
     ),
     GetPage(
-      name: _Paths.SIGN_UP,
-      page: () => const SignUpView(),
-      binding: SignUpBinding(),
-      transition:  Transition.rightToLeft
-    ),
+        name: _Paths.SIGN_UP,
+        page: () => const SignUpView(),
+        binding: SignUpBinding(),
+        transition: Transition.rightToLeft),
     GetPage(
       name: _Paths.SIGN_IN,
       page: () => const SignInView(),
@@ -131,10 +132,15 @@ class AppPages {
       page: () => const BookingServiceStatusView(),
       binding: BookingServiceStatusBinding(),
     ),
-      GetPage(
+    GetPage(
       name: _Paths.PERSONAL_VIEW,
       page: () => const PersonalInformationView(),
       binding: PersonalInformationBinding(),
+    ),
+    GetPage(
+      name: _Paths.GARAGE_DETAIL,
+      page: () => const GarageDetailView(),
+      binding: GarageDetailBinding(),
     ),
   ];
 }

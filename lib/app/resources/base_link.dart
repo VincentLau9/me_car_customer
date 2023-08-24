@@ -31,6 +31,12 @@ class BaseLink {
 
   static const RATTING = domain + '/api/review/create-review';
   static const GET_MACHANIC = domain + 'api/mechanic/get-mechanic-by-booking/';
+  static const UPDATE_STATUS = domain + 'api/booking/update-status-booking/';
+  static const DETAIL_GARAGE = domain + 'api/garage/detail-garage/';
+
+
+  //
+
 
 
   //api/coupon/get-garage-coupon-for-customer/1

@@ -149,11 +149,15 @@ class SignUpView extends BaseView<SignUpController> {
                             padding:
                                 MaterialStateProperty.all(EdgeInsets.all(14)),
                           ),
-                          child: Obx(()=>controller.lockButton.value?CircularProgressIndicator(color:Colors.white,):
-                             Text(
-                              "Đăng ký",
-                              style: TextStyleConstant.white16Roboto,
-                            ),
+                          child: Obx(
+                            () => controller.lockButton.value
+                                ? CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : Text(
+                                    "Đăng ký",
+                                    style: TextStyleConstant.white16Roboto,
+                                  ),
                           ),
                           onPressed: () async {
                             // Get.to(SignUpOTPView());
@@ -167,36 +171,36 @@ class SignUpView extends BaseView<SignUpController> {
                     SizedBox(
                       height: 26,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Divider(
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Text('Hoặc'),
-                        ),
-                        Expanded(
-                            child: Divider(
-                          color: Colors.grey,
-                        ))
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(ImageAssets.googleIcon),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Image.asset(ImageAssets.phoneIcon)
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     Expanded(
+                    //       child: Divider(
+                    //         color: Colors.grey,
+                    //       ),
+                    //     ),
+                    //     Padding(
+                    //       padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    //       child: Text('Hoặc'),
+                    //     ),
+                    //     Expanded(
+                    //         child: Divider(
+                    //       color: Colors.grey,
+                    //     ))
+                    //   ],
+                    // ),
+                    // SizedBox(
+                    //   height: 16,
+                    // ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     Image.asset(ImageAssets.googleIcon),
+                    //     SizedBox(
+                    //       width: 20,
+                    //     ),
+                    //     Image.asset(ImageAssets.phoneIcon)
+                    //   ],
+                    // ),
                     SizedBox(
                       height: 16,
                     ),

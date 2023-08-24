@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:me_car_customer/app/api/user_api.dart';
@@ -20,9 +21,14 @@ class SignInController extends BaseController {
   RxString phone = "".obs;
   RxString passowrd = "".obs;
   RxBool lockButton = false.obs;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  String? deviceToken;
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
+    _firebaseMessaging.requestPermission();
+    deviceToken = await _firebaseMessaging.getToken();
+    log('Device Token: $deviceToken');
   }
 
   @override
@@ -37,11 +43,11 @@ class SignInController extends BaseController {
 
   setValuePhone(String value) {
     phone(value);
-    // if (!GetUtils.isPhoneNumber(value) && value.length!=10) {
-    //   errorEmailInput('Số điện thoại không hợp lệ');
+    // if (!GetUtils.isPhoneNumber(value) && value.length != 10) {
+    errorEmailInput('Số điện thoại không hợp lệ');
     // } else {
     errorEmailInput("");
-    // }
+    //  / }
     checkEnableButton();
   }
 
@@ -69,11 +75,13 @@ class SignInController extends BaseController {
   login() async {
     try {
       lockButton(true);
-      UserModel userLogin = await UserApi.login(phone.value, passowrd.value);
+      UserModel userLogin = await UserApi.login(
+          phone.value, passowrd.value, deviceToken.toString());
+
       Get.find<StartAppController>().accessToken = userLogin.userToken!;
       Get.find<StartAppController>().name.value = userLogin.userFullName!;
       Get.find<StartAppController>().numberPhone.value = userLogin.userPhone!;
-      Get.find<StartAppController>().email(userLogin.userEmail??"");
+      Get.find<StartAppController>().email(userLogin.userEmail ?? "");
 
       String refeshToken = userLogin.refreshToken ?? "";
       log("Login: $refeshToken");
@@ -88,8 +96,8 @@ class SignInController extends BaseController {
       }
       lockButton(false);
     } catch (e) {
-      log(e.toString());
-      Get.snackbar('Thông báo', 'Đăng nhập thất bại', backgroundColor: Colors.red.withOpacity(0.7),
+      Get.snackbar('Thông báo', 'Đăng nhập thất bại',
+          backgroundColor: Colors.red.withOpacity(0.7),
           colorText: Colors.white);
       lockButton(false);
     }

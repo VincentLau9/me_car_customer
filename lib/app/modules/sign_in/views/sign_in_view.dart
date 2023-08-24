@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import 'package:me_car_customer/app/base/base_view.dart';
 import 'package:me_car_customer/app/modules/common/components/form_field_widget.dart';
-import 'package:me_car_customer/app/modules/home/views/home_view.dart';
 import 'package:me_car_customer/app/resources/assets_manager.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
 import 'package:me_car_customer/app/resources/text_style.dart';
@@ -153,39 +152,6 @@ class SignInView extends BaseView<SignInController> {
                     SizedBox(
                       height: 26,
                     ),
-                    // // Row(
-                    // //   children: [
-                    // //     Expanded(
-                    // //       child: Divider(
-                    // //         color: Colors.grey,
-                    // //       ),
-                    // //     ),
-                    // //     Padding(
-                    // //       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    // //       child: Text('Hoặc'),
-                    // //     ),
-                    // //     Expanded(
-                    // //         child: Divider(
-                    // //       color: Colors.grey,
-                    // //     ))
-                    // //   ],
-                    // // ),
-                    // // SizedBox(
-                    // //   height: 16,
-                    // // ),
-                    // // Row(
-                    // //   mainAxisAlignment: MainAxisAlignment.center,
-                    // //   children: [
-                    // //     Image.asset(ImageAssets.googleIcon),
-                    // //     SizedBox(
-                    // //       width: 20,
-                    // //     ),
-                    // //     Image.asset(ImageAssets.phoneIcon)
-                    // //   ],
-                    // // ),
-                    // SizedBox(
-                    //   height: 16,
-                    // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

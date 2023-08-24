@@ -5,6 +5,7 @@ import 'package:me_car_customer/app/base/base_view.dart';
 import 'package:me_car_customer/app/resources/assets_manager.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
 import 'package:me_car_customer/app/resources/reponsive_utils.dart';
+import 'package:me_car_customer/app/resources/text_style.dart';
 import 'package:me_car_customer/app/routes/app_pages.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -28,11 +29,11 @@ class WelcomeBoardView extends BaseView<WelcomeBoardController> {
             scrollDirection: Axis.horizontal,
             children: [
               pageItem(ColorsManager.welcome2, ColorsManager.welcome2_2,
-                  ImageAssets.welcomeBoard3, "Say some thing hi"),
+                  ImageAssets.welcomeBoard3, "Chào mừng bạn đến\nMeGarage"),
               pageItem(ColorsManager.welcome3, ColorsManager.welcome3_3,
-                  ImageAssets.welcomeBoard2, "Say some thing hi"),
+                  ImageAssets.welcomeBoard2, "Đặt lịch nhanh chóng"),
               pageItem(ColorsManager.welcome1, ColorsManager.welcome1_1,
-                  ImageAssets.welcomeBoard1, "Say some thing hi"),
+                  ImageAssets.welcomeBoard1, "Đặt lịch ngay nào"),
             ],
           ),
           Positioned(
@@ -131,7 +132,7 @@ class WelcomeBoardView extends BaseView<WelcomeBoardController> {
                         fit: BoxFit.fitWidth,
                       )),
                   Text(textTitle,
-                      style: TextStyle(color: Colors.white, fontSize: 32))
+                      style: TextStyleConstant.white28RobotoBold,textAlign: TextAlign.center,)
                 ],
               ))
         ],

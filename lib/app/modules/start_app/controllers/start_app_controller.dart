@@ -2,12 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:me_car_customer/app/api/user_api.dart';
 import 'package:me_car_customer/app/base/base_controller.dart';
 import 'package:me_car_customer/app/data/database_local.dart';
-import 'package:me_car_customer/app/model/user.dart';
 import 'package:me_car_customer/app/routes/app_pages.dart';
 
 class StartAppController extends BaseController {
@@ -18,7 +16,6 @@ class StartAppController extends BaseController {
   Rx<String> name = ''.obs;
   Rx<String> numberPhone = ''.obs;
   Rx<String> email = ''.obs;
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   // Rx<UserModel> userModelT = UserModel().obs;
   @override
   void onInit() async {
@@ -30,9 +27,7 @@ class StartAppController extends BaseController {
   @override
   Future<void> onReady() async {
     super.onReady();
-    _firebaseMessaging.requestPermission();
-    String? deviceToken = await _firebaseMessaging.getToken();
-    log('Device Token: $deviceToken');
+
   }
 
   @override

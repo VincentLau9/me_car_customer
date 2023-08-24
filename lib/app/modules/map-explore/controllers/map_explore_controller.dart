@@ -9,6 +9,7 @@ import 'package:me_car_customer/app/api/garage_api.dart';
 import 'package:me_car_customer/app/base/base_controller.dart';
 import 'package:me_car_customer/app/model/data_search_model.dart';
 import 'package:me_car_customer/app/model/garage.dart';
+import 'package:me_car_customer/app/model/garageDetail.dart';
 import 'package:me_car_customer/app/modules/map-explore/views/detail_garage.dart';
 import 'package:me_car_customer/app/resources/assets_manager.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
@@ -126,7 +127,8 @@ class MapExploreController extends BaseController {
                           Expanded(
                               child: IconButton(
                                   onPressed: () {
-                                    Get.to(DetailGarage(garageModel: element));
+                                    // Get.to(DetailGarage(garageModel: element));
+                                    Get.toNamed(Routes.GARAGE_DETAIL,arguments: GarageDetail(garageId: element.garageId,km: km));
                                   },
                                   icon: Icon(Icons.arrow_forward)))
                         ],
