@@ -132,22 +132,21 @@ class BookingDetailController extends BaseController {
       )),
     );
   }
+
   changeStatus() async {
     var response;
-        response = await BookingApi.changeStatus(idBooking, 1);
-        if (response.statusCode == 200) {
-          Get.snackbar("Thông báo", "Huỷ đơn thành công",
-              backgroundColor: Colors.green.withOpacity(0.7),
-              colorText: Colors.white);
-        } else if (response.statusCode == 404) {
-          Get.snackbar(
-              "Thông báo", jsonDecode(response.body)["title"].toString(),
-              backgroundColor: Colors.red.withOpacity(0.7),
-              colorText: Colors.white);
-        } else {
-          Get.snackbar("Thông báo", "Có gì đó không đúng",
-              backgroundColor: Colors.red.withOpacity(0.7),
-              colorText: Colors.white);
-        }
+    response = await BookingApi.changeStatus(idBooking, 1);
+    if (response.statusCode == 200) {
+      Get.back();
+      await loadBookingDetail(idBooking);
+    } else if (response.statusCode == 404) {
+      Get.snackbar("Thông báo", jsonDecode(response.body)["title"].toString(),
+          backgroundColor: Colors.red.withOpacity(0.7),
+          colorText: Colors.white);
+    } else {
+      Get.snackbar("Thông báo", "Có gì đó không đúng",
+          backgroundColor: Colors.red.withOpacity(0.7),
+          colorText: Colors.white);
+    }
   }
 }

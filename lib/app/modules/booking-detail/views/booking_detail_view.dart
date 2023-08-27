@@ -728,18 +728,21 @@ class BookingDetailView extends BaseView<BookingDetailController> {
               onPressed: () async {
                 await QuickAlert.show(
                     showCancelBtn: true,
-                    onCancelBtnTap: () {
-                      // controller.up
-                    },
-                    onConfirmBtnTap: () {
+                    onCancelBtnTap: () async {
                       Get.back();
                     },
+                    onConfirmBtnTap: () async {
+                      controller.changeStatus();
+                    },
+                    confirmBtnColor: ColorsManager.primary,
+                    cancelBtnTextStyle: TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.w600),
                     context: context,
                     type: QuickAlertType.warning,
                     title: "Xác nhận",
                     text: 'Bạn sẽ mất tiền cọc kể cả khi huỷ đơn',
-                    cancelBtnText: "Xác nhận",
-                    confirmBtnText: "Trở về");
+                    cancelBtnText: "Trở về",
+                    confirmBtnText: "Xác nhận");
               },
             ),
           ),

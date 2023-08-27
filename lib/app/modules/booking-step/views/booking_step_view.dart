@@ -17,6 +17,7 @@ import 'package:me_car_customer/app/resources/color_manager.dart';
 import 'package:me_car_customer/app/resources/reponsive_utils.dart';
 import 'package:me_car_customer/app/resources/text_style.dart';
 import 'package:me_car_customer/app/routes/app_pages.dart';
+import 'package:quickalert/quickalert.dart';
 
 import '../controllers/booking_step_controller.dart';
 
@@ -134,7 +135,19 @@ class BookingStepView extends BaseView<BookingStepController> {
                   height: UtilsReponsive.height(context, 50),
                   child: ElevatedButton(
                       onPressed: () async {
-                        await controller.createBooking();
+                        await QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.confirm,
+                            title: "Xác nhận",
+                            text:
+                                "Bạn chỉ cần đặt cọc 100.000 VNĐ. Số tiền sẽ không được hoàn trả sau khi đã thực hiện giao dịch",
+                            confirmBtnColor: ColorsManager.primary,
+                            cancelBtnTextStyle: TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.w600),
+                            confirmBtnText: "Xác nhận",
+                            cancelBtnText: "Trở về",
+                            onCancelBtnTap: () => Get.back(),
+                            onConfirmBtnTap: () => controller.createBooking());
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: ColorsManager.primary,
@@ -604,9 +617,6 @@ class BookingStepView extends BaseView<BookingStepController> {
                                       height:
                                           UtilsReponsive.height(context, 10)),
                                   Obx(() {
-                                    log(controller.listSerChoose.value
-                                            .toString() +
-                                        ": CBD");
                                     return ListView.separated(
                                       shrinkWrap: true,
                                       physics: NeverScrollableScrollPhysics(),
@@ -621,8 +631,6 @@ class BookingStepView extends BaseView<BookingStepController> {
                                         controller.listServices.value[index]
                                             .servicListDtos!
                                             .forEach((element) {
-                                          log("listServices : ${controller.listSerChoose.value.contains(element.serviceDetailId)}");
-
                                           if (controller.listSerChoose.value
                                               .contains(
                                                   element.serviceDetailId)) {

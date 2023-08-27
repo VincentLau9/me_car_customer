@@ -130,10 +130,7 @@ class GarageDetailView extends BaseView<GarageDetailController> {
                                 padding: EdgeInsets.only(
                                     left: UtilsReponsive.width(context, 25)),
                                 child: Text(
-                                  controller.data.value.km! > 0
-                                      ? controller.data.value.km.toString() +
-                                          ' km'
-                                      : "Chưa xác định",
+                                  controller.data.value.km!>0? controller.data.value.km.toString() + ' km':"Chưa xác định",
                                 ),
                               ),
                             ],
@@ -224,12 +221,10 @@ class GarageDetailView extends BaseView<GarageDetailController> {
                                 onPressed: () async {
                                   Get.offNamed(Routes.BOOKING_STEP,
                                       arguments: GarageModel(
-                                          garageId:
-                                              controller.data.value.garageId,
-                                          garageName:
-                                              controller.data.value.garageName,
-                                          garageAddress: controller
-                                              .data.value.garageAddress));
+                                        garageId: controller.data.value.garageId,
+                                        garageName: controller.data.value.garageName,
+                                        garageAddress:controller.data.value.garageAddress
+                                      ));
                                 },
                               ),
                             ),

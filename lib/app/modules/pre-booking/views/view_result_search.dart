@@ -54,7 +54,8 @@ class ViewResultSearch extends BaseView<PreBookingController> {
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
-                      : ListView.builder(
+                      :controller.listGarage.value.isEmpty?Center(child: Text("Danh sách trống",style:TextStyleConstant.black16Roboto,),): ListView.builder(
+                        
                           itemCount: controller.listGarage.value.length,
                           itemBuilder: (context, index) {
                             double km = 0.0;
