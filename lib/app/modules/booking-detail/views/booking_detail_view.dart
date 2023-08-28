@@ -740,7 +740,8 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                     context: context,
                     type: QuickAlertType.warning,
                     title: "Xác nhận",
-                    text: 'Bạn sẽ mất tiền cọc kể cả khi huỷ đơn',
+                    text:
+                        'Bạn sẽ mất tiền cọc nếu hủy đơn hàng sau 4 tiếng đặt đơn',
                     cancelBtnText: "Trở về",
                     confirmBtnText: "Xác nhận");
               },

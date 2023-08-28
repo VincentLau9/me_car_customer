@@ -134,6 +134,21 @@ class BookingDetailController extends BaseController {
   }
 
   changeStatus() async {
+    Get.back();
+    Get.dialog(
+        Container(
+          height: double.infinity,
+          width: double.infinity,
+          child: Center(
+              child: SizedBox(
+            height: 100,
+            width: 100,
+            child: CircularProgressIndicator(
+              color: ColorsManager.primary,
+            ),
+          )),
+        ),
+        barrierDismissible: true);
     var response;
     response = await BookingApi.changeStatus(idBooking, 1);
     if (response.statusCode == 200) {

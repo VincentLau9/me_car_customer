@@ -137,17 +137,20 @@ class BookingStepView extends BaseView<BookingStepController> {
                       onPressed: () async {
                         await QuickAlert.show(
                             context: context,
-                            type: QuickAlertType.confirm,
+                            type: QuickAlertType.info,
                             title: "Xác nhận",
                             text:
-                                "Bạn chỉ cần đặt cọc 100.000 VNĐ. Số tiền sẽ không được hoàn trả sau khi đã thực hiện giao dịch",
+                                "Bạn cần đặt cọc 100.000 VNĐ. Số tiền sẽ được hoàn trả nếu bạn huỷ đơn hàng trước 4 tiếng",
                             confirmBtnColor: ColorsManager.primary,
                             cancelBtnTextStyle: TextStyle(
                                 color: Colors.red, fontWeight: FontWeight.w600),
                             confirmBtnText: "Xác nhận",
                             cancelBtnText: "Trở về",
                             onCancelBtnTap: () => Get.back(),
-                            onConfirmBtnTap: () => controller.createBooking());
+                            onConfirmBtnTap: () async {
+                              controller.createBooking();
+                            },
+                            showCancelBtn: true);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: ColorsManager.primary,
