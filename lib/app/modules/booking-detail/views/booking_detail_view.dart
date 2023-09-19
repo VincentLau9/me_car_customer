@@ -6,6 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:me_car_customer/app/base/base_view.dart';
+import 'package:me_car_customer/app/modules/booking-detail/views/booking_detail_warranty.dart';
 import 'package:me_car_customer/app/resources/assets_manager.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
 import 'package:me_car_customer/app/resources/reponsive_utils.dart';
@@ -40,7 +41,7 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                           Expanded(
                             child: IconButton(
                               onPressed: () {
-                                Get.back();
+                                Get.offAllNamed(Routes.HOME);
                               },
                               icon: Icon(Icons.arrow_back),
                             ),
@@ -89,7 +90,6 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                                 Center(
                                   child: Container(
                                     width: UtilsReponsive.width(context, 320),
-                                    height: UtilsReponsive.height(context, 356),
                                     decoration: ShapeDecoration(
                                       color: Colors.white,
                                       shape: RoundedRectangleBorder(
@@ -114,10 +114,11 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                                           ListTile(
                                             leading: SvgPicture.asset(
                                                 IconAssets.tick_icon),
-                                            title: Text(controller
-                                                .bookingDetail.value.carName!),
+                                            title: Text(controller.bookingDetail
+                                                    .value.carName! +
+                                                "\n${controller.bookingDetail.value.carLicensePlate}"),
                                             subtitle: Text(
-                                                '${controller.bookingDetail.value.customerName} \n${controller.bookingDetail.value.customerPhone}'),
+                                                '${controller.bookingDetail.value.customerName}'),
                                           ),
                                           SizedBox(
                                             height: 15,
@@ -202,6 +203,8 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                                               controller.statusBooking(
                                                   controller.bookingDetail.value
                                                       .bookingStatus!,
+                                                       controller.bookingDetail.value
+                                                      .waitForAccept!,
                                                   context)
                                             ],
                                           ),
@@ -210,7 +213,7 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                                           ),
                                           DottedLine(),
                                           SizedBox(
-                                            height: 15,
+                                            height: 25,
                                           ),
                                           ConstrainedBox(
                                             constraints:
@@ -282,7 +285,19 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 15,
+                                  height: 5,
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Get.to(BookingWarranty(bookingDetail: controller.bookingDetail.value,));
+                                  },
+                                  child: Text(
+                                    'Xem bảo hành các sản phẩm',
+                                    // style: TextStyleConstant.black12Roboto,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5,
                                 ),
                                 ListView.separated(
                                   shrinkWrap: true,
@@ -334,18 +349,36 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                                                 children: [
                                                   Expanded(
                                                     flex: 2,
-                                                    child: Text(
-                                                        controller
-                                                            .bookingDetail
-                                                            .value
-                                                            .groupServiceBookingDetailDtos![
-                                                                index]
-                                                            .serviceListBookingDetailDtos![
-                                                                index1]
-                                                            .serviceName!,
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .black54)),
+                                                    child: Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child: Text(
+                                                              controller
+                                                                  .bookingDetail
+                                                                  .value
+                                                                  .groupServiceBookingDetailDtos![
+                                                                      index]
+                                                                  .serviceListBookingDetailDtos![
+                                                                      index1]
+                                                                  .serviceName!,
+                                                              style: TextStyle(
+                                                                  decoration: controller
+                                                                          .bookingDetail
+                                                                          .value
+                                                                          .groupServiceBookingDetailDtos![
+                                                                              index]
+                                                                          .serviceListBookingDetailDtos![
+                                                                              index1]
+                                                                          .isNew!
+                                                                      ? TextDecoration
+                                                                          .none
+                                                                      : TextDecoration
+                                                                          .lineThrough,
+                                                                  color: Colors
+                                                                      .black54)),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                   Expanded(
                                                       child: Align(
@@ -364,6 +397,18 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                                                         textAlign:
                                                             TextAlign.right,
                                                         style: TextStyle(
+                                                            decoration: controller
+                                                                    .bookingDetail
+                                                                    .value
+                                                                    .groupServiceBookingDetailDtos![
+                                                                        index]
+                                                                    .serviceListBookingDetailDtos![
+                                                                        index1]
+                                                                    .isNew!
+                                                                ? TextDecoration
+                                                                    .none
+                                                                : TextDecoration
+                                                                    .lineThrough,
                                                             color: Colors
                                                                 .black54)),
                                                   ))
@@ -446,6 +491,9 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                                 SizedBox(
                                   height: 15,
                                 ),
+                                  controller.bookingDetail.value.waitForAccept!?
+                                  _bottomButtonAccept(context)
+                                  :
                                 controller.bookingDetail.value.bookingStatus ==
                                         "CheckIn"
                                     ? _bottomButton(context)
@@ -494,6 +542,83 @@ class BookingDetailView extends BaseView<BookingDetailController> {
         // SizedBox(
         //   width: 10,
         // ),
+        // Expanded(
+        //   child: ConstrainedBox(
+        //     constraints: BoxConstraints.tightFor(width: context.width),
+        //     child: ElevatedButton(
+        //       style: ButtonStyle(
+        //         shape: MaterialStateProperty.all(
+        //           RoundedRectangleBorder(
+        //             side: BorderSide(color: Colors.red),
+        //             borderRadius: BorderRadius.circular(20),
+        //           ),
+        //         ),
+        //         backgroundColor: MaterialStateProperty.all(Colors.white),
+        //         padding: MaterialStateProperty.all(EdgeInsets.all(14)),
+        //       ),
+        //       child: Text(
+        //         "Báo cáo",
+        //         style: TextStyle(color: Colors.red, fontSize: 16),
+        //       ),
+        //       onPressed: () async {},
+        //     ),
+        //   ),
+        // )
+      ],
+    );
+  }
+  Row _bottomButtonAccept(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: ConstrainedBox(
+            constraints: BoxConstraints.tightFor(width: context.width),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                backgroundColor: MaterialStateProperty.all(ColorsManager.primary),
+                padding: MaterialStateProperty.all(EdgeInsets.all(14)),
+              ),
+              child: Text(
+                "Chấp nhận",
+                style: TextStyleConstant.white16Roboto,
+              ),
+              onPressed: () async {
+                controller.acceptNewBooking(true);
+              },
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 10,
+        ),
+         Expanded(
+          child: ConstrainedBox(
+            constraints: BoxConstraints.tightFor(width: context.width),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+                padding: MaterialStateProperty.all(EdgeInsets.all(14)),
+              ),
+              child: Text(
+                "Từ chối",
+                style: TextStyleConstant.white16Roboto,
+              ),
+              onPressed: () async {
+                controller.acceptNewBooking(false);
+              },
+            ),
+          ),
+        ),
         // Expanded(
         //   child: ConstrainedBox(
         //     constraints: BoxConstraints.tightFor(width: context.width),
@@ -741,7 +866,7 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                     type: QuickAlertType.warning,
                     title: "Xác nhận",
                     text:
-                        'Bạn sẽ mất tiền cọc nếu hủy đơn hàng sau 4 tiếng đặt đơn',
+                        'Bạn sẽ mất tiền cọc nếu huỷ đơn hàng sau 4 tiếng đặt đơn',
                     cancelBtnText: "Trở về",
                     confirmBtnText: "Xác nhận");
               },

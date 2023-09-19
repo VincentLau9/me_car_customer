@@ -33,6 +33,8 @@ class BaseLink {
   static const GET_MACHANIC = domain + 'api/mechanic/get-mechanic-by-booking/';
   static const UPDATE_STATUS = domain + 'api/booking/update-status-booking/';
   static const DETAIL_GARAGE = domain + 'api/garage/detail-garage/';
+  static const ACCEPT_BOOKING = domain + 'api/booking/confirm-change-in-booking-detail/';
+
 
 
   //

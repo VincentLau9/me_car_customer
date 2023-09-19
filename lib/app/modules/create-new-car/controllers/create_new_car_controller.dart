@@ -20,7 +20,7 @@ class CreateNewCarController extends BaseController {
   RxString fuelChoice = "".obs;
   List<String> listBrand = ['Honda', 'KIA', 'BMW', 'Suzuki'];
   List<String> fuelOptions = ['Xăng', 'Dầu', 'Điện'];
-  List<int> listNumber = [4, 5, 7];
+  List<int> listNumber = [4, 5, 7, 9];
   TextEditingController textEdittingBrand =
       TextEditingController(text: 'Chọn thương hiệu xe');
   TextEditingController textEdittingNumsit =
@@ -86,35 +86,34 @@ class CreateNewCarController extends BaseController {
   }
 
   createNewCar(bool isFistTime) async {
-    Car carModel = Car();
+       Car carModel = Car();
     carModel.carBrand = textEdittingBrand.text;
     carModel.numberOfCarLot = numSit.value;
     carModel.carDescription = description.value;
     carModel.carFuelType = textEdittingFuel.text;
     carModel.carLicensePlate = numCar.value;
     log(carModel.toJson().toString());
-    if (enableButton.value) {
-      lockButton(true);
-
-      bool check = await CarApi.createCar(carModel);
-      if (check) {
-        if (isFistTime && Get.isRegistered<UpdateFirstTimeController>()) {
-          await Get.find<UpdateFirstTimeController>().loadAllCar();
-          Get.back();
-        } else if (Get.isRegistered<BookingStepController>()) {
-          await Get.find<BookingStepController>().getNewCarLastest();
-          Get.back();
-        } else {
-          await Get.find<ListMycarController>().loadAllCar();
-          Get.back();
-        }
-        Get.snackbar("Thông báo", "Tạo xe thành công",
-            backgroundColor: Colors.green.withOpacity(0.7),
-            colorText: Colors.white);
+   if(enableButton.value){
+     lockButton(true);
+ 
+    bool check = await CarApi.createCar(carModel);
+    if (check) {
+      if (isFistTime && Get.isRegistered<UpdateFirstTimeController>()) {
+        await Get.find<UpdateFirstTimeController>().loadAllCar();
+        Get.back();
+      } else if (Get.isRegistered<BookingStepController>()) {
+        await Get.find<BookingStepController>().getNewCarLastest();
+        Get.back();
       } else {
-        Get.snackbar('Thông báo', 'Có gì đó không đúng');
+        await Get.find<ListMycarController>().loadAllCar();
+        Get.back();
       }
-      lockButton(false);
+      Get.snackbar("Thông báo", "Tạo xe thành công",backgroundColor: Colors.green.withOpacity(0.7),
+          colorText: Colors.white);
+    } else {
+      Get.snackbar('Thông báo', 'Có gì đó không đúng');
     }
+    lockButton(false);
+   }
   }
 }

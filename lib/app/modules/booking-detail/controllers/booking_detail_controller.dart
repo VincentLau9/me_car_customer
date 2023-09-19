@@ -97,28 +97,40 @@ class BookingDetailController extends BaseController {
     ratting(star.floor());
     commentChoice.value = '';
   }
-
-  Widget statusBooking(String status, BuildContext context) {
+acceptNewBooking (bool isAccept)async{
+   
+   var response = await BookingApi.acceptNewBooking(idBooking, isAccept);
+    if(response.statusCode == 200){
+        await loadBookingDetail(idBooking);
+    }
+}
+  Widget statusBooking(
+      String status, bool waittingForAccept, BuildContext context) {
     Color color = Colors.amber;
     String text = "";
-    switch (status) {
-      case "Pending":
-        color = Colors.amber;
-        text = "Sắp tới";
-        break;
-      case "Canceled":
-        color = ColorsManager.colorCancel;
-        text = "Đã huỷ";
-        break;
-      case "CheckIn":
-        color = ColorsManager.colorCheckIn;
-        text = "Đang xử lý";
-        break;
-      case "Completed":
-        color = ColorsManager.colorDone;
-        text = "Hoàn thành";
-        break;
-      default:
+    if (waittingForAccept) {
+      color = Colors.brown;
+      text = "Có sự thay đổi";
+    } else {
+      switch (status) {
+        case "Pending":
+          color = Colors.amber;
+          text = "Sắp tới";
+          break;
+        case "Canceled":
+          color = ColorsManager.colorCancel;
+          text = "Đã huỷ";
+          break;
+        case "CheckIn":
+          color = ColorsManager.colorCheckIn;
+          text = "Đang xử lý";
+          break;
+        case "Completed":
+          color = ColorsManager.colorDone;
+          text = "Hoàn thành";
+          break;
+        default:
+      }
     }
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -151,8 +163,8 @@ class BookingDetailController extends BaseController {
         barrierDismissible: true);
     var response;
     response = await BookingApi.changeStatus(idBooking, 1);
+    Get.back();
     if (response.statusCode == 200) {
-      Get.back();
       await loadBookingDetail(idBooking);
     } else if (response.statusCode == 404) {
       Get.snackbar("Thông báo", jsonDecode(response.body)["title"].toString(),

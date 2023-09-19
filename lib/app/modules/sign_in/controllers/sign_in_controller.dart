@@ -44,10 +44,10 @@ class SignInController extends BaseController {
   setValuePhone(String value) {
     phone(value);
     if (!GetUtils.isPhoneNumber(value) && value.length != 10) {
-      errorEmailInput('Số điện thoại không hợp lệ');
+    errorEmailInput('Số điện thoại không hợp lệ');
     } else {
-      errorEmailInput("");
-    }
+    errorEmailInput("");
+      }
     checkEnableButton();
   }
 

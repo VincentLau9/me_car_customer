@@ -21,6 +21,8 @@ import '../modules/list-mycar/bindings/list_mycar_binding.dart';
 import '../modules/list-mycar/views/list_mycar_view.dart';
 import '../modules/map-explore/bindings/map_explore_binding.dart';
 import '../modules/map-explore/views/map_explore_view.dart';
+import '../modules/notification/bindings/notification_binding.dart';
+import '../modules/notification/views/notification_view.dart';
 import '../modules/personal-information/bindings/personal_information_binding.dart';
 import '../modules/personal-information/views/personal_information_view.dart';
 import '../modules/pre-booking/bindings/pre_booking_binding.dart';
@@ -141,6 +143,11 @@ class AppPages {
       name: _Paths.GARAGE_DETAIL,
       page: () => const GarageDetailView(),
       binding: GarageDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOTIFICATION,
+      page: () => const NotificationView(),
+      binding: NotificationBinding(),
     ),
   ];
 }

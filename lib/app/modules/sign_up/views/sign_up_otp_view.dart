@@ -46,10 +46,10 @@ class SignUpOTPView extends BaseView<SignUpController> {
                       child: Row(
                         children: [
                           Text(
-                            'Mã xác nhận đã được gửi  ',
+                            'Kiểm tra email của bạn   ',
                             style: TextStyleConstant.primary22RobotoBold,
                           ),
-                          //Image.asset(ImageAssets.gmailIcon)
+                          Image.asset(ImageAssets.gmailIcon)
                         ],
                       ),
                     ),

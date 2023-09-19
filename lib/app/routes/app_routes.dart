@@ -28,6 +28,7 @@ abstract class Routes {
   static const BOOKING_SERVICE_STATUS = _Paths.BOOKING_SERVICE_STATUS;
   static const PERSONAL_VIEW = _Paths.PERSONAL_VIEW;
   static const GARAGE_DETAIL = _Paths.GARAGE_DETAIL;
+  static const NOTIFICATION = _Paths.NOTIFICATION;
 }
 
 abstract class _Paths {
@@ -56,4 +57,5 @@ abstract class _Paths {
   static const BOOKING_SERVICE_STATUS = '/booking-service-status';
   static const PERSONAL_VIEW = '/personal-view';
   static const GARAGE_DETAIL = '/garage-detail';
+  static const NOTIFICATION = '/notification';
 }

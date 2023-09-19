@@ -138,4 +138,17 @@ class BookingApi {
 
     return response;
   }
+
+  static Future<dynamic> acceptNewBooking(int idBooking,bool isAccept)async{
+     var url = Uri.parse(BaseLink.ACCEPT_BOOKING + '${idBooking}?isAccepted=$isAccept');
+    final response = await http.put(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json; charset=UTF-8',
+        'Authorization': 'bearer ${Get.find<StartAppController>().accessToken}'
+      },
+    );
+    return response;
+  }
 }

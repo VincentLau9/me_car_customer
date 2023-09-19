@@ -413,8 +413,24 @@ class TabBookingListView extends BaseView<TabBookingListController> {
                   height: 20,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    booking.waitForAccept!
+                        ? Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
+                            decoration: BoxDecoration(
+                                color: Colors.brown.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Center(
+                                child: Text(
+                              "Có sự thay đổi",
+                              style: TextStyle(
+                                  color: Colors.brown,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                          )
+                        : SizedBox(),
                     Text(
                       booking.price!,
                       style: TextStyleConstant.primary16RobotoBold,

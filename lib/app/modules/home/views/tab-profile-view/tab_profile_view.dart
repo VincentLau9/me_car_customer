@@ -45,9 +45,9 @@ class TabProfileView extends GetView<TabProfileController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                        child: ClipOval(
-                      child: Image.asset("assets/images/user1.png"),
-                    )),
+                        child:
+                        ClipOval(child: Image.asset("assets/images/user1.png"),)
+                        ),
                     SizedBox(
                       width: 10,
                     ),
@@ -80,8 +80,7 @@ class TabProfileView extends GetView<TabProfileController> {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
-                        border:
-                            Border.all(color: Colors.grey.withOpacity(0.3))),
+                        border: Border.all(color: Colors.grey.withOpacity(0.3))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -108,7 +107,7 @@ class TabProfileView extends GetView<TabProfileController> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Get.toNamed(Routes.LIST_MYCAR, arguments: true);
+                        Get.toNamed(Routes.LIST_MYCAR, arguments: true);
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 12),
@@ -117,8 +116,7 @@ class TabProfileView extends GetView<TabProfileController> {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
-                        border:
-                            Border.all(color: Colors.grey.withOpacity(0.3))),
+                        border: Border.all(color: Colors.grey.withOpacity(0.3))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -171,12 +169,12 @@ class TabProfileView extends GetView<TabProfileController> {
                 //     ],
                 //   ),
                 // ),
-                // SizedBox(
-                //   height: 15,
-                // ),
+                SizedBox(
+                  height: 15,
+                ),
                 GestureDetector(
                   onTap: () async {
-                    await Get.find<StartAppController>().logout();
+                 await   Get.find<StartAppController>().logout();
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 12),

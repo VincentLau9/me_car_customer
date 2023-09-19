@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:me_car_customer/app/base/base_view.dart';
 import 'package:me_car_customer/app/model/garageDetail.dart';
 import 'package:me_car_customer/app/modules/map-explore/views/detail_garage.dart';
+import 'package:me_car_customer/app/modules/notification/controllers/notification_controller.dart';
 import 'package:me_car_customer/app/modules/start_app/controllers/start_app_controller.dart';
 import 'package:me_car_customer/app/resources/assets_manager.dart';
 import 'package:me_car_customer/app/resources/color_manager.dart';
@@ -52,7 +53,7 @@ class TabHomeView extends BaseView<TabHomeController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Xin chào,',
+                                  'Xin chào, ',
                                   style: TextStyleConstant.black16RobotoBold,
                                 ),
                                 Text(Get.find<StartAppController>().name.value,

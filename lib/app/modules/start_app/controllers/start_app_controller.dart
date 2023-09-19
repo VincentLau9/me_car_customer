@@ -6,7 +6,10 @@ import 'package:get/get.dart';
 import 'package:me_car_customer/app/api/user_api.dart';
 import 'package:me_car_customer/app/base/base_controller.dart';
 import 'package:me_car_customer/app/data/database_local.dart';
+import 'package:me_car_customer/app/modules/notification/controllers/notification_controller.dart';
+import 'package:me_car_customer/app/modules/notification/views/notification_view.dart';
 import 'package:me_car_customer/app/routes/app_pages.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StartAppController extends BaseController {
   //TODO: Implement StartAppController
@@ -27,7 +30,6 @@ class StartAppController extends BaseController {
   @override
   Future<void> onReady() async {
     super.onReady();
-
   }
 
   @override
@@ -48,15 +50,23 @@ class StartAppController extends BaseController {
       if (response.statusCode == 200) {
         Map data = jsonDecode(response.body);
         accessToken = data["userToken"];
-        String refeshToken = data["refreshToken"]; 
+        String refeshToken = data["refreshToken"];
         name(data["userFullName"] ?? "");
         numberPhone(data["userPhone"] ?? "");
-        email(data["userEmail"]??"");
+        email(data["userEmail"] ?? "");
         await DatabaseLocal.instance.saveRefeshToken(refeshToken);
         if (name.value.trim().isEmpty) {
           Get.offAllNamed(Routes.UPDATE_FIRSTTIME);
         } else {
           Get.offAllNamed(Routes.HOME);
+          final prefs = await SharedPreferences.getInstance();
+          var data = prefs.getInt("idB");
+          if (data != null) {
+            Get.toNamed(Routes.BOOKING_DETAIL, arguments: data);
+           await prefs.remove("idB");
+          } else {
+            Get.snackbar("title", "Null Valu nè");
+          }
         }
       } else {
         Get.offAllNamed(Routes.SIGN_IN);

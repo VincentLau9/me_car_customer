@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/routes/app_pages.dart';
 import 'firebase_options.dart';
@@ -48,8 +51,7 @@ Future<void> setupFlutterNotifications() async {
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
-  /// Update the iOS foreground notification presen
-  /// tation options to allow
+  /// Update the iOS foreground notification presentation options to allow
   /// heads up notifications.
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
@@ -59,9 +61,15 @@ Future<void> setupFlutterNotifications() async {
   isFlutterLocalNotificationsInitialized = true;
 }
 
-void showFlutterNotification(RemoteMessage message) {
+void showFlutterNotification(RemoteMessage message) async {
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
+  if (message.data["BookingId"] != null) {
+    int data = int.parse(message.data["BookingId"]);
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt("idB",data);
+  }
+ 
   if (notification != null && android != null && !kIsWeb) {
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,
@@ -81,10 +89,45 @@ void showFlutterNotification(RemoteMessage message) {
   }
 }
 
-void showFlutterNotificationForgeround(RemoteMessage message) {
+Future<void> showFlutterNotificationForgeround(RemoteMessage message) async {
   // print(message.data);
   RemoteNotification? notification = message.notification;
+
   AndroidNotification? android = message.notification?.android;
+  if (message.data["BookingId"] != null) {
+    int data = int.parse(message.data["BookingId"]);
+    Get.offNamed(Routes.BOOKING_DETAIL, arguments: data);
+  }
+
+  
+  if (notification != null && android != null && !kIsWeb) {
+    flutterLocalNotificationsPlugin.show(
+      notification.hashCode,
+      notification.title!,
+      notification.body!,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          channelDescription: channel.description,
+          // TODO add a proper drawable resource to android, for now using
+          //      one that already exists in example app.
+          icon: 'launch_background',
+        ),
+      ),
+    );
+  }
+}
+
+void showFlutterNotificationBackground(RemoteMessage message) {
+  // print(message.data);
+  RemoteNotification? notification = message.notification;
+
+  AndroidNotification? android = message.notification?.android;
+   if (message.data["BookingId"] != null) {
+    int data = int.parse(message.data["BookingId"]);
+  Get.offNamed(Routes.BOOKING_DETAIL, arguments: data);
+   }
   if (notification != null && android != null && !kIsWeb) {
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,
@@ -115,7 +158,10 @@ void main() async {
   if (!kIsWeb) {
     await setupFlutterNotifications();
   }
-  FirebaseMessaging.onMessage.listen(showFlutterNotificationForgeround);
+  FirebaseMessaging.onMessageOpenedApp
+      .listen(showFlutterNotificationForgeround);
+  FirebaseMessaging.onMessage.listen(showFlutterNotificationBackground);
+
   runApp(
     GetMaterialApp(
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
