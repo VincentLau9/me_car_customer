@@ -141,15 +141,15 @@ class BookingStepView extends BaseView<BookingStepController> {
                             title: "Xác nhận",
                             text:
                                 "Bạn cần đặt cọc 100.000 VNĐ. Số tiền sẽ được hoàn trả nếu bạn huỷ đơn hàng trước 4 tiếng",
-                               confirmBtnColor:ColorsManager.primary,
-                    cancelBtnTextStyle: TextStyle(color:Colors.red,fontWeight:FontWeight.w600),
-                    cancelBtnText: "Trở về",
-                    confirmBtnText: "Xác nhận",
-                    onConfirmBtnTap: () async{
-                      controller.createBooking();
-                    },
-                    showCancelBtn:true
-                    );
+                            confirmBtnColor: ColorsManager.primary,
+                            cancelBtnTextStyle: TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.w600),
+                            cancelBtnText: "Trở về",
+                            confirmBtnText: "Xác nhận",
+                            onConfirmBtnTap: () async {
+                              controller.createBooking();
+                            },
+                            showCancelBtn: true);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: ColorsManager.primary,
@@ -591,13 +591,15 @@ class BookingStepView extends BaseView<BookingStepController> {
                                       ],
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0), child:    Text(
-                                    controller.garage.garageAddress!,
-                                    style: TextStyleConstant.black16RobotoBold,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ))
+                                  // Padding(
+                                  //     padding: const EdgeInsets.all(10.0),
+                                  //     child: Text(
+                                  //       controller.garage.garageAddress!,
+                                  //       style:
+                                  //           TextStyleConstant.black16RobotoBold,
+                                  //       maxLines: 2,
+                                  //       overflow: TextOverflow.ellipsis,
+                                  //     ))
                                 ],
                               ),
                             ),
@@ -615,6 +617,10 @@ class BookingStepView extends BaseView<BookingStepController> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Text('Giá sản phẩm đã bao gồm VAT 8%'),
+                                  SizedBox(
+                                    height: UtilsReponsive.height(context, 5),
+                                  ),
                                   Text('Dịch vụ đã chọn'),
                                   SizedBox(
                                       height:
@@ -1010,15 +1016,21 @@ class BookingStepView extends BaseView<BookingStepController> {
                               Expanded(
                                 flex: 4,
                                 child: Text(
-                                  serviceGarage.servicListDtos![index].serviceName!.contains(',') ?
                                   serviceGarage
-                                      .servicListDtos![index].serviceName!.substring(0,
-                                  serviceGarage
-                                      .servicListDtos![index].serviceName!.indexOf(','))
-                                      .toString() :
-                                  serviceGarage
-                                      .servicListDtos![index].serviceName!.toString()
-                                  ,
+                                          .servicListDtos![index].serviceName!
+                                          .contains(',')
+                                      ? serviceGarage
+                                          .servicListDtos![index].serviceName!
+                                          .substring(
+                                              0,
+                                              serviceGarage
+                                                  .servicListDtos![index]
+                                                  .serviceName!
+                                                  .indexOf(','))
+                                          .toString()
+                                      : serviceGarage
+                                          .servicListDtos![index].serviceName!
+                                          .toString(),
                                   style: TextStyleConstant.black16Roboto,
                                   maxLines: 2,
                                 ),

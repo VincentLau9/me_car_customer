@@ -63,10 +63,11 @@ class StartAppController extends BaseController {
           var data = prefs.getInt("idB");
           if (data != null) {
             Get.toNamed(Routes.BOOKING_DETAIL, arguments: data);
-           await prefs.remove("idB");
-          } else {
-            Get.snackbar("title", "Null Valu nè");
-          }
+            await prefs.remove("idB");
+          } 
+          // else {
+          //   Get.snackbar("title", "Null Valu nè");
+          // }
         }
       } else {
         Get.offAllNamed(Routes.SIGN_IN);

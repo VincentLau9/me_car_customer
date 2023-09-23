@@ -66,10 +66,12 @@ void showFlutterNotification(RemoteMessage message) async {
   AndroidNotification? android = message.notification?.android;
   if (message.data["BookingId"] != null) {
     int data = int.parse(message.data["BookingId"]);
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setInt("idB",data);
+    if (data != 0) {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setInt("idB", data);
+    }
   }
- 
+
   if (notification != null && android != null && !kIsWeb) {
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,
@@ -96,10 +98,11 @@ Future<void> showFlutterNotificationForgeround(RemoteMessage message) async {
   AndroidNotification? android = message.notification?.android;
   if (message.data["BookingId"] != null) {
     int data = int.parse(message.data["BookingId"]);
-    Get.offNamed(Routes.BOOKING_DETAIL, arguments: data);
+    if (data != 0) {
+      Get.offNamed(Routes.BOOKING_DETAIL, arguments: data);
+    }
   }
 
-  
   if (notification != null && android != null && !kIsWeb) {
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,
@@ -124,10 +127,12 @@ void showFlutterNotificationBackground(RemoteMessage message) {
   RemoteNotification? notification = message.notification;
 
   AndroidNotification? android = message.notification?.android;
-   if (message.data["BookingId"] != null) {
+  if (message.data["BookingId"] != null) {
     int data = int.parse(message.data["BookingId"]);
-  Get.offNamed(Routes.BOOKING_DETAIL, arguments: data);
-   }
+    if (data != 0) {
+      Get.offNamed(Routes.BOOKING_DETAIL, arguments: data);
+    }
+  }
   if (notification != null && android != null && !kIsWeb) {
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,

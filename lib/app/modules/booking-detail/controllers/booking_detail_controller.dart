@@ -97,13 +97,14 @@ class BookingDetailController extends BaseController {
     ratting(star.floor());
     commentChoice.value = '';
   }
-acceptNewBooking (bool isAccept)async{
-   
-   var response = await BookingApi.acceptNewBooking(idBooking, isAccept);
-    if(response.statusCode == 200){
-        await loadBookingDetail(idBooking);
+
+  acceptNewBooking(bool isAccept) async {
+    var response = await BookingApi.acceptNewBooking(idBooking, isAccept);
+    if (response.statusCode == 200) {
+      await loadBookingDetail(idBooking);
     }
-}
+  }
+
   Widget statusBooking(
       String status, bool waittingForAccept, BuildContext context) {
     Color color = Colors.amber;
@@ -128,6 +129,10 @@ acceptNewBooking (bool isAccept)async{
         case "Completed":
           color = ColorsManager.colorDone;
           text = "Hoàn thành";
+          break;
+        case "Warranty":
+          color = Colors.orangeAccent;
+          text = "Đang bảo hành";
           break;
         default:
       }
