@@ -15,15 +15,17 @@ import 'package:me_car_customer/app/modules/start_app/controllers/start_app_cont
 import 'package:me_car_customer/app/resources/base_link.dart';
 
 class GarageApi {
-  static Future<List<GarageModel>> searchGarage(double lat, double lng,) async {
+  static Future<List<GarageModel>> searchGarage(
+    double lat,
+    double lng,
+  ) async {
     var url = Uri.parse(BaseLink.searchGarage);
     final response = await http.post(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json; charset=UTF-8',
-        'Authorization':
-            'bearer ${Get.find<StartAppController>().accessToken}'
+        'Authorization': 'bearer ${Get.find<StartAppController>().accessToken}'
       },
       body: jsonEncode(
         <String, dynamic>{
@@ -57,8 +59,7 @@ class GarageApi {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json; charset=UTF-8',
-        'Authorization':
-            'bearer ${Get.find<StartAppController>().accessToken}'
+        'Authorization': 'bearer ${Get.find<StartAppController>().accessToken}'
       },
       body: jsonEncode(
         <String, dynamic>{"searchString": value},
@@ -80,18 +81,22 @@ class GarageApi {
     }
   }
 
-  static Future<List<TimeWorking>> checkTimeWorking(String value,int idGarage) async {
+  static Future<List<TimeWorking>> checkTimeWorking(
+      String value, int duration, int idGarage) async {
     var url = Uri.parse(BaseLink.checkTimeAvailble);
     final response = await http.post(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json; charset=UTF-8',
-        'Authorization':
-            'bearer ${Get.find<StartAppController>().accessToken}'
+        'Authorization': 'bearer ${Get.find<StartAppController>().accessToken}'
       },
       body: jsonEncode(
-        <String, dynamic>{"dateSelected": value, "garageId": idGarage},
+        <String, dynamic>{
+          "dateSelected": value,
+          "totalEstimatedTimeServicesTake": duration,
+          "garageId": idGarage
+        },
       ),
     );
     log('checkTimeWorking: ${response.statusCode} ${response.body}');
@@ -108,9 +113,14 @@ class GarageApi {
       return [];
     }
   }
+
   //getServiceOfGarage
-  static Future<List<ServiceGarage>> getServiceOfGarage(int idGarage,int numberOfCarLot) async {
-    var url = Uri.parse(BaseLink.GET_SERVICES_GARAGE+idGarage.toString()+'&'+numberOfCarLot.toString());
+  static Future<List<ServiceGarage>> getServiceOfGarage(
+      int idGarage, int numberOfCarLot) async {
+    var url = Uri.parse(BaseLink.GET_SERVICES_GARAGE +
+        idGarage.toString() +
+        '&' +
+        numberOfCarLot.toString());
     log(url.toString());
     final response = await http.get(
       url,
@@ -125,16 +135,16 @@ class GarageApi {
     if (response.statusCode.toString() == '200') {
       List<ServiceGarage> listCar = [];
       final mapData = jsonDecode(response.body).cast<Map<String, dynamic>>();
-        listCar = mapData.map<ServiceGarage>((json) {
-          return ServiceGarage.fromJson(json);
-        }).toList();
-        return listCar;
+      listCar = mapData.map<ServiceGarage>((json) {
+        return ServiceGarage.fromJson(json);
+      }).toList();
+      return listCar;
     } else {
       return Future<List<ServiceGarage>>.value([]);
+    }
   }
 
-}
- static Future<List<ServiceFilter>> getServicesFilter() async {
+  static Future<List<ServiceFilter>> getServicesFilter() async {
     var url = Uri.parse(BaseLink.GET_SERVICES_FILTER);
     final response = await http.get(
       url,
@@ -149,15 +159,17 @@ class GarageApi {
     if (response.statusCode.toString() == '200') {
       List<ServiceFilter> listCar = [];
       final mapData = jsonDecode(response.body).cast<Map<String, dynamic>>();
-        listCar = mapData.map<ServiceFilter>((json) {
-          return ServiceFilter.fromJson(json);
-        }).toList();
-        return listCar;
+      listCar = mapData.map<ServiceFilter>((json) {
+        return ServiceFilter.fromJson(json);
+      }).toList();
+      return listCar;
     } else {
       return Future<List<ServiceFilter>>.value([]);
+    }
   }
- }
- static Future<List<GarageModel>> searchGarageByFilter(SearchFilter searchFilter) async {
+
+  static Future<List<GarageModel>> searchGarageByFilter(
+      SearchFilter searchFilter) async {
     var url = Uri.parse(BaseLink.SEARCH_GARAGE_BY_FILTER);
     final response = await http.post(
       url,
@@ -173,16 +185,17 @@ class GarageApi {
     if (response.statusCode.toString() == '200') {
       List<GarageModel> listCar = [];
       final mapData = jsonDecode(response.body).cast<Map<String, dynamic>>();
-        listCar = mapData.map<GarageModel>((json) {
-          return GarageModel.fromJson(json);
-        }).toList();
-        return listCar;
+      listCar = mapData.map<GarageModel>((json) {
+        return GarageModel.fromJson(json);
+      }).toList();
+      return listCar;
     } else {
       return Future<List<GarageModel>>.value([]);
+    }
   }
- }
+
   static Future<List<Staff>> getAllSatffByGarage(String idGarage) async {
-    var url = Uri.parse(BaseLink.GET_STAFF_GARAGE+'${idGarage}');
+    var url = Uri.parse(BaseLink.GET_STAFF_GARAGE + '${idGarage}');
     final response = await http.get(
       url,
       headers: <String, String>{
@@ -197,18 +210,17 @@ class GarageApi {
       // return Future<List<Staff>>.value([]);
       List<Staff> listStaff = [];
       final mapData = jsonDecode(response.body).cast<Map<String, dynamic>>();
-        listStaff = mapData.map<Staff>((json) {
-          return Staff.fromJson(json);
-        }).toList();
-        return listStaff;
+      listStaff = mapData.map<Staff>((json) {
+        return Staff.fromJson(json);
+      }).toList();
+      return listStaff;
     } else {
       return Future<List<Staff>>.value([]);
+    }
   }
- }
 
-
- static Future<List<Coupon>> getCoupon(int idGarage) async {
-    var url = Uri.parse(BaseLink.GET_COUPONS+idGarage.toString());
+  static Future<List<Coupon>> getCoupon(int idGarage) async {
+    var url = Uri.parse(BaseLink.GET_COUPONS + idGarage.toString());
     log(url.toString());
     final response = await http.get(
       url,
@@ -223,18 +235,17 @@ class GarageApi {
     if (response.statusCode.toString() == '200') {
       List<Coupon> listCoupon = [];
       final mapData = jsonDecode(response.body).cast<Map<String, dynamic>>();
-        listCoupon = mapData.map<Coupon>((json) {
-          return Coupon.fromJson(json);
-        }).toList();
-        return listCoupon;
+      listCoupon = mapData.map<Coupon>((json) {
+        return Coupon.fromJson(json);
+      }).toList();
+      return listCoupon;
     } else {
       return Future<List<Coupon>>.value([]);
+    }
   }
 
-}
-
- static Future<GarageDetail> getGarageDetail(int idGarage) async {
-    var url = Uri.parse(BaseLink.DETAIL_GARAGE+idGarage.toString());
+  static Future<GarageDetail> getGarageDetail(int idGarage) async {
+    var url = Uri.parse(BaseLink.DETAIL_GARAGE + idGarage.toString());
     log(url.toString());
     final response = await http.get(
       url,
@@ -249,9 +260,7 @@ class GarageApi {
     if (response.statusCode.toString() == '200') {
       return GarageDetail.fromJson(jsonDecode(response.body));
     } else {
-     throw Exception();
+      throw Exception();
+    }
   }
-
-}
-
 }

@@ -46,6 +46,7 @@ class BookingStepController extends BaseController {
   RxList<TimeWorking> listTimeWorking = <TimeWorking>[].obs;
   Rx<String> timeChoose = ''.obs;
   Rx<DateTime> dateChoose = DateTime.now().obs;
+  Rx<int> durationEstimated = 0.obs;
   DateFormat dateFormat = DateFormat('MM/dd/yyyy');
   RxList<ServiceGarage> listServices = <ServiceGarage>[].obs;
   RxBool isRefeshService = false.obs;
@@ -217,9 +218,10 @@ class BookingStepController extends BaseController {
   }
 
   getTimeWorking(DateTime date) async {
+    int duration = durationEstimated.value;
     dateChoose(date);
     listTimeWorking.value = await GarageApi.checkTimeWorking(
-        dateFormat.format(date), garage.garageId!);
+        dateFormat.format(date), duration, garage.garageId!);
     timeChoose('');
   }
 
@@ -245,14 +247,21 @@ class BookingStepController extends BaseController {
 
   addService(ServicListDto service) {
     if (listSerChoose.contains(service.serviceDetailId)) {
+      int dura = durationEstimated.value;
+      dura -= service.serviceDuration!;
+      durationEstimated(dura);
       listSerChoose.remove(service.serviceDetailId);
     } else if (listSerChoose.length >= 3) {
       Get.snackbar("Thông báo", "Chỉ đặt được tối đa là 3 dịch vụ",
           backgroundColor: Colors.red.withOpacity(0.7),
           colorText: Colors.white);
     } else {
+      int dura = durationEstimated.value;
+      dura += service.serviceDuration!;
+      durationEstimated(dura);
       listSerChoose.add(service.serviceDetailId!);
     }
+    log(durationEstimated.toString());
     log(listSerChoose.length.toString());
   }
 
@@ -289,6 +298,7 @@ class BookingStepController extends BaseController {
           carId: carChoose.value!.carId ?? 0,
           mechanicId: staffChoose.value.mechanicId,
           garageId: garage.garageId!);
+      log(form.toJson().toString());
       var response = await BookingApi.createBooking(form);
       log(response.statusCode.toString());
       if (response.statusCode == 200) {

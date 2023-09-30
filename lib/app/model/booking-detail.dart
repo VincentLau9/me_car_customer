@@ -24,6 +24,7 @@ class BookingDetail {
   String? totalPrice;
   String? finalPrice;
   String? carLicensePlate;
+  String? warrantyReason;
   List<GroupServiceBookingDetailDto>? groupServiceBookingDetailDtos;
 
   BookingDetail(
@@ -41,7 +42,8 @@ class BookingDetail {
       this.totalPrice,
       this.finalPrice,
       this.groupServiceBookingDetailDtos,
-      this.carLicensePlate});
+      this.carLicensePlate,
+      this.warrantyReason});
 
   factory BookingDetail.fromJson(Map<String, dynamic> json) => BookingDetail(
         garageId: json["garageId"],
@@ -58,6 +60,7 @@ class BookingDetail {
         totalPrice: json["totalPrice"],
         finalPrice: json["finalPrice"],
         carLicensePlate: json["carLicensePlate"],
+        warrantyReason: json["warrantyReason"] ?? "",
         groupServiceBookingDetailDtos:
             json["groupServiceBookingDetailDtos"] == null
                 ? []
@@ -80,6 +83,7 @@ class BookingDetail {
         "totalPrice": totalPrice,
         "finalPrice": finalPrice,
         "carLicensePlate": carLicensePlate,
+        "warrantyReason": warrantyReason ?? "",
         "groupServiceBookingDetailDtos": groupServiceBookingDetailDtos == null
             ? []
             : List<dynamic>.from(
@@ -123,28 +127,30 @@ class ServiceListBookingDetailDto {
   String? productWarranty;
   String? serviceWarranty;
 
-  ServiceListBookingDetailDto({
-    this.isNew,
-    this.servicePrice,
-    this.serviceName,
-    this.productWarranty,
-    this.serviceWarranty
-  });
+  ServiceListBookingDetailDto(
+      {this.isNew,
+      this.servicePrice,
+      this.serviceName,
+      this.productWarranty,
+      this.serviceWarranty});
 
   factory ServiceListBookingDetailDto.fromJson(Map<String, dynamic> json) =>
       ServiceListBookingDetailDto(
-        isNew: json["isNew"] ?? false,
-        servicePrice: json["servicePrice"],
-        serviceName: json["serviceName"],
-        productWarranty:json["productWarranty"].toString().isEmpty?"Không":json["productWarranty"],
-        serviceWarranty:json["serviceWarranty"].toString().isEmpty?"Không":json["serviceWarranty"]
-      );
+          isNew: json["isNew"] ?? false,
+          servicePrice: json["servicePrice"],
+          serviceName: json["serviceName"],
+          productWarranty: json["productWarranty"].toString().isEmpty
+              ? "Không"
+              : json["productWarranty"],
+          serviceWarranty: json["serviceWarranty"].toString().isEmpty
+              ? "Không"
+              : json["serviceWarranty"]);
 
   Map<String, dynamic> toJson() => {
         "isNew": isNew,
         "servicePrice": servicePrice,
         "serviceName": serviceName,
-        "productWarranty":productWarranty,
-        "serviceWarranty":serviceWarranty
+        "productWarranty": productWarranty,
+        "serviceWarranty": serviceWarranty
       };
 }

@@ -203,11 +203,102 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                                               controller.statusBooking(
                                                   controller.bookingDetail.value
                                                       .bookingStatus!,
-                                                       controller.bookingDetail.value
+                                                  controller.bookingDetail.value
                                                       .waitForAccept!,
                                                   context)
                                             ],
                                           ),
+                                          SizedBox(
+                                            height: 25,
+                                          ),
+                                          controller.bookingDetail.value
+                                                      .warrantyReason ==
+                                                  ""
+                                              ? SizedBox(
+                                                  height: 2,
+                                                )
+                                              : Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Wrap(
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            IconAssets
+                                                                .status_icon),
+                                                        SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        Text(
+                                                          'Đơn bảo hành: ',
+                                                          style: TextStyleConstant
+                                                              .black16RobotoBold,
+                                                        )
+                                                      ],
+                                                    ),
+                                                    // Expanded(
+                                                    //   child: SizedBox(
+                                                    //     child: Text(
+                                                    //       controller
+                                                    //           .bookingDetail
+                                                    //           .value
+                                                    //           .warrantyReason!,
+                                                    //       maxLines: 4,
+                                                    //       style:
+                                                    //           TextStyleConstant
+                                                    //               .black14Roboto,
+                                                    //     ),
+                                                    //   ),
+                                                    // )
+                                                  ],
+                                                ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          controller.bookingDetail.value
+                                                      .warrantyReason ==
+                                                  ""
+                                              ? SizedBox(
+                                                  height: 2,
+                                                )
+                                              : Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Wrap(
+                                                      children: [
+                                                        // Icon(
+                                                        //   Icons.add_box,
+                                                        //   color: Colors.green,
+                                                        // ),
+                                                        SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        Text(
+                                                          'Lý do bảo hành: ',
+                                                          style: TextStyleConstant
+                                                              .black16RobotoBold,
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Expanded(
+                                                      child: SizedBox(
+                                                        child: Text(
+                                                          controller
+                                                              .bookingDetail
+                                                              .value
+                                                              .warrantyReason!,
+                                                          maxLines: 4,
+                                                          style:
+                                                              TextStyleConstant
+                                                                  .black14Roboto,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                           SizedBox(
                                             height: 25,
                                           ),
@@ -289,7 +380,10 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    Get.to(BookingWarranty(bookingDetail: controller.bookingDetail.value,));
+                                    Get.to(BookingWarranty(
+                                      bookingDetail:
+                                          controller.bookingDetail.value,
+                                    ));
                                   },
                                   child: Text(
                                     'Xem bảo hành các sản phẩm',
@@ -491,21 +585,21 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                                 SizedBox(
                                   height: 15,
                                 ),
-                                  controller.bookingDetail.value.waitForAccept!?
-                                  _bottomButtonAccept(context)
-                                  :
-                                controller.bookingDetail.value.bookingStatus ==
-                                        "CheckIn"
-                                    ? _bottomButton(context)
+                                controller.bookingDetail.value.waitForAccept!
+                                    ? _bottomButtonAccept(context)
                                     : controller.bookingDetail.value
                                                 .bookingStatus ==
-                                            "Completed"
-                                        ? _bottomButtonCompleted(context)
+                                            "CheckIn"
+                                        ? _bottomButton(context)
                                         : controller.bookingDetail.value
                                                     .bookingStatus ==
-                                                "Canceled"
-                                            ? _bottomButtonCanceled(context)
-                                            : _bottomButtonPendding(context)
+                                                "Completed"
+                                            ? _bottomButtonCompleted(context)
+                                            : controller.bookingDetail.value
+                                                        .bookingStatus ==
+                                                    "Canceled"
+                                                ? _bottomButtonCanceled(context)
+                                                : _bottomButtonPendding(context)
                               ],
                             ),
                           ),
@@ -567,6 +661,7 @@ class BookingDetailView extends BaseView<BookingDetailController> {
       ],
     );
   }
+
   Row _bottomButtonAccept(BuildContext context) {
     return Row(
       children: [
@@ -580,7 +675,8 @@ class BookingDetailView extends BaseView<BookingDetailController> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all(ColorsManager.primary),
+                backgroundColor:
+                    MaterialStateProperty.all(ColorsManager.primary),
                 padding: MaterialStateProperty.all(EdgeInsets.all(14)),
               ),
               child: Text(
@@ -596,7 +692,7 @@ class BookingDetailView extends BaseView<BookingDetailController> {
         SizedBox(
           width: 10,
         ),
-         Expanded(
+        Expanded(
           child: ConstrainedBox(
             constraints: BoxConstraints.tightFor(width: context.width),
             child: ElevatedButton(
